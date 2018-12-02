@@ -104,8 +104,7 @@ static void LoadGroupEntries (GHashTable *groups,
     {
     	return;
 	}
-	int i = 2;
-    while(i--) 
+    while(1) 
 	{
     	grent = EntryGenerator (fd);
         if (grent == NULL)
@@ -113,7 +112,6 @@ static void LoadGroupEntries (GHashTable *groups,
 
         if (LocalGroupIsExcluded (grent)) 
 		{
-         	printf ("skipping group: %s", grent->gr_name);
             continue;
         }
 
@@ -124,11 +122,11 @@ static void LoadGroupEntries (GHashTable *groups,
 
         group = group_new (grent->gr_gid);
 
-    //    g_object_freeze_notify (G_OBJECT (group));
-        //group_update_from_grent (group, grent, users);
+        g_object_freeze_notify (G_OBJECT (group));
+        group_update_from_grent (group, grent);
 
-    //    g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
-      //  printf ("loaded group: %s", group_get_group_name (group));
+        g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
+        printf ("loaded group: =%s\r\n", group_get_group_name (group));
     }
 
 }
@@ -139,7 +137,17 @@ void LoadGroup(void)
 
     groups = CreateGroupsHashTable ();
 	LoadGroupEntries(groups, entry_generator_fgetgrent);
-	
+	g_hash_table_iter_init (&iter, groups);
+    while (g_hash_table_iter_next (&iter, &name, (gpointer *)&group)) 
+	{
+    	if (!g_hash_table_lookup (old_groups, name)) 
+		{
+        	register_group (daemon, group);
+            accounts_accounts_emit_group_added (ACCOUNTS_ACCOUNTS (daemon),
+            group_get_object_path (group));
+        }
+        g_object_thaw_notify (G_OBJECT (group));
+    }	
 }		
 void AcquiredCallback (GDBusConnection *Connection,
                            const gchar *name,
@@ -147,9 +155,8 @@ void AcquiredCallback (GDBusConnection *Connection,
 {
     GError *error = NULL;
 
-    //skeleton =  user_group_skeleton_new();
-    Group *group;
-	/*
+    skeleton =  user_group_skeleton_new();
+	
 	g_signal_connect(skeleton,
                      "handle-set-group-name",
                      G_CALLBACK(SetGroupName),
@@ -162,11 +169,8 @@ void AcquiredCallback (GDBusConnection *Connection,
                     "handle-remove-user",
                      G_CALLBACK(RemoveGroup),
                      NULL);
-	user_group_set_group_name(skeleton,"test");
-	*/
-    group = group_new (100);
-    //g_dbus_interface_skeleton_export(G_DBUS_INTERFACE_SKELETON(skeleton), 
-    g_dbus_interface_skeleton_export(G_DBUS_INTERFACE_SKELETON(group), 
+
+    g_dbus_interface_skeleton_export(G_DBUS_INTERFACE_SKELETON(skeleton), 
                                      Connection, 
                                      "/org/isoft/UG", 
                                      &error);
@@ -174,7 +178,7 @@ void AcquiredCallback (GDBusConnection *Connection,
         g_print("Error: Failed to export object. Reason: %s.\n", error->message);
         g_error_free(error);                                                     
     }
-//	LoadGroup();	
+	LoadGroup();	
 }
 
 void NameAcquiredCallback (GDBusConnection *connection,

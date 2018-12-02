@@ -13,7 +13,7 @@
 
 #include <string.h>
 #ifdef G_OS_UNIX
-//#  include <gio/gunixfdlist.h>
+#  include <gio/gunixfdlist.h>
 #endif
 
 typedef struct

@@ -34,8 +34,7 @@ static userGroup *skeleton=NULL;
 GType          group_get_type                (void) G_GNUC_CONST;
 Group *        group_new                     (gid_t           gid);
 void           group_update_from_grent       (Group          *group,
-                                              struct group   *grent,
-                                              GHashTable     *users);
+                                              struct group   *grent);
 
 void           group_changed                 (Group          *group);
 
