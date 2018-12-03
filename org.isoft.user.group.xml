@@ -13,6 +13,32 @@
     <method name="RemoveUser">
         <arg name="user" direction="in" type="o"/>
     </method>
+	
+	<method name="FindGroupById">
+      <arg name="id" direction="in" type="x">
+      </arg>
+      <arg name="group" direction="out" type="o">
+      </arg>
+    </method>
+
+    <method name="FindGroupByName">
+      <arg name="name" direction="in" type="s">
+      </arg>
+      <arg name="group" direction="out" type="o">
+      </arg>
+    </method>
+
+    <method name="CreateGroup">
+      <arg name="name" direction="in" type="s">
+      </arg>
+      <arg name="group" direction="out" type="o">
+      </arg>
+    </method>
+
+    <method name="DeleteGroup">
+      <arg name="id" direction="in" type="x">
+      </arg>
+    </method>
 
     <property name="Gid" type="t" access="read">
     </property>
@@ -29,5 +55,14 @@
     <signal name="Changed">
     </signal>
 
+    <signal name="GroupAdded">
+      <arg name="user" type="o">
+      </arg>
+    </signal>
+
+    <signal name="GroupDeleted">
+      <arg name="user" type="o">
+      </arg>
+    </signal>
   </interface>
 </node>

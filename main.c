@@ -42,9 +42,8 @@ static void AcquiredCallback (GDBusConnection *Connection,
 
     GroupManage GM;
     userGroup *skeleton=NULL;
-
+	GM.BusConnection = Connection;
     skeleton = user_group_skeleton_new();
-    GM.Skeleton = skeleton;
     
     SignalInit(skeleton);
     g_dbus_interface_skeleton_export(G_DBUS_INTERFACE_SKELETON(skeleton),
@@ -55,8 +54,7 @@ static void AcquiredCallback (GDBusConnection *Connection,
         g_print("Error: Failed to export object. Reason: %s.\n", error->message);
         g_error_free(error);
     }
-    GM.BusConnection = Connection;
-    StartLoadGroup();
+    StartLoadGroup(&GM);
 }
 
 static void NameLostCallback (GDBusConnection *connection,

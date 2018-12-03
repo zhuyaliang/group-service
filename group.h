@@ -7,7 +7,7 @@
 #include <glib.h>
 #include <gio/gio.h>
 
-#include "user-group-generated.h"
+#include "group-generated.h"
 
 G_BEGIN_DECLS
 

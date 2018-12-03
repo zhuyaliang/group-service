@@ -77,10 +77,15 @@ static gchar *
 compute_object_path (Group *group)
 {
 	gchar *object_path;
-
+	group->gid = (gulong) user_group_get_gid (USER_GROUP(group));
     object_path = g_strdup_printf ("/org/freedesktop/Accounts/Group%ld",
                                        (long) group->gid);
+	return object_path;
 }
+const gchar *group_get_object_path (Group *group)
+{
+	return group->object_path;
+}		
 static void
 group_finalize (GObject *object)
 {
@@ -113,7 +118,7 @@ group_new (gid_t   gid)
     Group *group;
 
     group = g_object_new (TYPE_GROUP, NULL);
-   	user_group_set_gid(USER_GROUP(group),gid); 
+   	user_group_set_gid(USER_GROUP(group),gid);
 	group->object_path = compute_object_path (group);
     return group;
 }

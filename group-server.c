@@ -15,7 +15,7 @@
 #include <gio/gio.h>
 #include <glib.h>
 #include <assert.h>
-#include "user-group-generated.h"
+#include "group-generated.h"
 #include "group.h"
 #include "group-server.h"
 
@@ -27,7 +27,8 @@ typedef struct group * (* GroupEntryGeneratorFunc) (FILE *);
 typedef void  ( FileChangeCallback )(GFileMonitor *,
                                      GFile        *,
                                      GFile        *,
-                                     GFileMonitorEvent);
+                                     GFileMonitorEvent,
+									 GroupManage  *);
 
 static GHashTable * CreateGroupsHashTable (void)
 {
@@ -59,7 +60,8 @@ static gboolean LocalGroupIsExcluded (struct group *grent)
         return FALSE;
 }
 static void LoadGroupEntries (GHashTable *groups,
-				              GroupEntryGeneratorFunc EntryGenerator)
+				              GroupEntryGeneratorFunc EntryGenerator,
+							  GroupManage *GM)
 {
 	gpointer generator_state = NULL;
     struct group *grent;
@@ -86,33 +88,105 @@ static void LoadGroupEntries (GHashTable *groups,
 		{
             continue;
         }
-
-        group = group_new (grent->gr_gid);
-
+        
+		group = group_new (grent->gr_gid);
         g_object_freeze_notify (G_OBJECT (group));
         group_update_from_grent (group, grent);
 
         g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
-        printf ("loaded group: =%s\r\n", group_get_group_name (group));
     }
 
 }
+static void RegisterGroup (GroupManage *GM,Group *group)
+{
+	GError *error = NULL;
+	GDBusConnection *Connection = NULL;
+	Connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
+	
+	if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
+                                           Connection,
+                                           group_get_object_path (group),
+                                           &error)) 
+	{
+    	if (error != NULL) 
+		{
+        	g_print ("error exporting group object: %s", error->message);
+            g_error_free (error);
+        }
+        return;
+    }
+}
+
+static void ReloadGroups (GroupManage *GM)
+{
+	GHashTable *GroupsHashTable;
+    GHashTable *local;
+    GHashTableIter iter;
+    gpointer name,value;
+    Group *group;
+	
+    GroupsHashTable = CreateGroupsHashTable ();
+	LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,GM);
+
+    GM->GroupsHashTable = GroupsHashTable;
+	g_hash_table_iter_init (&iter, GroupsHashTable);
+	
+    while (g_hash_table_iter_next (&iter, &name,&value)) 
+	{
+    	RegisterGroup (GM,value);
+		printf("ssssss\r\n");
+        user_group_emit_group_added(USER_GROUP(value),
+								    group_get_object_path (value)); 
+  	}
+
+
+}
+static gboolean ReloadGroupsTimeout (GroupManage *GM)
+{
+        ReloadGroups (GM);
+        GM->ReloadId = 0;
+
+        return FALSE;
+}
+
+static void QueueReloadGroups (GroupManage *GM)
+{
+	if (GM->ReloadId > 0) 
+	{
+    	return;
+    }
+    GM->ReloadId = g_timeout_add (500, 
+					              (GSourceFunc)ReloadGroupsTimeout,
+								  GM);
+}
+static void QueueLoadGroups (GroupManage *GM)
+{
+	if (GM->ReloadId > 0) 
+	{
+    	return;
+    }
+
+   	GM->ReloadId = g_idle_add ((GSourceFunc)ReloadGroupsTimeout,GM);
+}
+
 static void GroupsMonitorChanged (GFileMonitor      *monitor,
                                   GFile             *file,
                                   GFile             *other_file,
-                                  GFileMonitorEvent  event_type)
+                                  GFileMonitorEvent  event_type,
+								  GroupManage *GM)
 {
         if (event_type != G_FILE_MONITOR_EVENT_CHANGED &&
             event_type != G_FILE_MONITOR_EVENT_CREATED) {
                 return;
         }
 
-        //QueueReloadGroups();
+        QueueReloadGroups(GM);
 }
 
 
 static GFileMonitor *SetupMonitor (const gchar *FileName,
-                                   FileChangeCallback *Callback)
+                                   FileChangeCallback *Callback,
+								   GroupManage *GM)
 {
     GError *error = NULL;
     GFile *file;
@@ -128,7 +202,7 @@ static GFileMonitor *SetupMonitor (const gchar *FileName,
         g_signal_connect (Monitor,
                          "changed",
                           G_CALLBACK (Callback),
-                          NULL);
+                          GM);
     } 
     else 
     {
@@ -140,37 +214,26 @@ static GFileMonitor *SetupMonitor (const gchar *FileName,
     return Monitor;
 }
 
-static void MonitorFileChange(void)
+static void MonitorFileChange(GroupManage *GM)
 {
     GFileMonitor *GroupMonitor;
     GFileMonitor *PasswdMonitor;
     GFileMonitor *ShadowMonitor;
-
-    PasswdMonitor = SetupMonitor (PATH_PASSWD,GroupsMonitorChanged);
-    ShadowMonitor = SetupMonitor (PATH_SHADOW,GroupsMonitorChanged);
-    GroupMonitor  = SetupMonitor (PATH_GROUP ,GroupsMonitorChanged);
-
+	
+	GM->ReloadId = 0;
+    PasswdMonitor = SetupMonitor (PATH_PASSWD,GroupsMonitorChanged,GM);
+	GM->PasswdMonitor = PasswdMonitor;
+    ShadowMonitor = SetupMonitor (PATH_SHADOW,GroupsMonitorChanged,GM);
+	GM->ShadowMonitor = ShadowMonitor;
+    GroupMonitor  = SetupMonitor (PATH_GROUP ,GroupsMonitorChanged,GM);
+	GM->GroupMonitor  = GroupMonitor;
 }    
-void StartLoadGroup(void)
-{
- 	GHashTable *groups;
-	Group *group;
 
-    MonitorFileChange();
-    groups = CreateGroupsHashTable ();
-	LoadGroupEntries(groups, entry_generator_fgetgrent);
-/*
-    g_hash_table_iter_init (&iter, groups);
-    
-    while (g_hash_table_iter_next (&iter, &name, (gpointer *)&group)) 
-	{
-    	if (!g_hash_table_lookup (old_groups, name)) 
-		{
-        	register_group (daemon, group);
-            accounts_accounts_emit_group_added (ACCOUNTS_ACCOUNTS (daemon),
-            group_get_object_path (group));
-        }
-        g_object_thaw_notify (G_OBJECT (group));
-    }	
-    */
+
+void StartLoadGroup( GroupManage *GM)
+{
+    MonitorFileChange(GM);
+	GM->GroupsHashTable = CreateGroupsHashTable ();
+	QueueLoadGroups (GM);
+
 }		
