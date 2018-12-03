@@ -40,13 +40,14 @@ GType group_get_type(void)
             0,
             (GInstanceInitFunc)group_init
         };
-        group_type = g_type_register_static(USER_TYPE_GROUP_SKELETON,"Group",&group_info,0);
+        group_type = g_type_register_static(GROUP_TYPE_LIST_SKELETON,
+						                   "Group",&group_info,0);
     }
     return group_type;
 }
 const gchar *group_get_group_name (Group *group)
 {
-	return user_group_get_group_name(USER_GROUP(group)); 
+	return group_list_get_group_name(GROUP_LIST(group)); 
 }		
 void
 group_update_from_grent (Group        *group,
@@ -72,14 +73,14 @@ group_update_from_grent (Group        *group,
 
         g_object_thaw_notify (G_OBJECT (group));
 
-   		user_group_set_gid(USER_GROUP(group),group->gid);
-		user_group_set_group_name(USER_GROUP(group),group->group_name);
+   		//group_list_set_gid(GROUP_LIST(group),group->gid);
+		//group_list_set_group_name(GROUP_LIST(group),group->group_name);
 }
 static gchar *
 compute_object_path (Group *group)
 {
 	gchar *object_path;
-	group->gid = (gulong) user_group_get_gid (USER_GROUP(group));
+	group->gid = (gulong) group_list_get_gid (GROUP_LIST(group));
     object_path = g_strdup_printf ("/org/freedesktop/Accounts/Group%ld",
                                        (long) group->gid);
 	return object_path;
@@ -105,7 +106,7 @@ group_class_init (GroupClass *class)
         GObjectClass *gobject_class;
 
         gobject_class = G_OBJECT_CLASS (class);
-        gobject_class->finalize = group_finalize;
+       // gobject_class->finalize = group_finalize;
 
 }
 static void group_init (Group *group)
@@ -114,34 +115,12 @@ static void group_init (Group *group)
         group->group_name = NULL;
 		group->gid = -1;
 }
-Group *
-group_new (gid_t   gid)
+Group * group_new (gid_t   gid)
 {
     Group *group;
 
     group = g_object_new (TYPE_GROUP, NULL);
-	printf("gid = %d\r\n",gid);
-   	user_group_set_gid(USER_GROUP(group),gid);
+   	group_list_set_gid(GROUP_LIST(group),gid);
 	group->object_path = compute_object_path (group);
     return group;
-}
-
-gboolean SetGroupName( userGroup *object,
-                       GDBusMethodInvocation *invocation,
-                       const gchar *arg_user)
-{
-
-}
-gboolean ChangeGroup ( userGroup *object,
-                       GDBusMethodInvocation *invocation,
-                       const gchar *arg_user)
-{
-
-}
-
-gboolean RemoveGroup (userGroup *object,
-                      GDBusMethodInvocation *invocation,
-                      const gchar *arg_user)
-{
-
 }

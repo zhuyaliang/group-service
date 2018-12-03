@@ -150,111 +150,21 @@ _g_value_equal (const GValue *a, const GValue *b)
 }
 
 /* ------------------------------------------------------------------------
- * Code for interface org.isoft.user.group
+ * Code for interface org.group.admin
  * ------------------------------------------------------------------------
  */
 
 /**
- * SECTION:userGroup
- * @title: userGroup
- * @short_description: Generated C code for the org.isoft.user.group D-Bus interface
+ * SECTION:groupAdmin
+ * @title: groupAdmin
+ * @short_description: Generated C code for the org.group.admin D-Bus interface
  *
- * This section contains code for working with the <link linkend="gdbus-interface-org-isoft-user-group.top_of_page">org.isoft.user.group</link> D-Bus interface in C.
+ * This section contains code for working with the <link linkend="gdbus-interface-org-group-admin.top_of_page">org.group.admin</link> D-Bus interface in C.
  */
 
-/* ---- Introspection data for org.isoft.user.group ---- */
+/* ---- Introspection data for org.group.admin ---- */
 
-static const _ExtendedGDBusArgInfo _user_group_method_info_set_group_name_IN_ARG_name =
-{
-  {
-    -1,
-    (gchar *) "name",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_set_group_name_IN_ARG_pointers[] =
-{
-  &_user_group_method_info_set_group_name_IN_ARG_name,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _user_group_method_info_set_group_name =
-{
-  {
-    -1,
-    (gchar *) "SetGroupName",
-    (GDBusArgInfo **) &_user_group_method_info_set_group_name_IN_ARG_pointers,
-    NULL,
-    NULL
-  },
-  "handle-set-group-name",
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _user_group_method_info_add_user_IN_ARG_user =
-{
-  {
-    -1,
-    (gchar *) "user",
-    (gchar *) "o",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_add_user_IN_ARG_pointers[] =
-{
-  &_user_group_method_info_add_user_IN_ARG_user,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _user_group_method_info_add_user =
-{
-  {
-    -1,
-    (gchar *) "AddUser",
-    (GDBusArgInfo **) &_user_group_method_info_add_user_IN_ARG_pointers,
-    NULL,
-    NULL
-  },
-  "handle-add-user",
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _user_group_method_info_remove_user_IN_ARG_user =
-{
-  {
-    -1,
-    (gchar *) "user",
-    (gchar *) "o",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_remove_user_IN_ARG_pointers[] =
-{
-  &_user_group_method_info_remove_user_IN_ARG_user,
-  NULL
-};
-
-static const _ExtendedGDBusMethodInfo _user_group_method_info_remove_user =
-{
-  {
-    -1,
-    (gchar *) "RemoveUser",
-    (GDBusArgInfo **) &_user_group_method_info_remove_user_IN_ARG_pointers,
-    NULL,
-    NULL
-  },
-  "handle-remove-user",
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_id_IN_ARG_id =
+static const _ExtendedGDBusArgInfo _group_admin_method_info_find_group_by_id_IN_ARG_id =
 {
   {
     -1,
@@ -265,13 +175,13 @@ static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_id_IN_A
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_id_IN_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_method_info_find_group_by_id_IN_ARG_pointers[] =
 {
-  &_user_group_method_info_find_group_by_id_IN_ARG_id,
+  &_group_admin_method_info_find_group_by_id_IN_ARG_id,
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_id_OUT_ARG_group =
+static const _ExtendedGDBusArgInfo _group_admin_method_info_find_group_by_id_OUT_ARG_group =
 {
   {
     -1,
@@ -282,26 +192,26 @@ static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_id_OUT_
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_id_OUT_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_method_info_find_group_by_id_OUT_ARG_pointers[] =
 {
-  &_user_group_method_info_find_group_by_id_OUT_ARG_group,
+  &_group_admin_method_info_find_group_by_id_OUT_ARG_group,
   NULL
 };
 
-static const _ExtendedGDBusMethodInfo _user_group_method_info_find_group_by_id =
+static const _ExtendedGDBusMethodInfo _group_admin_method_info_find_group_by_id =
 {
   {
     -1,
     (gchar *) "FindGroupById",
-    (GDBusArgInfo **) &_user_group_method_info_find_group_by_id_IN_ARG_pointers,
-    (GDBusArgInfo **) &_user_group_method_info_find_group_by_id_OUT_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_method_info_find_group_by_id_IN_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_method_info_find_group_by_id_OUT_ARG_pointers,
     NULL
   },
   "handle-find-group-by-id",
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_name_IN_ARG_name =
+static const _ExtendedGDBusArgInfo _group_admin_method_info_find_group_by_name_IN_ARG_name =
 {
   {
     -1,
@@ -312,13 +222,13 @@ static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_name_IN
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_name_IN_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_method_info_find_group_by_name_IN_ARG_pointers[] =
 {
-  &_user_group_method_info_find_group_by_name_IN_ARG_name,
+  &_group_admin_method_info_find_group_by_name_IN_ARG_name,
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_name_OUT_ARG_group =
+static const _ExtendedGDBusArgInfo _group_admin_method_info_find_group_by_name_OUT_ARG_group =
 {
   {
     -1,
@@ -329,26 +239,26 @@ static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_name_OU
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_name_OUT_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_method_info_find_group_by_name_OUT_ARG_pointers[] =
 {
-  &_user_group_method_info_find_group_by_name_OUT_ARG_group,
+  &_group_admin_method_info_find_group_by_name_OUT_ARG_group,
   NULL
 };
 
-static const _ExtendedGDBusMethodInfo _user_group_method_info_find_group_by_name =
+static const _ExtendedGDBusMethodInfo _group_admin_method_info_find_group_by_name =
 {
   {
     -1,
     (gchar *) "FindGroupByName",
-    (GDBusArgInfo **) &_user_group_method_info_find_group_by_name_IN_ARG_pointers,
-    (GDBusArgInfo **) &_user_group_method_info_find_group_by_name_OUT_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_method_info_find_group_by_name_IN_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_method_info_find_group_by_name_OUT_ARG_pointers,
     NULL
   },
   "handle-find-group-by-name",
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _user_group_method_info_create_group_IN_ARG_name =
+static const _ExtendedGDBusArgInfo _group_admin_method_info_create_group_IN_ARG_name =
 {
   {
     -1,
@@ -359,13 +269,13 @@ static const _ExtendedGDBusArgInfo _user_group_method_info_create_group_IN_ARG_n
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_create_group_IN_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_method_info_create_group_IN_ARG_pointers[] =
 {
-  &_user_group_method_info_create_group_IN_ARG_name,
+  &_group_admin_method_info_create_group_IN_ARG_name,
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _user_group_method_info_create_group_OUT_ARG_group =
+static const _ExtendedGDBusArgInfo _group_admin_method_info_create_group_OUT_ARG_group =
 {
   {
     -1,
@@ -376,26 +286,26 @@ static const _ExtendedGDBusArgInfo _user_group_method_info_create_group_OUT_ARG_
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_create_group_OUT_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_method_info_create_group_OUT_ARG_pointers[] =
 {
-  &_user_group_method_info_create_group_OUT_ARG_group,
+  &_group_admin_method_info_create_group_OUT_ARG_group,
   NULL
 };
 
-static const _ExtendedGDBusMethodInfo _user_group_method_info_create_group =
+static const _ExtendedGDBusMethodInfo _group_admin_method_info_create_group =
 {
   {
     -1,
     (gchar *) "CreateGroup",
-    (GDBusArgInfo **) &_user_group_method_info_create_group_IN_ARG_pointers,
-    (GDBusArgInfo **) &_user_group_method_info_create_group_OUT_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_method_info_create_group_IN_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_method_info_create_group_OUT_ARG_pointers,
     NULL
   },
   "handle-create-group",
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo _user_group_method_info_delete_group_IN_ARG_id =
+static const _ExtendedGDBusArgInfo _group_admin_method_info_delete_group_IN_ARG_id =
 {
   {
     -1,
@@ -406,18 +316,18 @@ static const _ExtendedGDBusArgInfo _user_group_method_info_delete_group_IN_ARG_i
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_method_info_delete_group_IN_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_method_info_delete_group_IN_ARG_pointers[] =
 {
-  &_user_group_method_info_delete_group_IN_ARG_id,
+  &_group_admin_method_info_delete_group_IN_ARG_id,
   NULL
 };
 
-static const _ExtendedGDBusMethodInfo _user_group_method_info_delete_group =
+static const _ExtendedGDBusMethodInfo _group_admin_method_info_delete_group =
 {
   {
     -1,
     (gchar *) "DeleteGroup",
-    (GDBusArgInfo **) &_user_group_method_info_delete_group_IN_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_method_info_delete_group_IN_ARG_pointers,
     NULL,
     NULL
   },
@@ -425,30 +335,16 @@ static const _ExtendedGDBusMethodInfo _user_group_method_info_delete_group =
   FALSE
 };
 
-static const _ExtendedGDBusMethodInfo * const _user_group_method_info_pointers[] =
+static const _ExtendedGDBusMethodInfo * const _group_admin_method_info_pointers[] =
 {
-  &_user_group_method_info_set_group_name,
-  &_user_group_method_info_add_user,
-  &_user_group_method_info_remove_user,
-  &_user_group_method_info_find_group_by_id,
-  &_user_group_method_info_find_group_by_name,
-  &_user_group_method_info_create_group,
-  &_user_group_method_info_delete_group,
+  &_group_admin_method_info_find_group_by_id,
+  &_group_admin_method_info_find_group_by_name,
+  &_group_admin_method_info_create_group,
+  &_group_admin_method_info_delete_group,
   NULL
 };
 
-static const _ExtendedGDBusSignalInfo _user_group_signal_info_changed =
-{
-  {
-    -1,
-    (gchar *) "Changed",
-    NULL,
-    NULL
-  },
-  "changed"
-};
-
-static const _ExtendedGDBusArgInfo _user_group_signal_info_group_added_ARG_user =
+static const _ExtendedGDBusArgInfo _group_admin_signal_info_group_added_ARG_user =
 {
   {
     -1,
@@ -459,24 +355,24 @@ static const _ExtendedGDBusArgInfo _user_group_signal_info_group_added_ARG_user 
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_signal_info_group_added_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_signal_info_group_added_ARG_pointers[] =
 {
-  &_user_group_signal_info_group_added_ARG_user,
+  &_group_admin_signal_info_group_added_ARG_user,
   NULL
 };
 
-static const _ExtendedGDBusSignalInfo _user_group_signal_info_group_added =
+static const _ExtendedGDBusSignalInfo _group_admin_signal_info_group_added =
 {
   {
     -1,
     (gchar *) "GroupAdded",
-    (GDBusArgInfo **) &_user_group_signal_info_group_added_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_signal_info_group_added_ARG_pointers,
     NULL
   },
   "group-added"
 };
 
-static const _ExtendedGDBusArgInfo _user_group_signal_info_group_deleted_ARG_user =
+static const _ExtendedGDBusArgInfo _group_admin_signal_info_group_deleted_ARG_user =
 {
   {
     -1,
@@ -487,260 +383,138 @@ static const _ExtendedGDBusArgInfo _user_group_signal_info_group_deleted_ARG_use
   FALSE
 };
 
-static const _ExtendedGDBusArgInfo * const _user_group_signal_info_group_deleted_ARG_pointers[] =
+static const _ExtendedGDBusArgInfo * const _group_admin_signal_info_group_deleted_ARG_pointers[] =
 {
-  &_user_group_signal_info_group_deleted_ARG_user,
+  &_group_admin_signal_info_group_deleted_ARG_user,
   NULL
 };
 
-static const _ExtendedGDBusSignalInfo _user_group_signal_info_group_deleted =
+static const _ExtendedGDBusSignalInfo _group_admin_signal_info_group_deleted =
 {
   {
     -1,
     (gchar *) "GroupDeleted",
-    (GDBusArgInfo **) &_user_group_signal_info_group_deleted_ARG_pointers,
+    (GDBusArgInfo **) &_group_admin_signal_info_group_deleted_ARG_pointers,
     NULL
   },
   "group-deleted"
 };
 
-static const _ExtendedGDBusSignalInfo * const _user_group_signal_info_pointers[] =
+static const _ExtendedGDBusSignalInfo * const _group_admin_signal_info_pointers[] =
 {
-  &_user_group_signal_info_changed,
-  &_user_group_signal_info_group_added,
-  &_user_group_signal_info_group_deleted,
+  &_group_admin_signal_info_group_added,
+  &_group_admin_signal_info_group_deleted,
   NULL
 };
 
-static const _ExtendedGDBusPropertyInfo _user_group_property_info_gid =
+static const _ExtendedGDBusPropertyInfo _group_admin_property_info_version =
 {
   {
     -1,
-    (gchar *) "Gid",
-    (gchar *) "t",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
-    NULL
-  },
-  "gid",
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _user_group_property_info_group_name =
-{
-  {
-    -1,
-    (gchar *) "GroupName",
+    (gchar *) "Version",
     (gchar *) "s",
     G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
     NULL
   },
-  "group-name",
+  "version",
   FALSE
 };
 
-static const _ExtendedGDBusPropertyInfo _user_group_property_info_local_group =
+static const _ExtendedGDBusPropertyInfo * const _group_admin_property_info_pointers[] =
 {
-  {
-    -1,
-    (gchar *) "LocalGroup",
-    (gchar *) "b",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
-    NULL
-  },
-  "local-group",
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo _user_group_property_info_users =
-{
-  {
-    -1,
-    (gchar *) "Users",
-    (gchar *) "ao",
-    G_DBUS_PROPERTY_INFO_FLAGS_READABLE,
-    NULL
-  },
-  "users",
-  FALSE
-};
-
-static const _ExtendedGDBusPropertyInfo * const _user_group_property_info_pointers[] =
-{
-  &_user_group_property_info_gid,
-  &_user_group_property_info_group_name,
-  &_user_group_property_info_local_group,
-  &_user_group_property_info_users,
+  &_group_admin_property_info_version,
   NULL
 };
 
-static const _ExtendedGDBusInterfaceInfo _user_group_interface_info =
+static const _ExtendedGDBusInterfaceInfo _group_admin_interface_info =
 {
   {
     -1,
-    (gchar *) "org.isoft.user.group",
-    (GDBusMethodInfo **) &_user_group_method_info_pointers,
-    (GDBusSignalInfo **) &_user_group_signal_info_pointers,
-    (GDBusPropertyInfo **) &_user_group_property_info_pointers,
+    (gchar *) "org.group.admin",
+    (GDBusMethodInfo **) &_group_admin_method_info_pointers,
+    (GDBusSignalInfo **) &_group_admin_signal_info_pointers,
+    (GDBusPropertyInfo **) &_group_admin_property_info_pointers,
     NULL
   },
-  "group",
+  "admin",
 };
 
 
 /**
- * user_group_interface_info:
+ * group_admin_interface_info:
  *
- * Gets a machine-readable description of the <link linkend="gdbus-interface-org-isoft-user-group.top_of_page">org.isoft.user.group</link> D-Bus interface.
+ * Gets a machine-readable description of the <link linkend="gdbus-interface-org-group-admin.top_of_page">org.group.admin</link> D-Bus interface.
  *
  * Returns: (transfer none): A #GDBusInterfaceInfo. Do not free.
  */
 GDBusInterfaceInfo *
-user_group_interface_info (void)
+group_admin_interface_info (void)
 {
-  return (GDBusInterfaceInfo *) &_user_group_interface_info.parent_struct;
+  return (GDBusInterfaceInfo *) &_group_admin_interface_info.parent_struct;
 }
 
 /**
- * user_group_override_properties:
+ * group_admin_override_properties:
  * @klass: The class structure for a #GObject derived class.
  * @property_id_begin: The property id to assign to the first overridden property.
  *
- * Overrides all #GObject properties in the #userGroup interface for a concrete class.
+ * Overrides all #GObject properties in the #groupAdmin interface for a concrete class.
  * The properties are overridden in the order they are defined.
  *
  * Returns: The last property id.
  */
 guint
-user_group_override_properties (GObjectClass *klass, guint property_id_begin)
+group_admin_override_properties (GObjectClass *klass, guint property_id_begin)
 {
-  g_object_class_override_property (klass, property_id_begin++, "gid");
-  g_object_class_override_property (klass, property_id_begin++, "group-name");
-  g_object_class_override_property (klass, property_id_begin++, "local-group");
-  g_object_class_override_property (klass, property_id_begin++, "users");
+  g_object_class_override_property (klass, property_id_begin++, "version");
   return property_id_begin - 1;
 }
 
 
 
 /**
- * userGroup:
+ * groupAdmin:
  *
- * Abstract interface type for the D-Bus interface <link linkend="gdbus-interface-org-isoft-user-group.top_of_page">org.isoft.user.group</link>.
+ * Abstract interface type for the D-Bus interface <link linkend="gdbus-interface-org-group-admin.top_of_page">org.group.admin</link>.
  */
 
 /**
- * userGroupIface:
+ * groupAdminIface:
  * @parent_iface: The parent interface.
- * @handle_add_user: Handler for the #userGroup::handle-add-user signal.
- * @handle_create_group: Handler for the #userGroup::handle-create-group signal.
- * @handle_delete_group: Handler for the #userGroup::handle-delete-group signal.
- * @handle_find_group_by_id: Handler for the #userGroup::handle-find-group-by-id signal.
- * @handle_find_group_by_name: Handler for the #userGroup::handle-find-group-by-name signal.
- * @handle_remove_user: Handler for the #userGroup::handle-remove-user signal.
- * @handle_set_group_name: Handler for the #userGroup::handle-set-group-name signal.
- * @get_gid: Getter for the #userGroup:gid property.
- * @get_group_name: Getter for the #userGroup:group-name property.
- * @get_local_group: Getter for the #userGroup:local-group property.
- * @get_users: Getter for the #userGroup:users property.
- * @changed: Handler for the #userGroup::changed signal.
- * @group_added: Handler for the #userGroup::group-added signal.
- * @group_deleted: Handler for the #userGroup::group-deleted signal.
+ * @handle_create_group: Handler for the #groupAdmin::handle-create-group signal.
+ * @handle_delete_group: Handler for the #groupAdmin::handle-delete-group signal.
+ * @handle_find_group_by_id: Handler for the #groupAdmin::handle-find-group-by-id signal.
+ * @handle_find_group_by_name: Handler for the #groupAdmin::handle-find-group-by-name signal.
+ * @get_version: Getter for the #groupAdmin:version property.
+ * @group_added: Handler for the #groupAdmin::group-added signal.
+ * @group_deleted: Handler for the #groupAdmin::group-deleted signal.
  *
- * Virtual table for the D-Bus interface <link linkend="gdbus-interface-org-isoft-user-group.top_of_page">org.isoft.user.group</link>.
+ * Virtual table for the D-Bus interface <link linkend="gdbus-interface-org-group-admin.top_of_page">org.group.admin</link>.
  */
 
-typedef userGroupIface userGroupInterface;
-G_DEFINE_INTERFACE (userGroup, user_group, G_TYPE_OBJECT)
+typedef groupAdminIface groupAdminInterface;
+G_DEFINE_INTERFACE (groupAdmin, group_admin, G_TYPE_OBJECT)
 
 static void
-user_group_default_init (userGroupIface *iface)
+group_admin_default_init (groupAdminIface *iface)
 {
   /* GObject signals for incoming D-Bus method calls: */
   /**
-   * userGroup::handle-set-group-name:
-   * @object: A #userGroup.
-   * @invocation: A #GDBusMethodInvocation.
-   * @arg_name: Argument passed by remote caller.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-isoft-user-group.SetGroupName">SetGroupName()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call user_group_complete_set_group_name() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %TRUE if the invocation was handled, %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("handle-set-group-name",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, handle_set_group_name),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    2,
-    G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING);
-
-  /**
-   * userGroup::handle-add-user:
-   * @object: A #userGroup.
-   * @invocation: A #GDBusMethodInvocation.
-   * @arg_user: Argument passed by remote caller.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-isoft-user-group.AddUser">AddUser()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call user_group_complete_add_user() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %TRUE if the invocation was handled, %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("handle-add-user",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, handle_add_user),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    2,
-    G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING);
-
-  /**
-   * userGroup::handle-remove-user:
-   * @object: A #userGroup.
-   * @invocation: A #GDBusMethodInvocation.
-   * @arg_user: Argument passed by remote caller.
-   *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-isoft-user-group.RemoveUser">RemoveUser()</link> D-Bus method.
-   *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call user_group_complete_remove_user() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
-   *
-   * Returns: %TRUE if the invocation was handled, %FALSE to let other signal handlers run.
-   */
-  g_signal_new ("handle-remove-user",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, handle_remove_user),
-    g_signal_accumulator_true_handled,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_BOOLEAN,
-    2,
-    G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING);
-
-  /**
-   * userGroup::handle-find-group-by-id:
-   * @object: A #userGroup.
+   * groupAdmin::handle-find-group-by-id:
+   * @object: A #groupAdmin.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_id: Argument passed by remote caller.
    *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-isoft-user-group.FindGroupById">FindGroupById()</link> D-Bus method.
+   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-group-admin.FindGroupById">FindGroupById()</link> D-Bus method.
    *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call user_group_complete_find_group_by_id() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
+   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call group_admin_complete_find_group_by_id() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
    *
    * Returns: %TRUE if the invocation was handled, %FALSE to let other signal handlers run.
    */
   g_signal_new ("handle-find-group-by-id",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, handle_find_group_by_id),
+    G_STRUCT_OFFSET (groupAdminIface, handle_find_group_by_id),
     g_signal_accumulator_true_handled,
     NULL,
     g_cclosure_marshal_generic,
@@ -749,21 +523,21 @@ user_group_default_init (userGroupIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_INT64);
 
   /**
-   * userGroup::handle-find-group-by-name:
-   * @object: A #userGroup.
+   * groupAdmin::handle-find-group-by-name:
+   * @object: A #groupAdmin.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_name: Argument passed by remote caller.
    *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-isoft-user-group.FindGroupByName">FindGroupByName()</link> D-Bus method.
+   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-group-admin.FindGroupByName">FindGroupByName()</link> D-Bus method.
    *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call user_group_complete_find_group_by_name() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
+   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call group_admin_complete_find_group_by_name() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
    *
    * Returns: %TRUE if the invocation was handled, %FALSE to let other signal handlers run.
    */
   g_signal_new ("handle-find-group-by-name",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, handle_find_group_by_name),
+    G_STRUCT_OFFSET (groupAdminIface, handle_find_group_by_name),
     g_signal_accumulator_true_handled,
     NULL,
     g_cclosure_marshal_generic,
@@ -772,21 +546,21 @@ user_group_default_init (userGroupIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING);
 
   /**
-   * userGroup::handle-create-group:
-   * @object: A #userGroup.
+   * groupAdmin::handle-create-group:
+   * @object: A #groupAdmin.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_name: Argument passed by remote caller.
    *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-isoft-user-group.CreateGroup">CreateGroup()</link> D-Bus method.
+   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-group-admin.CreateGroup">CreateGroup()</link> D-Bus method.
    *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call user_group_complete_create_group() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
+   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call group_admin_complete_create_group() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
    *
    * Returns: %TRUE if the invocation was handled, %FALSE to let other signal handlers run.
    */
   g_signal_new ("handle-create-group",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, handle_create_group),
+    G_STRUCT_OFFSET (groupAdminIface, handle_create_group),
     g_signal_accumulator_true_handled,
     NULL,
     g_cclosure_marshal_generic,
@@ -795,21 +569,21 @@ user_group_default_init (userGroupIface *iface)
     G_TYPE_DBUS_METHOD_INVOCATION, G_TYPE_STRING);
 
   /**
-   * userGroup::handle-delete-group:
-   * @object: A #userGroup.
+   * groupAdmin::handle-delete-group:
+   * @object: A #groupAdmin.
    * @invocation: A #GDBusMethodInvocation.
    * @arg_id: Argument passed by remote caller.
    *
-   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-isoft-user-group.DeleteGroup">DeleteGroup()</link> D-Bus method.
+   * Signal emitted when a remote caller is invoking the <link linkend="gdbus-method-org-group-admin.DeleteGroup">DeleteGroup()</link> D-Bus method.
    *
-   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call user_group_complete_delete_group() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
+   * If a signal handler returns %TRUE, it means the signal handler will handle the invocation (e.g. take a reference to @invocation and eventually call group_admin_complete_delete_group() or e.g. g_dbus_method_invocation_return_error() on it) and no order signal handlers will run. If no signal handler handles the invocation, the %G_DBUS_ERROR_UNKNOWN_METHOD error is returned.
    *
    * Returns: %TRUE if the invocation was handled, %FALSE to let other signal handlers run.
    */
   g_signal_new ("handle-delete-group",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, handle_delete_group),
+    G_STRUCT_OFFSET (groupAdminIface, handle_delete_group),
     g_signal_accumulator_true_handled,
     NULL,
     g_cclosure_marshal_generic,
@@ -819,36 +593,18 @@ user_group_default_init (userGroupIface *iface)
 
   /* GObject signals for received D-Bus signals: */
   /**
-   * userGroup::changed:
-   * @object: A #userGroup.
-   *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-org-isoft-user-group.Changed">"Changed"</link> is received.
-   *
-   * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
-   */
-  g_signal_new ("changed",
-    G_TYPE_FROM_INTERFACE (iface),
-    G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, changed),
-    NULL,
-    NULL,
-    g_cclosure_marshal_generic,
-    G_TYPE_NONE,
-    0);
-
-  /**
-   * userGroup::group-added:
-   * @object: A #userGroup.
+   * groupAdmin::group-added:
+   * @object: A #groupAdmin.
    * @arg_user: Argument.
    *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-org-isoft-user-group.GroupAdded">"GroupAdded"</link> is received.
+   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-org-group-admin.GroupAdded">"GroupAdded"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
   g_signal_new ("group-added",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, group_added),
+    G_STRUCT_OFFSET (groupAdminIface, group_added),
     NULL,
     NULL,
     g_cclosure_marshal_generic,
@@ -856,18 +612,18 @@ user_group_default_init (userGroupIface *iface)
     1, G_TYPE_STRING);
 
   /**
-   * userGroup::group-deleted:
-   * @object: A #userGroup.
+   * groupAdmin::group-deleted:
+   * @object: A #groupAdmin.
    * @arg_user: Argument.
    *
-   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-org-isoft-user-group.GroupDeleted">"GroupDeleted"</link> is received.
+   * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-org-group-admin.GroupDeleted">"GroupDeleted"</link> is received.
    *
    * On the service-side, this signal can be used with e.g. g_signal_emit_by_name() to make the object emit the D-Bus signal.
    */
   g_signal_new ("group-deleted",
     G_TYPE_FROM_INTERFACE (iface),
     G_SIGNAL_RUN_LAST,
-    G_STRUCT_OFFSET (userGroupIface, group_deleted),
+    G_STRUCT_OFFSET (groupAdminIface, group_deleted),
     NULL,
     NULL,
     g_cclosure_marshal_generic,
@@ -876,563 +632,114 @@ user_group_default_init (userGroupIface *iface)
 
   /* GObject properties for D-Bus properties: */
   /**
-   * userGroup:gid:
+   * groupAdmin:version:
    *
-   * Represents the D-Bus property <link linkend="gdbus-property-org-isoft-user-group.Gid">"Gid"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_uint64 ("gid", "Gid", "Gid", 0, G_MAXUINT64, 0, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * userGroup:group-name:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-org-isoft-user-group.GroupName">"GroupName"</link>.
+   * Represents the D-Bus property <link linkend="gdbus-property-org-group-admin.Version">"Version"</link>.
    *
    * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
    */
   g_object_interface_install_property (iface,
-    g_param_spec_string ("group-name", "GroupName", "GroupName", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * userGroup:local-group:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-org-isoft-user-group.LocalGroup">"LocalGroup"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_boolean ("local-group", "LocalGroup", "LocalGroup", FALSE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
-  /**
-   * userGroup:users:
-   *
-   * Represents the D-Bus property <link linkend="gdbus-property-org-isoft-user-group.Users">"Users"</link>.
-   *
-   * Since the D-Bus property for this #GObject property is readable but not writable, it is meaningful to read from it on both the client- and service-side. It is only meaningful, however, to write to it on the service-side.
-   */
-  g_object_interface_install_property (iface,
-    g_param_spec_boxed ("users", "Users", "Users", G_TYPE_STRV, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+    g_param_spec_string ("version", "Version", "Version", NULL, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 }
 
 /**
- * user_group_get_gid: (skip)
- * @object: A #userGroup.
+ * group_admin_get_version: (skip)
+ * @object: A #groupAdmin.
  *
- * Gets the value of the <link linkend="gdbus-property-org-isoft-user-group.Gid">"Gid"</link> D-Bus property.
+ * Gets the value of the <link linkend="gdbus-property-org-group-admin.Version">"Version"</link> D-Bus property.
  *
  * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
- * Returns: The property value.
- */
-guint64 
-user_group_get_gid (userGroup *object)
-{
-  return USER_GROUP_GET_IFACE (object)->get_gid (object);
-}
-
-/**
- * user_group_set_gid: (skip)
- * @object: A #userGroup.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-org-isoft-user-group.Gid">"Gid"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
- */
-void
-user_group_set_gid (userGroup *object, guint64 value)
-{
-  g_object_set (G_OBJECT (object), "gid", value, NULL);
-}
-
-/**
- * user_group_get_group_name: (skip)
- * @object: A #userGroup.
- *
- * Gets the value of the <link linkend="gdbus-property-org-isoft-user-group.GroupName">"GroupName"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * <warning>The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use user_group_dup_group_name() if on another thread.</warning>
+ * <warning>The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use group_admin_dup_version() if on another thread.</warning>
  *
  * Returns: (transfer none): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
  */
 const gchar *
-user_group_get_group_name (userGroup *object)
+group_admin_get_version (groupAdmin *object)
 {
-  return USER_GROUP_GET_IFACE (object)->get_group_name (object);
+  return GROUP_ADMIN_GET_IFACE (object)->get_version (object);
 }
 
 /**
- * user_group_dup_group_name: (skip)
- * @object: A #userGroup.
+ * group_admin_dup_version: (skip)
+ * @object: A #groupAdmin.
  *
- * Gets a copy of the <link linkend="gdbus-property-org-isoft-user-group.GroupName">"GroupName"</link> D-Bus property.
+ * Gets a copy of the <link linkend="gdbus-property-org-group-admin.Version">"Version"</link> D-Bus property.
  *
  * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
  *
  * Returns: (transfer full): The property value or %NULL if the property is not set. The returned value should be freed with g_free().
  */
 gchar *
-user_group_dup_group_name (userGroup *object)
+group_admin_dup_version (groupAdmin *object)
 {
   gchar *value;
-  g_object_get (G_OBJECT (object), "group-name", &value, NULL);
+  g_object_get (G_OBJECT (object), "version", &value, NULL);
   return value;
 }
 
 /**
- * user_group_set_group_name: (skip)
- * @object: A #userGroup.
+ * group_admin_set_version: (skip)
+ * @object: A #groupAdmin.
  * @value: The value to set.
  *
- * Sets the <link linkend="gdbus-property-org-isoft-user-group.GroupName">"GroupName"</link> D-Bus property to @value.
+ * Sets the <link linkend="gdbus-property-org-group-admin.Version">"Version"</link> D-Bus property to @value.
  *
  * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
  */
 void
-user_group_set_group_name (userGroup *object, const gchar *value)
+group_admin_set_version (groupAdmin *object, const gchar *value)
 {
-  g_object_set (G_OBJECT (object), "group-name", value, NULL);
+  g_object_set (G_OBJECT (object), "version", value, NULL);
 }
 
 /**
- * user_group_get_local_group: (skip)
- * @object: A #userGroup.
- *
- * Gets the value of the <link linkend="gdbus-property-org-isoft-user-group.LocalGroup">"LocalGroup"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: The property value.
- */
-gboolean 
-user_group_get_local_group (userGroup *object)
-{
-  return USER_GROUP_GET_IFACE (object)->get_local_group (object);
-}
-
-/**
- * user_group_set_local_group: (skip)
- * @object: A #userGroup.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-org-isoft-user-group.LocalGroup">"LocalGroup"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
- */
-void
-user_group_set_local_group (userGroup *object, gboolean value)
-{
-  g_object_set (G_OBJECT (object), "local-group", value, NULL);
-}
-
-/**
- * user_group_get_users: (skip)
- * @object: A #userGroup.
- *
- * Gets the value of the <link linkend="gdbus-property-org-isoft-user-group.Users">"Users"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * <warning>The returned value is only valid until the property changes so on the client-side it is only safe to use this function on the thread where @object was constructed. Use user_group_dup_users() if on another thread.</warning>
- *
- * Returns: (transfer none): The property value or %NULL if the property is not set. Do not free the returned value, it belongs to @object.
- */
-const gchar *const *
-user_group_get_users (userGroup *object)
-{
-  return USER_GROUP_GET_IFACE (object)->get_users (object);
-}
-
-/**
- * user_group_dup_users: (skip)
- * @object: A #userGroup.
- *
- * Gets a copy of the <link linkend="gdbus-property-org-isoft-user-group.Users">"Users"</link> D-Bus property.
- *
- * Since this D-Bus property is readable, it is meaningful to use this function on both the client- and service-side.
- *
- * Returns: (transfer full): The property value or %NULL if the property is not set. The returned value should be freed with g_strfreev().
- */
-gchar **
-user_group_dup_users (userGroup *object)
-{
-  gchar **value;
-  g_object_get (G_OBJECT (object), "users", &value, NULL);
-  return value;
-}
-
-/**
- * user_group_set_users: (skip)
- * @object: A #userGroup.
- * @value: The value to set.
- *
- * Sets the <link linkend="gdbus-property-org-isoft-user-group.Users">"Users"</link> D-Bus property to @value.
- *
- * Since this D-Bus property is not writable, it is only meaningful to use this function on the service-side.
- */
-void
-user_group_set_users (userGroup *object, const gchar *const *value)
-{
-  g_object_set (G_OBJECT (object), "users", value, NULL);
-}
-
-/**
- * user_group_emit_changed:
- * @object: A #userGroup.
- *
- * Emits the <link linkend="gdbus-signal-org-isoft-user-group.Changed">"Changed"</link> D-Bus signal.
- */
-void
-user_group_emit_changed (
-    userGroup *object)
-{
-  g_signal_emit_by_name (object, "changed");
-}
-
-/**
- * user_group_emit_group_added:
- * @object: A #userGroup.
+ * group_admin_emit_group_added:
+ * @object: A #groupAdmin.
  * @arg_user: Argument to pass with the signal.
  *
- * Emits the <link linkend="gdbus-signal-org-isoft-user-group.GroupAdded">"GroupAdded"</link> D-Bus signal.
+ * Emits the <link linkend="gdbus-signal-org-group-admin.GroupAdded">"GroupAdded"</link> D-Bus signal.
  */
-#include <stdio.h>
 void
-user_group_emit_group_added (
-    userGroup *object,
+group_admin_emit_group_added (
+    groupAdmin *object,
     const gchar *arg_user)
 {
   g_signal_emit_by_name (object, "group-added", arg_user);
-  printf("arg_user = %s\r\n",arg_user);
 }
 
 /**
- * user_group_emit_group_deleted:
- * @object: A #userGroup.
+ * group_admin_emit_group_deleted:
+ * @object: A #groupAdmin.
  * @arg_user: Argument to pass with the signal.
  *
- * Emits the <link linkend="gdbus-signal-org-isoft-user-group.GroupDeleted">"GroupDeleted"</link> D-Bus signal.
+ * Emits the <link linkend="gdbus-signal-org-group-admin.GroupDeleted">"GroupDeleted"</link> D-Bus signal.
  */
 void
-user_group_emit_group_deleted (
-    userGroup *object,
+group_admin_emit_group_deleted (
+    groupAdmin *object,
     const gchar *arg_user)
 {
   g_signal_emit_by_name (object, "group-deleted", arg_user);
 }
 
 /**
- * user_group_call_set_group_name:
- * @proxy: A #userGroupProxy.
- * @arg_name: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.SetGroupName">SetGroupName()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_call_set_group_name_finish() to get the result of the operation.
- *
- * See user_group_call_set_group_name_sync() for the synchronous, blocking version of this method.
- */
-void
-user_group_call_set_group_name (
-    userGroup *proxy,
-    const gchar *arg_name,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "SetGroupName",
-    g_variant_new ("(s)",
-                   arg_name),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * user_group_call_set_group_name_finish:
- * @proxy: A #userGroupProxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_call_set_group_name().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with user_group_call_set_group_name().
- *
- * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
- */
-gboolean
-user_group_call_set_group_name_finish (
-    userGroup *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * user_group_call_set_group_name_sync:
- * @proxy: A #userGroupProxy.
- * @arg_name: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.SetGroupName">SetGroupName()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See user_group_call_set_group_name() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
- */
-gboolean
-user_group_call_set_group_name_sync (
-    userGroup *proxy,
-    const gchar *arg_name,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "SetGroupName",
-    g_variant_new ("(s)",
-                   arg_name),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * user_group_call_add_user:
- * @proxy: A #userGroupProxy.
- * @arg_user: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.AddUser">AddUser()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_call_add_user_finish() to get the result of the operation.
- *
- * See user_group_call_add_user_sync() for the synchronous, blocking version of this method.
- */
-void
-user_group_call_add_user (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "AddUser",
-    g_variant_new ("(o)",
-                   arg_user),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * user_group_call_add_user_finish:
- * @proxy: A #userGroupProxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_call_add_user().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with user_group_call_add_user().
- *
- * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
- */
-gboolean
-user_group_call_add_user_finish (
-    userGroup *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * user_group_call_add_user_sync:
- * @proxy: A #userGroupProxy.
- * @arg_user: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.AddUser">AddUser()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See user_group_call_add_user() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
- */
-gboolean
-user_group_call_add_user_sync (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "AddUser",
-    g_variant_new ("(o)",
-                   arg_user),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * user_group_call_remove_user:
- * @proxy: A #userGroupProxy.
- * @arg_user: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
- * @user_data: User data to pass to @callback.
- *
- * Asynchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.RemoveUser">RemoveUser()</link> D-Bus method on @proxy.
- * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_call_remove_user_finish() to get the result of the operation.
- *
- * See user_group_call_remove_user_sync() for the synchronous, blocking version of this method.
- */
-void
-user_group_call_remove_user (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data)
-{
-  g_dbus_proxy_call (G_DBUS_PROXY (proxy),
-    "RemoveUser",
-    g_variant_new ("(o)",
-                   arg_user),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    callback,
-    user_data);
-}
-
-/**
- * user_group_call_remove_user_finish:
- * @proxy: A #userGroupProxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_call_remove_user().
- * @error: Return location for error or %NULL.
- *
- * Finishes an operation started with user_group_call_remove_user().
- *
- * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
- */
-gboolean
-user_group_call_remove_user_finish (
-    userGroup *proxy,
-    GAsyncResult *res,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * user_group_call_remove_user_sync:
- * @proxy: A #userGroupProxy.
- * @arg_user: Argument to pass with the method invocation.
- * @cancellable: (nullable): A #GCancellable or %NULL.
- * @error: Return location for error or %NULL.
- *
- * Synchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.RemoveUser">RemoveUser()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
- *
- * See user_group_call_remove_user() for the asynchronous version of this method.
- *
- * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
- */
-gboolean
-user_group_call_remove_user_sync (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GError **error)
-{
-  GVariant *_ret;
-  _ret = g_dbus_proxy_call_sync (G_DBUS_PROXY (proxy),
-    "RemoveUser",
-    g_variant_new ("(o)",
-                   arg_user),
-    G_DBUS_CALL_FLAGS_NONE,
-    -1,
-    cancellable,
-    error);
-  if (_ret == NULL)
-    goto _out;
-  g_variant_get (_ret,
-                 "()");
-  g_variant_unref (_ret);
-_out:
-  return _ret != NULL;
-}
-
-/**
- * user_group_call_find_group_by_id:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_find_group_by_id:
+ * @proxy: A #groupAdminProxy.
  * @arg_id: Argument to pass with the method invocation.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
  * @user_data: User data to pass to @callback.
  *
- * Asynchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.FindGroupById">FindGroupById()</link> D-Bus method on @proxy.
+ * Asynchronously invokes the <link linkend="gdbus-method-org-group-admin.FindGroupById">FindGroupById()</link> D-Bus method on @proxy.
  * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_call_find_group_by_id_finish() to get the result of the operation.
+ * You can then call group_admin_call_find_group_by_id_finish() to get the result of the operation.
  *
- * See user_group_call_find_group_by_id_sync() for the synchronous, blocking version of this method.
+ * See group_admin_call_find_group_by_id_sync() for the synchronous, blocking version of this method.
  */
 void
-user_group_call_find_group_by_id (
-    userGroup *proxy,
+group_admin_call_find_group_by_id (
+    groupAdmin *proxy,
     gint64 arg_id,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
@@ -1450,19 +757,19 @@ user_group_call_find_group_by_id (
 }
 
 /**
- * user_group_call_find_group_by_id_finish:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_find_group_by_id_finish:
+ * @proxy: A #groupAdminProxy.
  * @out_group: (out): Return location for return parameter or %NULL to ignore.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_call_find_group_by_id().
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to group_admin_call_find_group_by_id().
  * @error: Return location for error or %NULL.
  *
- * Finishes an operation started with user_group_call_find_group_by_id().
+ * Finishes an operation started with group_admin_call_find_group_by_id().
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_find_group_by_id_finish (
-    userGroup *proxy,
+group_admin_call_find_group_by_id_finish (
+    groupAdmin *proxy,
     gchar **out_group,
     GAsyncResult *res,
     GError **error)
@@ -1480,22 +787,22 @@ _out:
 }
 
 /**
- * user_group_call_find_group_by_id_sync:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_find_group_by_id_sync:
+ * @proxy: A #groupAdminProxy.
  * @arg_id: Argument to pass with the method invocation.
  * @out_group: (out): Return location for return parameter or %NULL to ignore.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL.
  *
- * Synchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.FindGroupById">FindGroupById()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
+ * Synchronously invokes the <link linkend="gdbus-method-org-group-admin.FindGroupById">FindGroupById()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
  *
- * See user_group_call_find_group_by_id() for the asynchronous version of this method.
+ * See group_admin_call_find_group_by_id() for the asynchronous version of this method.
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_find_group_by_id_sync (
-    userGroup *proxy,
+group_admin_call_find_group_by_id_sync (
+    groupAdmin *proxy,
     gint64 arg_id,
     gchar **out_group,
     GCancellable *cancellable,
@@ -1521,22 +828,22 @@ _out:
 }
 
 /**
- * user_group_call_find_group_by_name:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_find_group_by_name:
+ * @proxy: A #groupAdminProxy.
  * @arg_name: Argument to pass with the method invocation.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
  * @user_data: User data to pass to @callback.
  *
- * Asynchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.FindGroupByName">FindGroupByName()</link> D-Bus method on @proxy.
+ * Asynchronously invokes the <link linkend="gdbus-method-org-group-admin.FindGroupByName">FindGroupByName()</link> D-Bus method on @proxy.
  * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_call_find_group_by_name_finish() to get the result of the operation.
+ * You can then call group_admin_call_find_group_by_name_finish() to get the result of the operation.
  *
- * See user_group_call_find_group_by_name_sync() for the synchronous, blocking version of this method.
+ * See group_admin_call_find_group_by_name_sync() for the synchronous, blocking version of this method.
  */
 void
-user_group_call_find_group_by_name (
-    userGroup *proxy,
+group_admin_call_find_group_by_name (
+    groupAdmin *proxy,
     const gchar *arg_name,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
@@ -1554,19 +861,19 @@ user_group_call_find_group_by_name (
 }
 
 /**
- * user_group_call_find_group_by_name_finish:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_find_group_by_name_finish:
+ * @proxy: A #groupAdminProxy.
  * @out_group: (out): Return location for return parameter or %NULL to ignore.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_call_find_group_by_name().
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to group_admin_call_find_group_by_name().
  * @error: Return location for error or %NULL.
  *
- * Finishes an operation started with user_group_call_find_group_by_name().
+ * Finishes an operation started with group_admin_call_find_group_by_name().
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_find_group_by_name_finish (
-    userGroup *proxy,
+group_admin_call_find_group_by_name_finish (
+    groupAdmin *proxy,
     gchar **out_group,
     GAsyncResult *res,
     GError **error)
@@ -1584,22 +891,22 @@ _out:
 }
 
 /**
- * user_group_call_find_group_by_name_sync:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_find_group_by_name_sync:
+ * @proxy: A #groupAdminProxy.
  * @arg_name: Argument to pass with the method invocation.
  * @out_group: (out): Return location for return parameter or %NULL to ignore.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL.
  *
- * Synchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.FindGroupByName">FindGroupByName()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
+ * Synchronously invokes the <link linkend="gdbus-method-org-group-admin.FindGroupByName">FindGroupByName()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
  *
- * See user_group_call_find_group_by_name() for the asynchronous version of this method.
+ * See group_admin_call_find_group_by_name() for the asynchronous version of this method.
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_find_group_by_name_sync (
-    userGroup *proxy,
+group_admin_call_find_group_by_name_sync (
+    groupAdmin *proxy,
     const gchar *arg_name,
     gchar **out_group,
     GCancellable *cancellable,
@@ -1625,22 +932,22 @@ _out:
 }
 
 /**
- * user_group_call_create_group:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_create_group:
+ * @proxy: A #groupAdminProxy.
  * @arg_name: Argument to pass with the method invocation.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
  * @user_data: User data to pass to @callback.
  *
- * Asynchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.CreateGroup">CreateGroup()</link> D-Bus method on @proxy.
+ * Asynchronously invokes the <link linkend="gdbus-method-org-group-admin.CreateGroup">CreateGroup()</link> D-Bus method on @proxy.
  * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_call_create_group_finish() to get the result of the operation.
+ * You can then call group_admin_call_create_group_finish() to get the result of the operation.
  *
- * See user_group_call_create_group_sync() for the synchronous, blocking version of this method.
+ * See group_admin_call_create_group_sync() for the synchronous, blocking version of this method.
  */
 void
-user_group_call_create_group (
-    userGroup *proxy,
+group_admin_call_create_group (
+    groupAdmin *proxy,
     const gchar *arg_name,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
@@ -1658,19 +965,19 @@ user_group_call_create_group (
 }
 
 /**
- * user_group_call_create_group_finish:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_create_group_finish:
+ * @proxy: A #groupAdminProxy.
  * @out_group: (out): Return location for return parameter or %NULL to ignore.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_call_create_group().
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to group_admin_call_create_group().
  * @error: Return location for error or %NULL.
  *
- * Finishes an operation started with user_group_call_create_group().
+ * Finishes an operation started with group_admin_call_create_group().
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_create_group_finish (
-    userGroup *proxy,
+group_admin_call_create_group_finish (
+    groupAdmin *proxy,
     gchar **out_group,
     GAsyncResult *res,
     GError **error)
@@ -1688,22 +995,22 @@ _out:
 }
 
 /**
- * user_group_call_create_group_sync:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_create_group_sync:
+ * @proxy: A #groupAdminProxy.
  * @arg_name: Argument to pass with the method invocation.
  * @out_group: (out): Return location for return parameter or %NULL to ignore.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL.
  *
- * Synchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.CreateGroup">CreateGroup()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
+ * Synchronously invokes the <link linkend="gdbus-method-org-group-admin.CreateGroup">CreateGroup()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
  *
- * See user_group_call_create_group() for the asynchronous version of this method.
+ * See group_admin_call_create_group() for the asynchronous version of this method.
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_create_group_sync (
-    userGroup *proxy,
+group_admin_call_create_group_sync (
+    groupAdmin *proxy,
     const gchar *arg_name,
     gchar **out_group,
     GCancellable *cancellable,
@@ -1729,22 +1036,22 @@ _out:
 }
 
 /**
- * user_group_call_delete_group:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_delete_group:
+ * @proxy: A #groupAdminProxy.
  * @arg_id: Argument to pass with the method invocation.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied or %NULL.
  * @user_data: User data to pass to @callback.
  *
- * Asynchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.DeleteGroup">DeleteGroup()</link> D-Bus method on @proxy.
+ * Asynchronously invokes the <link linkend="gdbus-method-org-group-admin.DeleteGroup">DeleteGroup()</link> D-Bus method on @proxy.
  * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_call_delete_group_finish() to get the result of the operation.
+ * You can then call group_admin_call_delete_group_finish() to get the result of the operation.
  *
- * See user_group_call_delete_group_sync() for the synchronous, blocking version of this method.
+ * See group_admin_call_delete_group_sync() for the synchronous, blocking version of this method.
  */
 void
-user_group_call_delete_group (
-    userGroup *proxy,
+group_admin_call_delete_group (
+    groupAdmin *proxy,
     gint64 arg_id,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
@@ -1762,18 +1069,18 @@ user_group_call_delete_group (
 }
 
 /**
- * user_group_call_delete_group_finish:
- * @proxy: A #userGroupProxy.
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_call_delete_group().
+ * group_admin_call_delete_group_finish:
+ * @proxy: A #groupAdminProxy.
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to group_admin_call_delete_group().
  * @error: Return location for error or %NULL.
  *
- * Finishes an operation started with user_group_call_delete_group().
+ * Finishes an operation started with group_admin_call_delete_group().
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_delete_group_finish (
-    userGroup *proxy,
+group_admin_call_delete_group_finish (
+    groupAdmin *proxy,
     GAsyncResult *res,
     GError **error)
 {
@@ -1789,21 +1096,21 @@ _out:
 }
 
 /**
- * user_group_call_delete_group_sync:
- * @proxy: A #userGroupProxy.
+ * group_admin_call_delete_group_sync:
+ * @proxy: A #groupAdminProxy.
  * @arg_id: Argument to pass with the method invocation.
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL.
  *
- * Synchronously invokes the <link linkend="gdbus-method-org-isoft-user-group.DeleteGroup">DeleteGroup()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
+ * Synchronously invokes the <link linkend="gdbus-method-org-group-admin.DeleteGroup">DeleteGroup()</link> D-Bus method on @proxy. The calling thread is blocked until a reply is received.
  *
- * See user_group_call_delete_group() for the asynchronous version of this method.
+ * See group_admin_call_delete_group() for the asynchronous version of this method.
  *
  * Returns: (skip): %TRUE if the call succeded, %FALSE if @error is set.
  */
 gboolean
-user_group_call_delete_group_sync (
-    userGroup *proxy,
+group_admin_call_delete_group_sync (
+    groupAdmin *proxy,
     gint64 arg_id,
     GCancellable *cancellable,
     GError **error)
@@ -1827,72 +1134,18 @@ _out:
 }
 
 /**
- * user_group_complete_set_group_name:
- * @object: A #userGroup.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-isoft-user-group.SetGroupName">SetGroupName()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-user_group_complete_set_group_name (
-    userGroup *object,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/**
- * user_group_complete_add_user:
- * @object: A #userGroup.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-isoft-user-group.AddUser">AddUser()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-user_group_complete_add_user (
-    userGroup *object,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/**
- * user_group_complete_remove_user:
- * @object: A #userGroup.
- * @invocation: (transfer full): A #GDBusMethodInvocation.
- *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-isoft-user-group.RemoveUser">RemoveUser()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
- *
- * This method will free @invocation, you cannot use it afterwards.
- */
-void
-user_group_complete_remove_user (
-    userGroup *object,
-    GDBusMethodInvocation *invocation)
-{
-  g_dbus_method_invocation_return_value (invocation,
-    g_variant_new ("()"));
-}
-
-/**
- * user_group_complete_find_group_by_id:
- * @object: A #userGroup.
+ * group_admin_complete_find_group_by_id:
+ * @object: A #groupAdmin.
  * @invocation: (transfer full): A #GDBusMethodInvocation.
  * @group: Parameter to return.
  *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-isoft-user-group.FindGroupById">FindGroupById()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
+ * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-group-admin.FindGroupById">FindGroupById()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
  *
  * This method will free @invocation, you cannot use it afterwards.
  */
 void
-user_group_complete_find_group_by_id (
-    userGroup *object,
+group_admin_complete_find_group_by_id (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *group)
 {
@@ -1902,18 +1155,18 @@ user_group_complete_find_group_by_id (
 }
 
 /**
- * user_group_complete_find_group_by_name:
- * @object: A #userGroup.
+ * group_admin_complete_find_group_by_name:
+ * @object: A #groupAdmin.
  * @invocation: (transfer full): A #GDBusMethodInvocation.
  * @group: Parameter to return.
  *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-isoft-user-group.FindGroupByName">FindGroupByName()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
+ * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-group-admin.FindGroupByName">FindGroupByName()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
  *
  * This method will free @invocation, you cannot use it afterwards.
  */
 void
-user_group_complete_find_group_by_name (
-    userGroup *object,
+group_admin_complete_find_group_by_name (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *group)
 {
@@ -1923,18 +1176,18 @@ user_group_complete_find_group_by_name (
 }
 
 /**
- * user_group_complete_create_group:
- * @object: A #userGroup.
+ * group_admin_complete_create_group:
+ * @object: A #groupAdmin.
  * @invocation: (transfer full): A #GDBusMethodInvocation.
  * @group: Parameter to return.
  *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-isoft-user-group.CreateGroup">CreateGroup()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
+ * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-group-admin.CreateGroup">CreateGroup()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
  *
  * This method will free @invocation, you cannot use it afterwards.
  */
 void
-user_group_complete_create_group (
-    userGroup *object,
+group_admin_complete_create_group (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *group)
 {
@@ -1944,17 +1197,17 @@ user_group_complete_create_group (
 }
 
 /**
- * user_group_complete_delete_group:
- * @object: A #userGroup.
+ * group_admin_complete_delete_group:
+ * @object: A #groupAdmin.
  * @invocation: (transfer full): A #GDBusMethodInvocation.
  *
- * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-isoft-user-group.DeleteGroup">DeleteGroup()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
+ * Helper function used in service implementations to finish handling invocations of the <link linkend="gdbus-method-org-group-admin.DeleteGroup">DeleteGroup()</link> D-Bus method. If you instead want to finish handling an invocation by returning an error, use g_dbus_method_invocation_return_error() or similar.
  *
  * This method will free @invocation, you cannot use it afterwards.
  */
 void
-user_group_complete_delete_group (
-    userGroup *object,
+group_admin_complete_delete_group (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation)
 {
   g_dbus_method_invocation_return_value (invocation,
@@ -1964,53 +1217,53 @@ user_group_complete_delete_group (
 /* ------------------------------------------------------------------------ */
 
 /**
- * userGroupProxy:
+ * groupAdminProxy:
  *
- * The #userGroupProxy structure contains only private data and should only be accessed using the provided API.
+ * The #groupAdminProxy structure contains only private data and should only be accessed using the provided API.
  */
 
 /**
- * userGroupProxyClass:
+ * groupAdminProxyClass:
  * @parent_class: The parent class.
  *
- * Class structure for #userGroupProxy.
+ * Class structure for #groupAdminProxy.
  */
 
-struct _userGroupProxyPrivate
+struct _groupAdminProxyPrivate
 {
   GData *qdata;
 };
 
-static void user_group_proxy_iface_init (userGroupIface *iface);
+static void group_admin_proxy_iface_init (groupAdminIface *iface);
 
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-G_DEFINE_TYPE_WITH_CODE (userGroupProxy, user_group_proxy, G_TYPE_DBUS_PROXY,
-                         G_ADD_PRIVATE (userGroupProxy)
-                         G_IMPLEMENT_INTERFACE (USER_TYPE_GROUP, user_group_proxy_iface_init))
+G_DEFINE_TYPE_WITH_CODE (groupAdminProxy, group_admin_proxy, G_TYPE_DBUS_PROXY,
+                         G_ADD_PRIVATE (groupAdminProxy)
+                         G_IMPLEMENT_INTERFACE (GROUP_TYPE_ADMIN, group_admin_proxy_iface_init))
 
 #else
-G_DEFINE_TYPE_WITH_CODE (userGroupProxy, user_group_proxy, G_TYPE_DBUS_PROXY,
-                         G_IMPLEMENT_INTERFACE (USER_TYPE_GROUP, user_group_proxy_iface_init))
+G_DEFINE_TYPE_WITH_CODE (groupAdminProxy, group_admin_proxy, G_TYPE_DBUS_PROXY,
+                         G_IMPLEMENT_INTERFACE (GROUP_TYPE_ADMIN, group_admin_proxy_iface_init))
 
 #endif
 static void
-user_group_proxy_finalize (GObject *object)
+group_admin_proxy_finalize (GObject *object)
 {
-  userGroupProxy *proxy = USER_GROUP_PROXY (object);
+  groupAdminProxy *proxy = GROUP_ADMIN_PROXY (object);
   g_datalist_clear (&proxy->priv->qdata);
-  G_OBJECT_CLASS (user_group_proxy_parent_class)->finalize (object);
+  G_OBJECT_CLASS (group_admin_proxy_parent_class)->finalize (object);
 }
 
 static void
-user_group_proxy_get_property (GObject      *object,
+group_admin_proxy_get_property (GObject      *object,
   guint         prop_id,
   GValue       *value,
   GParamSpec   *pspec G_GNUC_UNUSED)
 {
   const _ExtendedGDBusPropertyInfo *info;
   GVariant *variant;
-  g_assert (prop_id != 0 && prop_id - 1 < 4);
-  info = _user_group_property_info_pointers[prop_id - 1];
+  g_assert (prop_id != 0 && prop_id - 1 < 1);
+  info = _group_admin_property_info_pointers[prop_id - 1];
   variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (object), info->parent_struct.name);
   if (info->use_gvariant)
     {
@@ -2026,7 +1279,7 @@ user_group_proxy_get_property (GObject      *object,
 }
 
 static void
-user_group_proxy_set_property_cb (GDBusProxy *proxy,
+group_admin_proxy_set_property_cb (GDBusProxy *proxy,
   GAsyncResult *res,
   gpointer      user_data)
 {
@@ -2037,7 +1290,7 @@ user_group_proxy_set_property_cb (GDBusProxy *proxy,
   _ret = g_dbus_proxy_call_finish (proxy, res, &error);
   if (!_ret)
     {
-      g_warning ("Error setting property '%s' on interface org.isoft.user.group: %s (%s, %d)",
+      g_warning ("Error setting property '%s' on interface org.group.admin: %s (%s, %d)",
                  info->parent_struct.name, 
                  error->message, g_quark_to_string (error->domain), error->code);
       g_error_free (error);
@@ -2049,27 +1302,27 @@ user_group_proxy_set_property_cb (GDBusProxy *proxy,
 }
 
 static void
-user_group_proxy_set_property (GObject      *object,
+group_admin_proxy_set_property (GObject      *object,
   guint         prop_id,
   const GValue *value,
   GParamSpec   *pspec G_GNUC_UNUSED)
 {
   const _ExtendedGDBusPropertyInfo *info;
   GVariant *variant;
-  g_assert (prop_id != 0 && prop_id - 1 < 4);
-  info = _user_group_property_info_pointers[prop_id - 1];
+  g_assert (prop_id != 0 && prop_id - 1 < 1);
+  info = _group_admin_property_info_pointers[prop_id - 1];
   variant = g_dbus_gvalue_to_gvariant (value, G_VARIANT_TYPE (info->parent_struct.signature));
   g_dbus_proxy_call (G_DBUS_PROXY (object),
     "org.freedesktop.DBus.Properties.Set",
-    g_variant_new ("(ssv)", "org.isoft.user.group", info->parent_struct.name, variant),
+    g_variant_new ("(ssv)", "org.group.admin", info->parent_struct.name, variant),
     G_DBUS_CALL_FLAGS_NONE,
     -1,
-    NULL, (GAsyncReadyCallback) user_group_proxy_set_property_cb, (GDBusPropertyInfo *) &info->parent_struct);
+    NULL, (GAsyncReadyCallback) group_admin_proxy_set_property_cb, (GDBusPropertyInfo *) &info->parent_struct);
   g_variant_unref (variant);
 }
 
 static void
-user_group_proxy_g_signal (GDBusProxy *proxy,
+group_admin_proxy_g_signal (GDBusProxy *proxy,
   const gchar *sender_name G_GNUC_UNUSED,
   const gchar *signal_name,
   GVariant *parameters)
@@ -2081,12 +1334,12 @@ user_group_proxy_g_signal (GDBusProxy *proxy,
   gsize num_params;
   gsize n;
   guint signal_id;
-  info = (_ExtendedGDBusSignalInfo *) g_dbus_interface_info_lookup_signal ((GDBusInterfaceInfo *) &_user_group_interface_info.parent_struct, signal_name);
+  info = (_ExtendedGDBusSignalInfo *) g_dbus_interface_info_lookup_signal ((GDBusInterfaceInfo *) &_group_admin_interface_info.parent_struct, signal_name);
   if (info == NULL)
     return;
   num_params = g_variant_n_children (parameters);
   paramv = g_new0 (GValue, num_params + 1);
-  g_value_init (&paramv[0], USER_TYPE_GROUP);
+  g_value_init (&paramv[0], GROUP_TYPE_ADMIN);
   g_value_set_object (&paramv[0], proxy);
   g_variant_iter_init (&iter, parameters);
   n = 1;
@@ -2103,7 +1356,7 @@ user_group_proxy_g_signal (GDBusProxy *proxy,
         g_dbus_gvariant_to_gvalue (child, &paramv[n++]);
       g_variant_unref (child);
     }
-  signal_id = g_signal_lookup (info->signal_name, USER_TYPE_GROUP);
+  signal_id = g_signal_lookup (info->signal_name, GROUP_TYPE_ADMIN);
   g_signal_emitv (paramv, signal_id, 0, NULL);
   for (n = 0; n < num_params + 1; n++)
     g_value_unset (&paramv[n]);
@@ -2111,11 +1364,11 @@ user_group_proxy_g_signal (GDBusProxy *proxy,
 }
 
 static void
-user_group_proxy_g_properties_changed (GDBusProxy *_proxy,
+group_admin_proxy_g_properties_changed (GDBusProxy *_proxy,
   GVariant *changed_properties,
   const gchar *const *invalidated_properties)
 {
-  userGroupProxy *proxy = USER_GROUP_PROXY (_proxy);
+  groupAdminProxy *proxy = GROUP_ADMIN_PROXY (_proxy);
   guint n;
   const gchar *key;
   GVariantIter *iter;
@@ -2123,7 +1376,7 @@ user_group_proxy_g_properties_changed (GDBusProxy *_proxy,
   g_variant_get (changed_properties, "a{sv}", &iter);
   while (g_variant_iter_next (iter, "{&sv}", &key, NULL))
     {
-      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_user_group_interface_info.parent_struct, key);
+      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_group_admin_interface_info.parent_struct, key);
       g_datalist_remove_data (&proxy->priv->qdata, key);
       if (info != NULL)
         g_object_notify (G_OBJECT (proxy), info->hyphen_name);
@@ -2131,35 +1384,20 @@ user_group_proxy_g_properties_changed (GDBusProxy *_proxy,
   g_variant_iter_free (iter);
   for (n = 0; invalidated_properties[n] != NULL; n++)
     {
-      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_user_group_interface_info.parent_struct, invalidated_properties[n]);
+      info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_group_admin_interface_info.parent_struct, invalidated_properties[n]);
       g_datalist_remove_data (&proxy->priv->qdata, invalidated_properties[n]);
       if (info != NULL)
         g_object_notify (G_OBJECT (proxy), info->hyphen_name);
     }
 }
 
-static guint64 
-user_group_proxy_get_gid (userGroup *object)
-{
-  userGroupProxy *proxy = USER_GROUP_PROXY (object);
-  GVariant *variant;
-  guint64 value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Gid");
-  if (variant != NULL)
-    {
-      value = g_variant_get_uint64 (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
 static const gchar *
-user_group_proxy_get_group_name (userGroup *object)
+group_admin_proxy_get_version (groupAdmin *object)
 {
-  userGroupProxy *proxy = USER_GROUP_PROXY (object);
+  groupAdminProxy *proxy = GROUP_ADMIN_PROXY (object);
   GVariant *variant;
   const gchar *value = NULL;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "GroupName");
+  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Version");
   if (variant != NULL)
     {
       value = g_variant_get_string (variant, NULL);
@@ -2168,85 +1406,48 @@ user_group_proxy_get_group_name (userGroup *object)
   return value;
 }
 
-static gboolean 
-user_group_proxy_get_local_group (userGroup *object)
-{
-  userGroupProxy *proxy = USER_GROUP_PROXY (object);
-  GVariant *variant;
-  gboolean value = 0;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "LocalGroup");
-  if (variant != NULL)
-    {
-      value = g_variant_get_boolean (variant);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
-static const gchar *const *
-user_group_proxy_get_users (userGroup *object)
-{
-  userGroupProxy *proxy = USER_GROUP_PROXY (object);
-  GVariant *variant;
-  const gchar *const *value = NULL;
-  value = g_datalist_get_data (&proxy->priv->qdata, "Users");
-  if (value != NULL)
-    return value;
-  variant = g_dbus_proxy_get_cached_property (G_DBUS_PROXY (proxy), "Users");
-  if (variant != NULL)
-    {
-      value = g_variant_get_objv (variant, NULL);
-      g_datalist_set_data_full (&proxy->priv->qdata, "Users", (gpointer) value, g_free);
-      g_variant_unref (variant);
-    }
-  return value;
-}
-
 static void
-user_group_proxy_init (userGroupProxy *proxy)
+group_admin_proxy_init (groupAdminProxy *proxy)
 {
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-  proxy->priv = user_group_proxy_get_instance_private (proxy);
+  proxy->priv = group_admin_proxy_get_instance_private (proxy);
 #else
-  proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (proxy, USER_TYPE_GROUP_PROXY, userGroupProxyPrivate);
+  proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (proxy, GROUP_TYPE_ADMIN_PROXY, groupAdminProxyPrivate);
 #endif
 
-  g_dbus_proxy_set_interface_info (G_DBUS_PROXY (proxy), user_group_interface_info ());
+  g_dbus_proxy_set_interface_info (G_DBUS_PROXY (proxy), group_admin_interface_info ());
 }
 
 static void
-user_group_proxy_class_init (userGroupProxyClass *klass)
+group_admin_proxy_class_init (groupAdminProxyClass *klass)
 {
   GObjectClass *gobject_class;
   GDBusProxyClass *proxy_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize     = user_group_proxy_finalize;
-  gobject_class->get_property = user_group_proxy_get_property;
-  gobject_class->set_property = user_group_proxy_set_property;
+  gobject_class->finalize     = group_admin_proxy_finalize;
+  gobject_class->get_property = group_admin_proxy_get_property;
+  gobject_class->set_property = group_admin_proxy_set_property;
 
   proxy_class = G_DBUS_PROXY_CLASS (klass);
-  proxy_class->g_signal = user_group_proxy_g_signal;
-  proxy_class->g_properties_changed = user_group_proxy_g_properties_changed;
+  proxy_class->g_signal = group_admin_proxy_g_signal;
+  proxy_class->g_properties_changed = group_admin_proxy_g_properties_changed;
 
-  user_group_override_properties (gobject_class, 1);
+  group_admin_override_properties (gobject_class, 1);
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-  g_type_class_add_private (klass, sizeof (userGroupProxyPrivate));
+  g_type_class_add_private (klass, sizeof (groupAdminProxyPrivate));
 #endif
 }
 
 static void
-user_group_proxy_iface_init (userGroupIface *iface)
+group_admin_proxy_iface_init (groupAdminIface *iface)
 {
-  iface->get_gid = user_group_proxy_get_gid;
-  iface->get_group_name = user_group_proxy_get_group_name;
-  iface->get_local_group = user_group_proxy_get_local_group;
-  iface->get_users = user_group_proxy_get_users;
+  iface->get_version = group_admin_proxy_get_version;
 }
 
 /**
- * user_group_proxy_new:
+ * group_admin_proxy_new:
  * @connection: A #GDBusConnection.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
@@ -2255,15 +1456,15 @@ user_group_proxy_iface_init (userGroupIface *iface)
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
  * @user_data: User data to pass to @callback.
  *
- * Asynchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-org-isoft-user-group.top_of_page">org.isoft.user.group</link>. See g_dbus_proxy_new() for more details.
+ * Asynchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-org-group-admin.top_of_page">org.group.admin</link>. See g_dbus_proxy_new() for more details.
  *
  * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_proxy_new_finish() to get the result of the operation.
+ * You can then call group_admin_proxy_new_finish() to get the result of the operation.
  *
- * See user_group_proxy_new_sync() for the synchronous, blocking version of this constructor.
+ * See group_admin_proxy_new_sync() for the synchronous, blocking version of this constructor.
  */
 void
-user_group_proxy_new (
+group_admin_proxy_new (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -2272,20 +1473,20 @@ user_group_proxy_new (
     GAsyncReadyCallback  callback,
     gpointer             user_data)
 {
-  g_async_initable_new_async (USER_TYPE_GROUP_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "org.isoft.user.group", NULL);
+  g_async_initable_new_async (GROUP_TYPE_ADMIN_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "org.group.admin", NULL);
 }
 
 /**
- * user_group_proxy_new_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_proxy_new().
+ * group_admin_proxy_new_finish:
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to group_admin_proxy_new().
  * @error: Return location for error or %NULL
  *
- * Finishes an operation started with user_group_proxy_new().
+ * Finishes an operation started with group_admin_proxy_new().
  *
- * Returns: (transfer full) (type userGroupProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type groupAdminProxy): The constructed proxy object or %NULL if @error is set.
  */
-userGroup *
-user_group_proxy_new_finish (
+groupAdmin *
+group_admin_proxy_new_finish (
     GAsyncResult        *res,
     GError             **error)
 {
@@ -2295,13 +1496,13 @@ user_group_proxy_new_finish (
   ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
   g_object_unref (source_object);
   if (ret != NULL)
-    return USER_GROUP (ret);
+    return GROUP_ADMIN (ret);
   else
     return NULL;
 }
 
 /**
- * user_group_proxy_new_sync:
+ * group_admin_proxy_new_sync:
  * @connection: A #GDBusConnection.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: (nullable): A bus name (well-known or unique) or %NULL if @connection is not a message bus connection.
@@ -2309,16 +1510,16 @@ user_group_proxy_new_finish (
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL
  *
- * Synchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-org-isoft-user-group.top_of_page">org.isoft.user.group</link>. See g_dbus_proxy_new_sync() for more details.
+ * Synchronously creates a proxy for the D-Bus interface <link linkend="gdbus-interface-org-group-admin.top_of_page">org.group.admin</link>. See g_dbus_proxy_new_sync() for more details.
  *
  * The calling thread is blocked until a reply is received.
  *
- * See user_group_proxy_new() for the asynchronous version of this constructor.
+ * See group_admin_proxy_new() for the asynchronous version of this constructor.
  *
- * Returns: (transfer full) (type userGroupProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type groupAdminProxy): The constructed proxy object or %NULL if @error is set.
  */
-userGroup *
-user_group_proxy_new_sync (
+groupAdmin *
+group_admin_proxy_new_sync (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -2327,16 +1528,16 @@ user_group_proxy_new_sync (
     GError             **error)
 {
   GInitable *ret;
-  ret = g_initable_new (USER_TYPE_GROUP_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "org.isoft.user.group", NULL);
+  ret = g_initable_new (GROUP_TYPE_ADMIN_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-connection", connection, "g-object-path", object_path, "g-interface-name", "org.group.admin", NULL);
   if (ret != NULL)
-    return USER_GROUP (ret);
+    return GROUP_ADMIN (ret);
   else
     return NULL;
 }
 
 
 /**
- * user_group_proxy_new_for_bus:
+ * group_admin_proxy_new_for_bus:
  * @bus_type: A #GBusType.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: A bus name (well-known or unique).
@@ -2345,15 +1546,15 @@ user_group_proxy_new_sync (
  * @callback: A #GAsyncReadyCallback to call when the request is satisfied.
  * @user_data: User data to pass to @callback.
  *
- * Like user_group_proxy_new() but takes a #GBusType instead of a #GDBusConnection.
+ * Like group_admin_proxy_new() but takes a #GBusType instead of a #GDBusConnection.
  *
  * When the operation is finished, @callback will be invoked in the <link linkend="g-main-context-push-thread-default">thread-default main loop</link> of the thread you are calling this method from.
- * You can then call user_group_proxy_new_for_bus_finish() to get the result of the operation.
+ * You can then call group_admin_proxy_new_for_bus_finish() to get the result of the operation.
  *
- * See user_group_proxy_new_for_bus_sync() for the synchronous, blocking version of this constructor.
+ * See group_admin_proxy_new_for_bus_sync() for the synchronous, blocking version of this constructor.
  */
 void
-user_group_proxy_new_for_bus (
+group_admin_proxy_new_for_bus (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -2362,20 +1563,20 @@ user_group_proxy_new_for_bus (
     GAsyncReadyCallback  callback,
     gpointer             user_data)
 {
-  g_async_initable_new_async (USER_TYPE_GROUP_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "org.isoft.user.group", NULL);
+  g_async_initable_new_async (GROUP_TYPE_ADMIN_PROXY, G_PRIORITY_DEFAULT, cancellable, callback, user_data, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "org.group.admin", NULL);
 }
 
 /**
- * user_group_proxy_new_for_bus_finish:
- * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to user_group_proxy_new_for_bus().
+ * group_admin_proxy_new_for_bus_finish:
+ * @res: The #GAsyncResult obtained from the #GAsyncReadyCallback passed to group_admin_proxy_new_for_bus().
  * @error: Return location for error or %NULL
  *
- * Finishes an operation started with user_group_proxy_new_for_bus().
+ * Finishes an operation started with group_admin_proxy_new_for_bus().
  *
- * Returns: (transfer full) (type userGroupProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type groupAdminProxy): The constructed proxy object or %NULL if @error is set.
  */
-userGroup *
-user_group_proxy_new_for_bus_finish (
+groupAdmin *
+group_admin_proxy_new_for_bus_finish (
     GAsyncResult        *res,
     GError             **error)
 {
@@ -2385,13 +1586,13 @@ user_group_proxy_new_for_bus_finish (
   ret = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, error);
   g_object_unref (source_object);
   if (ret != NULL)
-    return USER_GROUP (ret);
+    return GROUP_ADMIN (ret);
   else
     return NULL;
 }
 
 /**
- * user_group_proxy_new_for_bus_sync:
+ * group_admin_proxy_new_for_bus_sync:
  * @bus_type: A #GBusType.
  * @flags: Flags from the #GDBusProxyFlags enumeration.
  * @name: A bus name (well-known or unique).
@@ -2399,16 +1600,16 @@ user_group_proxy_new_for_bus_finish (
  * @cancellable: (nullable): A #GCancellable or %NULL.
  * @error: Return location for error or %NULL
  *
- * Like user_group_proxy_new_sync() but takes a #GBusType instead of a #GDBusConnection.
+ * Like group_admin_proxy_new_sync() but takes a #GBusType instead of a #GDBusConnection.
  *
  * The calling thread is blocked until a reply is received.
  *
- * See user_group_proxy_new_for_bus() for the asynchronous version of this constructor.
+ * See group_admin_proxy_new_for_bus() for the asynchronous version of this constructor.
  *
- * Returns: (transfer full) (type userGroupProxy): The constructed proxy object or %NULL if @error is set.
+ * Returns: (transfer full) (type groupAdminProxy): The constructed proxy object or %NULL if @error is set.
  */
-userGroup *
-user_group_proxy_new_for_bus_sync (
+groupAdmin *
+group_admin_proxy_new_for_bus_sync (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -2417,9 +1618,9 @@ user_group_proxy_new_for_bus_sync (
     GError             **error)
 {
   GInitable *ret;
-  ret = g_initable_new (USER_TYPE_GROUP_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "org.isoft.user.group", NULL);
+  ret = g_initable_new (GROUP_TYPE_ADMIN_PROXY, cancellable, error, "g-flags", flags, "g-name", name, "g-bus-type", bus_type, "g-object-path", object_path, "g-interface-name", "org.group.admin", NULL);
   if (ret != NULL)
-    return USER_GROUP (ret);
+    return GROUP_ADMIN (ret);
   else
     return NULL;
 }
@@ -2428,19 +1629,19 @@ user_group_proxy_new_for_bus_sync (
 /* ------------------------------------------------------------------------ */
 
 /**
- * userGroupSkeleton:
+ * groupAdminSkeleton:
  *
- * The #userGroupSkeleton structure contains only private data and should only be accessed using the provided API.
+ * The #groupAdminSkeleton structure contains only private data and should only be accessed using the provided API.
  */
 
 /**
- * userGroupSkeletonClass:
+ * groupAdminSkeletonClass:
  * @parent_class: The parent class.
  *
- * Class structure for #userGroupSkeleton.
+ * Class structure for #groupAdminSkeleton.
  */
 
-struct _userGroupSkeletonPrivate
+struct _groupAdminSkeletonPrivate
 {
   GValue *properties;
   GList *changed_properties;
@@ -2450,7 +1651,7 @@ struct _userGroupSkeletonPrivate
 };
 
 static void
-_user_group_skeleton_handle_method_call (
+_group_admin_skeleton_handle_method_call (
   GDBusConnection *connection G_GNUC_UNUSED,
   const gchar *sender G_GNUC_UNUSED,
   const gchar *object_path G_GNUC_UNUSED,
@@ -2460,7 +1661,7 @@ _user_group_skeleton_handle_method_call (
   GDBusMethodInvocation *invocation,
   gpointer user_data)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (user_data);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (user_data);
   _ExtendedGDBusMethodInfo *info;
   GVariantIter iter;
   GVariant *child;
@@ -2475,7 +1676,7 @@ _user_group_skeleton_handle_method_call (
   num_params = g_variant_n_children (parameters);
   num_extra = info->pass_fdlist ? 3 : 2;  paramv = g_new0 (GValue, num_params + num_extra);
   n = 0;
-  g_value_init (&paramv[n], USER_TYPE_GROUP);
+  g_value_init (&paramv[n], GROUP_TYPE_ADMIN);
   g_value_set_object (&paramv[n++], skeleton);
   g_value_init (&paramv[n], G_TYPE_DBUS_METHOD_INVOCATION);
   g_value_set_object (&paramv[n++], invocation);
@@ -2502,7 +1703,7 @@ _user_group_skeleton_handle_method_call (
         g_dbus_gvariant_to_gvalue (child, &paramv[n++]);
       g_variant_unref (child);
     }
-  signal_id = g_signal_lookup (info->signal_name, USER_TYPE_GROUP);
+  signal_id = g_signal_lookup (info->signal_name, GROUP_TYPE_ADMIN);
   g_value_init (&return_value, G_TYPE_BOOLEAN);
   g_signal_emitv (paramv, signal_id, 0, &return_value);
   if (!g_value_get_boolean (&return_value))
@@ -2514,7 +1715,7 @@ _user_group_skeleton_handle_method_call (
 }
 
 static GVariant *
-_user_group_skeleton_handle_get_property (
+_group_admin_skeleton_handle_get_property (
   GDBusConnection *connection G_GNUC_UNUSED,
   const gchar *sender G_GNUC_UNUSED,
   const gchar *object_path G_GNUC_UNUSED,
@@ -2523,13 +1724,13 @@ _user_group_skeleton_handle_get_property (
   GError **error,
   gpointer user_data)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (user_data);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (user_data);
   GValue value = G_VALUE_INIT;
   GParamSpec *pspec;
   _ExtendedGDBusPropertyInfo *info;
   GVariant *ret;
   ret = NULL;
-  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_user_group_interface_info.parent_struct, property_name);
+  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_group_admin_interface_info.parent_struct, property_name);
   g_assert (info != NULL);
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (skeleton), info->hyphen_name);
   if (pspec == NULL)
@@ -2547,7 +1748,7 @@ _user_group_skeleton_handle_get_property (
 }
 
 static gboolean
-_user_group_skeleton_handle_set_property (
+_group_admin_skeleton_handle_set_property (
   GDBusConnection *connection G_GNUC_UNUSED,
   const gchar *sender G_GNUC_UNUSED,
   const gchar *object_path G_GNUC_UNUSED,
@@ -2557,13 +1758,13 @@ _user_group_skeleton_handle_set_property (
   GError **error,
   gpointer user_data)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (user_data);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (user_data);
   GValue value = G_VALUE_INIT;
   GParamSpec *pspec;
   _ExtendedGDBusPropertyInfo *info;
   gboolean ret;
   ret = FALSE;
-  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_user_group_interface_info.parent_struct, property_name);
+  info = (_ExtendedGDBusPropertyInfo *) g_dbus_interface_info_lookup_property ((GDBusInterfaceInfo *) &_group_admin_interface_info.parent_struct, property_name);
   g_assert (info != NULL);
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (skeleton), info->hyphen_name);
   if (pspec == NULL)
@@ -2583,43 +1784,43 @@ _user_group_skeleton_handle_set_property (
   return ret;
 }
 
-static const GDBusInterfaceVTable _user_group_skeleton_vtable =
+static const GDBusInterfaceVTable _group_admin_skeleton_vtable =
 {
-  _user_group_skeleton_handle_method_call,
-  _user_group_skeleton_handle_get_property,
-  _user_group_skeleton_handle_set_property,
+  _group_admin_skeleton_handle_method_call,
+  _group_admin_skeleton_handle_get_property,
+  _group_admin_skeleton_handle_set_property,
   {NULL}
 };
 
 static GDBusInterfaceInfo *
-user_group_skeleton_dbus_interface_get_info (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
+group_admin_skeleton_dbus_interface_get_info (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
 {
-  return user_group_interface_info ();
+  return group_admin_interface_info ();
 }
 
 static GDBusInterfaceVTable *
-user_group_skeleton_dbus_interface_get_vtable (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
+group_admin_skeleton_dbus_interface_get_vtable (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)
 {
-  return (GDBusInterfaceVTable *) &_user_group_skeleton_vtable;
+  return (GDBusInterfaceVTable *) &_group_admin_skeleton_vtable;
 }
 
 static GVariant *
-user_group_skeleton_dbus_interface_get_properties (GDBusInterfaceSkeleton *_skeleton)
+group_admin_skeleton_dbus_interface_get_properties (GDBusInterfaceSkeleton *_skeleton)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (_skeleton);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (_skeleton);
 
   GVariantBuilder builder;
   guint n;
   g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
-  if (_user_group_interface_info.parent_struct.properties == NULL)
+  if (_group_admin_interface_info.parent_struct.properties == NULL)
     goto out;
-  for (n = 0; _user_group_interface_info.parent_struct.properties[n] != NULL; n++)
+  for (n = 0; _group_admin_interface_info.parent_struct.properties[n] != NULL; n++)
     {
-      GDBusPropertyInfo *info = _user_group_interface_info.parent_struct.properties[n];
+      GDBusPropertyInfo *info = _group_admin_interface_info.parent_struct.properties[n];
       if (info->flags & G_DBUS_PROPERTY_INFO_FLAGS_READABLE)
         {
           GVariant *value;
-          value = _user_group_skeleton_handle_get_property (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)), NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "org.isoft.user.group", info->name, NULL, skeleton);
+          value = _group_admin_skeleton_handle_get_property (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)), NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "org.group.admin", info->name, NULL, skeleton);
           if (value != NULL)
             {
               g_variant_take_ref (value);
@@ -2632,12 +1833,12 @@ out:
   return g_variant_builder_end (&builder);
 }
 
-static gboolean _user_group_emit_changed (gpointer user_data);
+static gboolean _group_admin_emit_changed (gpointer user_data);
 
 static void
-user_group_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
+group_admin_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (_skeleton);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (_skeleton);
   gboolean emit_changed = FALSE;
 
   g_mutex_lock (&skeleton->priv->lock);
@@ -2650,37 +1851,15 @@ user_group_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)
   g_mutex_unlock (&skeleton->priv->lock);
 
   if (emit_changed)
-    _user_group_emit_changed (skeleton);
+    _group_admin_emit_changed (skeleton);
 }
 
 static void
-_user_group_on_signal_changed (
-    userGroup *object)
-{
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
-
-  GList      *connections, *l;
-  GVariant   *signal_variant;
-  connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
-
-  signal_variant = g_variant_ref_sink (g_variant_new ("()"));
-  for (l = connections; l != NULL; l = l->next)
-    {
-      GDBusConnection *connection = l->data;
-      g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "org.isoft.user.group", "Changed",
-        signal_variant, NULL);
-    }
-  g_variant_unref (signal_variant);
-  g_list_free_full (connections, g_object_unref);
-}
-
-static void
-_user_group_on_signal_group_added (
-    userGroup *object,
+_group_admin_on_signal_group_added (
+    groupAdmin *object,
     const gchar *arg_user)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (object);
 
   GList      *connections, *l;
   GVariant   *signal_variant;
@@ -2692,7 +1871,7 @@ _user_group_on_signal_group_added (
     {
       GDBusConnection *connection = l->data;
       g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "org.isoft.user.group", "GroupAdded",
+        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "org.group.admin", "GroupAdded",
         signal_variant, NULL);
     }
   g_variant_unref (signal_variant);
@@ -2700,11 +1879,11 @@ _user_group_on_signal_group_added (
 }
 
 static void
-_user_group_on_signal_group_deleted (
-    userGroup *object,
+_group_admin_on_signal_group_deleted (
+    groupAdmin *object,
     const gchar *arg_user)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (object);
 
   GList      *connections, *l;
   GVariant   *signal_variant;
@@ -2716,30 +1895,30 @@ _user_group_on_signal_group_deleted (
     {
       GDBusConnection *connection = l->data;
       g_dbus_connection_emit_signal (connection,
-        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "org.isoft.user.group", "GroupDeleted",
+        NULL, g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (skeleton)), "org.group.admin", "GroupDeleted",
         signal_variant, NULL);
     }
   g_variant_unref (signal_variant);
   g_list_free_full (connections, g_object_unref);
 }
 
-static void user_group_skeleton_iface_init (userGroupIface *iface);
+static void group_admin_skeleton_iface_init (groupAdminIface *iface);
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-G_DEFINE_TYPE_WITH_CODE (userGroupSkeleton, user_group_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
-                         G_ADD_PRIVATE (userGroupSkeleton)
-                         G_IMPLEMENT_INTERFACE (USER_TYPE_GROUP, user_group_skeleton_iface_init))
+G_DEFINE_TYPE_WITH_CODE (groupAdminSkeleton, group_admin_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
+                         G_ADD_PRIVATE (groupAdminSkeleton)
+                         G_IMPLEMENT_INTERFACE (GROUP_TYPE_ADMIN, group_admin_skeleton_iface_init))
 
 #else
-G_DEFINE_TYPE_WITH_CODE (userGroupSkeleton, user_group_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
-                         G_IMPLEMENT_INTERFACE (USER_TYPE_GROUP, user_group_skeleton_iface_init))
+G_DEFINE_TYPE_WITH_CODE (groupAdminSkeleton, group_admin_skeleton, G_TYPE_DBUS_INTERFACE_SKELETON,
+                         G_IMPLEMENT_INTERFACE (GROUP_TYPE_ADMIN, group_admin_skeleton_iface_init))
 
 #endif
 static void
-user_group_skeleton_finalize (GObject *object)
+group_admin_skeleton_finalize (GObject *object)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (object);
   guint n;
-  for (n = 0; n < 4; n++)
+  for (n = 0; n < 1; n++)
     g_value_unset (&skeleton->priv->properties[n]);
   g_free (skeleton->priv->properties);
   g_list_free_full (skeleton->priv->changed_properties, (GDestroyNotify) _changed_property_free);
@@ -2747,26 +1926,26 @@ user_group_skeleton_finalize (GObject *object)
     g_source_destroy (skeleton->priv->changed_properties_idle_source);
   g_main_context_unref (skeleton->priv->context);
   g_mutex_clear (&skeleton->priv->lock);
-  G_OBJECT_CLASS (user_group_skeleton_parent_class)->finalize (object);
+  G_OBJECT_CLASS (group_admin_skeleton_parent_class)->finalize (object);
 }
 
 static void
-user_group_skeleton_get_property (GObject      *object,
+group_admin_skeleton_get_property (GObject      *object,
   guint         prop_id,
   GValue       *value,
   GParamSpec   *pspec G_GNUC_UNUSED)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
-  g_assert (prop_id != 0 && prop_id - 1 < 4);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (object);
+  g_assert (prop_id != 0 && prop_id - 1 < 1);
   g_mutex_lock (&skeleton->priv->lock);
   g_value_copy (&skeleton->priv->properties[prop_id - 1], value);
   g_mutex_unlock (&skeleton->priv->lock);
 }
 
 static gboolean
-_user_group_emit_changed (gpointer user_data)
+_group_admin_emit_changed (gpointer user_data)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (user_data);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (user_data);
   GList *l;
   GVariantBuilder builder;
   GVariantBuilder invalidated_builder;
@@ -2794,7 +1973,7 @@ _user_group_emit_changed (gpointer user_data)
     {
       GList *connections, *ll;
       GVariant *signal_variant;
-      signal_variant = g_variant_ref_sink (g_variant_new ("(sa{sv}as)", "org.isoft.user.group",
+      signal_variant = g_variant_ref_sink (g_variant_new ("(sa{sv}as)", "org.group.admin",
                                            &builder, &invalidated_builder));
       connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
       for (ll = connections; ll != NULL; ll = ll->next)
@@ -2824,7 +2003,7 @@ _user_group_emit_changed (gpointer user_data)
 }
 
 static void
-_user_group_schedule_emit_changed (userGroupSkeleton *skeleton, const _ExtendedGDBusPropertyInfo *info, guint prop_id, const GValue *orig_value)
+_group_admin_schedule_emit_changed (groupAdminSkeleton *skeleton, const _ExtendedGDBusPropertyInfo *info, guint prop_id, const GValue *orig_value)
 {
   ChangedProperty *cp;
   GList *l;
@@ -2850,18 +2029,18 @@ _user_group_schedule_emit_changed (userGroupSkeleton *skeleton, const _ExtendedG
 }
 
 static void
-user_group_skeleton_notify (GObject      *object,
+group_admin_skeleton_notify (GObject      *object,
   GParamSpec *pspec G_GNUC_UNUSED)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (object);
   g_mutex_lock (&skeleton->priv->lock);
   if (skeleton->priv->changed_properties != NULL &&
       skeleton->priv->changed_properties_idle_source == NULL)
     {
       skeleton->priv->changed_properties_idle_source = g_idle_source_new ();
       g_source_set_priority (skeleton->priv->changed_properties_idle_source, G_PRIORITY_DEFAULT);
-      g_source_set_callback (skeleton->priv->changed_properties_idle_source, _user_group_emit_changed, g_object_ref (skeleton), (GDestroyNotify) g_object_unref);
-      g_source_set_name (skeleton->priv->changed_properties_idle_source, "[generated] _user_group_emit_changed");
+      g_source_set_callback (skeleton->priv->changed_properties_idle_source, _group_admin_emit_changed, g_object_ref (skeleton), (GDestroyNotify) g_object_unref);
+      g_source_set_name (skeleton->priv->changed_properties_idle_source, "[generated] _group_admin_emit_changed");
       g_source_attach (skeleton->priv->changed_properties_idle_source, skeleton->priv->context);
       g_source_unref (skeleton->priv->changed_properties_idle_source);
     }
@@ -2869,19 +2048,19 @@ user_group_skeleton_notify (GObject      *object,
 }
 
 static void
-user_group_skeleton_set_property (GObject      *object,
+group_admin_skeleton_set_property (GObject      *object,
   guint         prop_id,
   const GValue *value,
   GParamSpec   *pspec)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
-  g_assert (prop_id != 0 && prop_id - 1 < 4);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (object);
+  g_assert (prop_id != 0 && prop_id - 1 < 1);
   g_mutex_lock (&skeleton->priv->lock);
   g_object_freeze_notify (object);
   if (!_g_value_equal (value, &skeleton->priv->properties[prop_id - 1]))
     {
       if (g_dbus_interface_skeleton_get_connection (G_DBUS_INTERFACE_SKELETON (skeleton)) != NULL)
-        _user_group_schedule_emit_changed (skeleton, _user_group_property_info_pointers[prop_id - 1], prop_id, &skeleton->priv->properties[prop_id - 1]);
+        _group_admin_schedule_emit_changed (skeleton, _group_admin_property_info_pointers[prop_id - 1], prop_id, &skeleton->priv->properties[prop_id - 1]);
       g_value_copy (value, &skeleton->priv->properties[prop_id - 1]);
       g_object_notify_by_pspec (object, pspec);
     }
@@ -2890,115 +2069,75 @@ user_group_skeleton_set_property (GObject      *object,
 }
 
 static void
-user_group_skeleton_init (userGroupSkeleton *skeleton)
+group_admin_skeleton_init (groupAdminSkeleton *skeleton)
 {
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_38
-  skeleton->priv = user_group_skeleton_get_instance_private (skeleton);
+  skeleton->priv = group_admin_skeleton_get_instance_private (skeleton);
 #else
-  skeleton->priv = G_TYPE_INSTANCE_GET_PRIVATE (skeleton, USER_TYPE_GROUP_SKELETON, userGroupSkeletonPrivate);
+  skeleton->priv = G_TYPE_INSTANCE_GET_PRIVATE (skeleton, GROUP_TYPE_ADMIN_SKELETON, groupAdminSkeletonPrivate);
 #endif
 
   g_mutex_init (&skeleton->priv->lock);
   skeleton->priv->context = g_main_context_ref_thread_default ();
-  skeleton->priv->properties = g_new0 (GValue, 4);
-  g_value_init (&skeleton->priv->properties[0], G_TYPE_UINT64);
-  g_value_init (&skeleton->priv->properties[1], G_TYPE_STRING);
-  g_value_init (&skeleton->priv->properties[2], G_TYPE_BOOLEAN);
-  g_value_init (&skeleton->priv->properties[3], G_TYPE_STRV);
-}
-
-static guint64 
-user_group_skeleton_get_gid (userGroup *object)
-{
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
-  guint64 value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_uint64 (&(skeleton->priv->properties[0]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
+  skeleton->priv->properties = g_new0 (GValue, 1);
+  g_value_init (&skeleton->priv->properties[0], G_TYPE_STRING);
 }
 
 static const gchar *
-user_group_skeleton_get_group_name (userGroup *object)
+group_admin_skeleton_get_version (groupAdmin *object)
 {
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
+  groupAdminSkeleton *skeleton = GROUP_ADMIN_SKELETON (object);
   const gchar *value;
   g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_string (&(skeleton->priv->properties[1]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static gboolean 
-user_group_skeleton_get_local_group (userGroup *object)
-{
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
-  gboolean value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_boolean (&(skeleton->priv->properties[2]));
-  g_mutex_unlock (&skeleton->priv->lock);
-  return value;
-}
-
-static const gchar *const *
-user_group_skeleton_get_users (userGroup *object)
-{
-  userGroupSkeleton *skeleton = USER_GROUP_SKELETON (object);
-  const gchar *const *value;
-  g_mutex_lock (&skeleton->priv->lock);
-  value = g_value_get_boxed (&(skeleton->priv->properties[3]));
+  value = g_value_get_string (&(skeleton->priv->properties[0]));
   g_mutex_unlock (&skeleton->priv->lock);
   return value;
 }
 
 static void
-user_group_skeleton_class_init (userGroupSkeletonClass *klass)
+group_admin_skeleton_class_init (groupAdminSkeletonClass *klass)
 {
   GObjectClass *gobject_class;
   GDBusInterfaceSkeletonClass *skeleton_class;
 
   gobject_class = G_OBJECT_CLASS (klass);
-  gobject_class->finalize = user_group_skeleton_finalize;
-  gobject_class->get_property = user_group_skeleton_get_property;
-  gobject_class->set_property = user_group_skeleton_set_property;
-  gobject_class->notify       = user_group_skeleton_notify;
+  gobject_class->finalize = group_admin_skeleton_finalize;
+  gobject_class->get_property = group_admin_skeleton_get_property;
+  gobject_class->set_property = group_admin_skeleton_set_property;
+  gobject_class->notify       = group_admin_skeleton_notify;
 
 
-  user_group_override_properties (gobject_class, 1);
+  group_admin_override_properties (gobject_class, 1);
 
   skeleton_class = G_DBUS_INTERFACE_SKELETON_CLASS (klass);
-  skeleton_class->get_info = user_group_skeleton_dbus_interface_get_info;
-  skeleton_class->get_properties = user_group_skeleton_dbus_interface_get_properties;
-  skeleton_class->flush = user_group_skeleton_dbus_interface_flush;
-  skeleton_class->get_vtable = user_group_skeleton_dbus_interface_get_vtable;
+  skeleton_class->get_info = group_admin_skeleton_dbus_interface_get_info;
+  skeleton_class->get_properties = group_admin_skeleton_dbus_interface_get_properties;
+  skeleton_class->flush = group_admin_skeleton_dbus_interface_flush;
+  skeleton_class->get_vtable = group_admin_skeleton_dbus_interface_get_vtable;
 
 #if GLIB_VERSION_MAX_ALLOWED < GLIB_VERSION_2_38
-  g_type_class_add_private (klass, sizeof (userGroupSkeletonPrivate));
+  g_type_class_add_private (klass, sizeof (groupAdminSkeletonPrivate));
 #endif
 }
 
 static void
-user_group_skeleton_iface_init (userGroupIface *iface)
+group_admin_skeleton_iface_init (groupAdminIface *iface)
 {
-  iface->changed = _user_group_on_signal_changed;
-  iface->group_added = _user_group_on_signal_group_added;
-  iface->group_deleted = _user_group_on_signal_group_deleted;
-  iface->get_gid = user_group_skeleton_get_gid;
-  iface->get_group_name = user_group_skeleton_get_group_name;
-  iface->get_local_group = user_group_skeleton_get_local_group;
-  iface->get_users = user_group_skeleton_get_users;
+  iface->group_added = _group_admin_on_signal_group_added;
+  iface->group_deleted = _group_admin_on_signal_group_deleted;
+  iface->get_version = group_admin_skeleton_get_version;
 }
 
 /**
- * user_group_skeleton_new:
+ * group_admin_skeleton_new:
  *
- * Creates a skeleton object for the D-Bus interface <link linkend="gdbus-interface-org-isoft-user-group.top_of_page">org.isoft.user.group</link>.
+ * Creates a skeleton object for the D-Bus interface <link linkend="gdbus-interface-org-group-admin.top_of_page">org.group.admin</link>.
  *
- * Returns: (transfer full) (type userGroupSkeleton): The skeleton object.
+ * Returns: (transfer full) (type groupAdminSkeleton): The skeleton object.
  */
-userGroup *
-user_group_skeleton_new (void)
+groupAdmin *
+group_admin_skeleton_new (void)
 {
-  return USER_GROUP (g_object_new (USER_TYPE_GROUP_SKELETON, NULL));
+  return GROUP_ADMIN (g_object_new (GROUP_TYPE_ADMIN_SKELETON, NULL));
 }
 

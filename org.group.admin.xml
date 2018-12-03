@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <node>
-    <interface name="org.isoft.user.group">
+    <interface name="org.group.admin">
 
-    <method name="SetGroupName">
-        <arg name="name" direction="in" type="s"/>
-    </method>
-
-    <method name="AddUser">
-        <arg name="user" direction="in" type="o"/>
-    </method>
-
-    <method name="RemoveUser">
-        <arg name="user" direction="in" type="o"/>
-    </method>
-	
 	<method name="FindGroupById">
       <arg name="id" direction="in" type="x">
       </arg>
@@ -40,20 +28,8 @@
       </arg>
     </method>
 
-    <property name="Gid" type="t" access="read">
+    <property name="Version" type="s" access="read">
     </property>
-
-    <property name="GroupName" type="s" access="read">
-    </property>
-
-    <property name="LocalGroup" type="b" access="read">
-    </property>
-
-    <property name="Users" type="ao" access="read">
-    </property>
-
-    <signal name="Changed">
-    </signal>
 
     <signal name="GroupAdded">
       <arg name="user" type="o">

@@ -16,45 +16,17 @@ static gboolean SignalQuit (gpointer data)
     g_main_loop_quit (data);
     return FALSE;
 }
-
-static void SignalInit (userGroup *skeleton)
-{
-    g_signal_connect(skeleton,
-                     "handle-set-group-name",
-                     G_CALLBACK(SetGroupName),
-                     NULL);
-    g_signal_connect(skeleton,
-                    "handle-add-user",
-                     G_CALLBACK(ChangeGroup),
-                     NULL);
-    g_signal_connect(skeleton,
-                    "handle-remove-user",
-                     G_CALLBACK(RemoveGroup),
-                     NULL);
-
-}    
-    
 static void AcquiredCallback (GDBusConnection *Connection,
                               const gchar *name,
                               gpointer UserData)
 {
-    GError *error = NULL;
+	Manage *manage;
 
-    GroupManage GM;
-    userGroup *skeleton=NULL;
-	GM.BusConnection = Connection;
-    skeleton = user_group_skeleton_new();
-    
-    SignalInit(skeleton);
-    g_dbus_interface_skeleton_export(G_DBUS_INTERFACE_SKELETON(skeleton),
-                                     Connection,
-                                     "/org/group/admin",
-                                     &error);
-    if(error != NULL){
-        g_print("Error: Failed to export object. Reason: %s.\n", error->message);
-        g_error_free(error);
-    }
-    StartLoadGroup(&GM);
+	manage = manage_new();
+	if(RegisterGroupManage (manage) < 0)
+	{
+		printf("error !!!\r\n");;
+	}
 }
 
 static void NameLostCallback (GDBusConnection *connection,
@@ -76,9 +48,9 @@ int main (int argc, char *argv[])
     g_type_init ();
 #endif
  
-    OwnID = g_bus_own_name (G_BUS_TYPE_SESSION,
+    OwnID = g_bus_own_name (G_BUS_TYPE_SYSTEM,
                             NAME_TO_CLAIM,
-                            G_BUS_NAME_OWNER_FLAGS_NONE,
+                            G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT,
                             AcquiredCallback,
                             NULL,
                             NameLostCallback,

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+    <interface name="org.group.admin.list">
+
+    <method name="ChangeGroupName">
+        <arg name="name" direction="in" type="s"/>
+    </method>
+
+    <method name="AddUserToGroup">
+        <arg name="user" direction="in" type="s"/>
+    </method>
+
+    <method name="RemoveUserFromGroup">
+        <arg name="user" direction="in" type="s"/>
+    </method>
+	
+    <property name="Gid" type="t" access="read">
+    </property>
+
+    <property name="GroupName" type="s" access="read">
+    </property>
+
+    <property name="LocalGroup" type="b" access="read">
+    </property>
+
+    <property name="Users" type="ao" access="read">
+    </property>
+
+    <signal name="Changed">
+    </signal>
+
+  </interface>
+</node>

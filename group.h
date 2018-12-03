@@ -8,16 +8,17 @@
 #include <gio/gio.h>
 
 #include "group-generated.h"
+#include "group-list-generated.h"
 
 G_BEGIN_DECLS
 
-#define TYPE_GROUP (group_get_type ())
-#define GROUP(object) (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_GROUP, Group))
+#define TYPE_GROUP       (group_get_type ())
+#define GROUP(object)    (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_GROUP, Group))
 #define IS_GROUP(object) (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_GROUP))
 
 typedef struct Group 
 {
-	userGroupSkeleton parent;
+	groupListSkeleton parent;
 
     gchar *object_path;
     gid_t         gid;
@@ -27,7 +28,7 @@ typedef struct Group
 }Group;
 typedef struct GroupClass
 {
-        userGroupSkeletonClass  parent_class;
+    groupListSkeletonClass  parent_class;
 } GroupClass;
 
 GType          group_get_type                (void) G_GNUC_CONST;
@@ -44,18 +45,5 @@ gboolean       group_get_local_group         (Group          *group);
 GStrv          group_get_users               (Group          *group);
 
 G_END_DECLS
-
-
-gboolean SetGroupName( userGroup *object,
-                       GDBusMethodInvocation *invocation,
-                       const gchar *arg_user);
-
-gboolean ChangeGroup ( userGroup *object,
-                       GDBusMethodInvocation *invocation,
-                       const gchar *arg_user);
-
-gboolean RemoveGroup (userGroup *object,
-                      GDBusMethodInvocation *invocation,
-                      const gchar *arg_user);
 
 #endif

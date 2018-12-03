@@ -23,12 +23,49 @@
 #define PATH_SHADOW "/etc/shadow"
 #define PATH_GROUP  "/etc/group"
 
+enum 
+{
+	PROP_0,
+    PROP_DAEMON_VERSION
+};
+
+struct ManagePrivate
+{
+	GDBusConnection *BusConnection;
+	GHashTable   *GroupsHashTable;
+    GFileMonitor *PasswdMonitor;
+    GFileMonitor *ShadowMonitor;
+    GFileMonitor *GroupMonitor;
+    guint         ReloadId;
+
+};
+
 typedef struct group * (* GroupEntryGeneratorFunc) (FILE *);
 typedef void  ( FileChangeCallback )(GFileMonitor *,
                                      GFile        *,
                                      GFile        *,
                                      GFileMonitorEvent,
-									 GroupManage  *);
+									 Manage       *);
+static void manage_class_init (ManageClass *klass);
+static void manage_init (Manage *manage);
+GType manage_get_type(void)
+{
+    static GType manage_type = 0;
+    if(!manage_type)
+    {
+        static const GTypeInfo manage_info = {
+            sizeof(ManageClass),
+            NULL,NULL,
+            (GClassInitFunc)manage_class_init,
+            NULL,NULL,
+            sizeof(Manage),
+            0,
+            (GInstanceInitFunc)manage_init
+        };
+        manage_type = g_type_register_static(GROUP_TYPE_ADMIN_SKELETON,
+                                           "Group",&manage_info,0);
+    }
+} 
 
 static GHashTable * CreateGroupsHashTable (void)
 {
@@ -61,7 +98,7 @@ static gboolean LocalGroupIsExcluded (struct group *grent)
 }
 static void LoadGroupEntries (GHashTable *groups,
 				              GroupEntryGeneratorFunc EntryGenerator,
-							  GroupManage *GM)
+							  Manage *manage)
 {
 	gpointer generator_state = NULL;
     struct group *grent;
@@ -73,6 +110,7 @@ static void LoadGroupEntries (GHashTable *groups,
     {
     	return;
 	}
+	
     while(1) 
 	{
     	grent = EntryGenerator (fd);
@@ -90,18 +128,18 @@ static void LoadGroupEntries (GHashTable *groups,
         }
         
 		group = group_new (grent->gr_gid);
-        g_object_freeze_notify (G_OBJECT (group));
-        group_update_from_grent (group, grent);
+        //g_object_freeze_notify (G_OBJECT (group));
+        //group_update_from_grent (group, grent);
 
         g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
     }
 
 }
-static void RegisterGroup (GroupManage *GM,Group *group)
+static void RegisterGroup (Manage *manage,Group *group)
 {
 	GError *error = NULL;
 	GDBusConnection *Connection = NULL;
-	Connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &error);
+	Connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
 	
 	if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
                                            Connection,
@@ -117,7 +155,7 @@ static void RegisterGroup (GroupManage *GM,Group *group)
     }
 }
 
-static void ReloadGroups (GroupManage *GM)
+static void ReloadGroups (Manage *manage)
 {
 	GHashTable *GroupsHashTable;
     GHashTable *local;
@@ -125,68 +163,65 @@ static void ReloadGroups (GroupManage *GM)
     gpointer name,value;
     Group *group;
 	
+	group = group_new (100);
     GroupsHashTable = CreateGroupsHashTable ();
-	LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,GM);
-
-    GM->GroupsHashTable = GroupsHashTable;
+	LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
+/*
 	g_hash_table_iter_init (&iter, GroupsHashTable);
 	
     while (g_hash_table_iter_next (&iter, &name,&value)) 
 	{
-    	RegisterGroup (GM,value);
-		printf("ssssss\r\n");
-        user_group_emit_group_added(USER_GROUP(value),
-								    group_get_object_path (value)); 
+    	RegisterGroup (manage,value);
   	}
-
+*/
 
 }
-static gboolean ReloadGroupsTimeout (GroupManage *GM)
+static gboolean ReloadGroupsTimeout (Manage *manage)
 {
-        ReloadGroups (GM);
-        GM->ReloadId = 0;
+        ReloadGroups (manage);
+        manage->priv->ReloadId = 0;
 
         return FALSE;
 }
 
-static void QueueReloadGroups (GroupManage *GM)
+static void QueueReloadGroups (Manage *manage)
 {
-	if (GM->ReloadId > 0) 
+	if (manage->priv->ReloadId > 0) 
 	{
     	return;
     }
-    GM->ReloadId = g_timeout_add (500, 
+    manage->priv->ReloadId = g_timeout_add (500, 
 					              (GSourceFunc)ReloadGroupsTimeout,
-								  GM);
+								  manage);
 }
-static void QueueLoadGroups (GroupManage *GM)
+static void QueueLoadGroups (Manage *manage)
 {
-	if (GM->ReloadId > 0) 
+	if (manage->priv->ReloadId > 0) 
 	{
     	return;
     }
 
-   	GM->ReloadId = g_idle_add ((GSourceFunc)ReloadGroupsTimeout,GM);
+   	manage->priv->ReloadId = g_idle_add ((GSourceFunc)ReloadGroupsTimeout,manage);
 }
 
 static void GroupsMonitorChanged (GFileMonitor      *monitor,
                                   GFile             *file,
                                   GFile             *other_file,
                                   GFileMonitorEvent  event_type,
-								  GroupManage *GM)
+								  Manage            *manage)
 {
         if (event_type != G_FILE_MONITOR_EVENT_CHANGED &&
             event_type != G_FILE_MONITOR_EVENT_CREATED) {
                 return;
         }
 
-        QueueReloadGroups(GM);
+        QueueReloadGroups(manage);
 }
 
 
 static GFileMonitor *SetupMonitor (const gchar *FileName,
                                    FileChangeCallback *Callback,
-								   GroupManage *GM)
+								   Manage *manage)
 {
     GError *error = NULL;
     GFile *file;
@@ -202,7 +237,7 @@ static GFileMonitor *SetupMonitor (const gchar *FileName,
         g_signal_connect (Monitor,
                          "changed",
                           G_CALLBACK (Callback),
-                          GM);
+                          manage);
     } 
     else 
     {
@@ -214,26 +249,75 @@ static GFileMonitor *SetupMonitor (const gchar *FileName,
     return Monitor;
 }
 
-static void MonitorFileChange(GroupManage *GM)
+static void manage_init (Manage *manage)
 {
-    GFileMonitor *GroupMonitor;
-    GFileMonitor *PasswdMonitor;
-    GFileMonitor *ShadowMonitor;
+	manage->priv = MANAGE_GET_PRIVATE (manage);
+	manage->priv->ReloadId = 0;
+
+    manage->priv->PasswdMonitor = SetupMonitor (PATH_PASSWD,
+					                            GroupsMonitorChanged,
+											    manage);
+    manage->priv->ShadowMonitor = SetupMonitor (PATH_SHADOW,
+					                            GroupsMonitorChanged,
+												manage);
+    manage->priv->GroupMonitor =  SetupMonitor (PATH_GROUP ,
+					                            GroupsMonitorChanged,
+												manage);
+
+	QueueLoadGroups (manage);
+}
+static void manage_class_init (ManageClass *klass)
+{
+        GObjectClass *object_class = G_OBJECT_CLASS (klass);
+/*
+        object_class->finalize = daemon_finalize;
+        object_class->get_property = get_property;
+        object_class->set_property = set_property;
+
+        g_object_class_override_property (object_class,
+                                          PROP_DAEMON_VERSION,
+										  "daemon-version");
+*/										  
+}
+Manage *manage_new(void)
+{
+	Manage *manage = NULL;
+
+    manage = MANAGE(g_object_new (TYPE_MANAGE, NULL));
+
+    return manage;
+}
+int	RegisterGroupManage (Manage *manage)
+{
+    GError *error = NULL;
+	manage->priv = MANAGE_GET_PRIVATE (manage);
+
+	manage->priv->BusConnection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
+    if (manage->priv->BusConnection == NULL)
+   	{
+    	if (error != NULL)
+		{			
+        	g_print ("error getting system bus: %s\r\n", error->message);
+        	g_error_free(error);
+		}
+        printf ("error getting system bus\r\n");
+        return -1;
+    }
+
+    if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (manage),
+                                           manage->priv->BusConnection,
+                                          "/org/group/admin",
+                                           &error)) 
+	{
+    	if (error != NULL)
+		{			
+        	g_print ("error export system bus: %s\r\n", error->message);
+        	g_print ("error exporting interface: %s\r\n", error->message);
+        	g_error_free(error);
+		}
+        printf ("error exporting interface: \r\n");
+        return -1;
+	}
 	
-	GM->ReloadId = 0;
-    PasswdMonitor = SetupMonitor (PATH_PASSWD,GroupsMonitorChanged,GM);
-	GM->PasswdMonitor = PasswdMonitor;
-    ShadowMonitor = SetupMonitor (PATH_SHADOW,GroupsMonitorChanged,GM);
-	GM->ShadowMonitor = ShadowMonitor;
-    GroupMonitor  = SetupMonitor (PATH_GROUP ,GroupsMonitorChanged,GM);
-	GM->GroupMonitor  = GroupMonitor;
-}    
-
-
-void StartLoadGroup( GroupManage *GM)
-{
-    MonitorFileChange(GM);
-	GM->GroupsHashTable = CreateGroupsHashTable ();
-	QueueLoadGroups (GM);
-
-}		
+	return 0;
+}	

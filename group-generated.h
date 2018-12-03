@@ -14,262 +14,169 @@ G_BEGIN_DECLS
 
 
 /* ------------------------------------------------------------------------ */
-/* Declarations for org.isoft.user.group */
+/* Declarations for org.group.admin */
 
-#define USER_TYPE_GROUP (user_group_get_type ())
-#define USER_GROUP(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), USER_TYPE_GROUP, userGroup))
-#define USER_IS_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), USER_TYPE_GROUP))
-#define USER_GROUP_GET_IFACE(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), USER_TYPE_GROUP, userGroupIface))
+#define GROUP_TYPE_ADMIN (group_admin_get_type ())
+#define GROUP_ADMIN(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), GROUP_TYPE_ADMIN, groupAdmin))
+#define GROUP_IS_ADMIN(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GROUP_TYPE_ADMIN))
+#define GROUP_ADMIN_GET_IFACE(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GROUP_TYPE_ADMIN, groupAdminIface))
 
-struct _userGroup;
-typedef struct _userGroup userGroup;
-typedef struct _userGroupIface userGroupIface;
+struct _groupAdmin;
+typedef struct _groupAdmin groupAdmin;
+typedef struct _groupAdminIface groupAdminIface;
 
-struct _userGroupIface
+struct _groupAdminIface
 {
   GTypeInterface parent_iface;
 
 
 
-  gboolean (*handle_add_user) (
-    userGroup *object,
-    GDBusMethodInvocation *invocation,
-    const gchar *arg_user);
-
   gboolean (*handle_create_group) (
-    userGroup *object,
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *arg_name);
 
   gboolean (*handle_delete_group) (
-    userGroup *object,
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     gint64 arg_id);
 
   gboolean (*handle_find_group_by_id) (
-    userGroup *object,
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     gint64 arg_id);
 
   gboolean (*handle_find_group_by_name) (
-    userGroup *object,
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *arg_name);
 
-  gboolean (*handle_remove_user) (
-    userGroup *object,
-    GDBusMethodInvocation *invocation,
-    const gchar *arg_user);
-
-  gboolean (*handle_set_group_name) (
-    userGroup *object,
-    GDBusMethodInvocation *invocation,
-    const gchar *arg_name);
-
-  guint64  (*get_gid) (userGroup *object);
-
-  const gchar * (*get_group_name) (userGroup *object);
-
-  gboolean  (*get_local_group) (userGroup *object);
-
-  const gchar *const * (*get_users) (userGroup *object);
-
-  void (*changed) (
-    userGroup *object);
+  const gchar * (*get_version) (groupAdmin *object);
 
   void (*group_added) (
-    userGroup *object,
+    groupAdmin *object,
     const gchar *arg_user);
 
   void (*group_deleted) (
-    userGroup *object,
+    groupAdmin *object,
     const gchar *arg_user);
 
 };
 
-GType user_group_get_type (void) G_GNUC_CONST;
+GType group_admin_get_type (void) G_GNUC_CONST;
 
-GDBusInterfaceInfo *user_group_interface_info (void);
-guint user_group_override_properties (GObjectClass *klass, guint property_id_begin);
+GDBusInterfaceInfo *group_admin_interface_info (void);
+guint group_admin_override_properties (GObjectClass *klass, guint property_id_begin);
 
 
 /* D-Bus method call completion functions: */
-void user_group_complete_set_group_name (
-    userGroup *object,
-    GDBusMethodInvocation *invocation);
-
-void user_group_complete_add_user (
-    userGroup *object,
-    GDBusMethodInvocation *invocation);
-
-void user_group_complete_remove_user (
-    userGroup *object,
-    GDBusMethodInvocation *invocation);
-
-void user_group_complete_find_group_by_id (
-    userGroup *object,
+void group_admin_complete_find_group_by_id (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *group);
 
-void user_group_complete_find_group_by_name (
-    userGroup *object,
+void group_admin_complete_find_group_by_name (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *group);
 
-void user_group_complete_create_group (
-    userGroup *object,
+void group_admin_complete_create_group (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation,
     const gchar *group);
 
-void user_group_complete_delete_group (
-    userGroup *object,
+void group_admin_complete_delete_group (
+    groupAdmin *object,
     GDBusMethodInvocation *invocation);
 
 
 
 /* D-Bus signal emissions functions: */
-void user_group_emit_changed (
-    userGroup *object);
-
-void user_group_emit_group_added (
-    userGroup *object,
+void group_admin_emit_group_added (
+    groupAdmin *object,
     const gchar *arg_user);
 
-void user_group_emit_group_deleted (
-    userGroup *object,
+void group_admin_emit_group_deleted (
+    groupAdmin *object,
     const gchar *arg_user);
 
 
 
 /* D-Bus method calls: */
-void user_group_call_set_group_name (
-    userGroup *proxy,
-    const gchar *arg_name,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data);
-
-gboolean user_group_call_set_group_name_finish (
-    userGroup *proxy,
-    GAsyncResult *res,
-    GError **error);
-
-gboolean user_group_call_set_group_name_sync (
-    userGroup *proxy,
-    const gchar *arg_name,
-    GCancellable *cancellable,
-    GError **error);
-
-void user_group_call_add_user (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data);
-
-gboolean user_group_call_add_user_finish (
-    userGroup *proxy,
-    GAsyncResult *res,
-    GError **error);
-
-gboolean user_group_call_add_user_sync (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GError **error);
-
-void user_group_call_remove_user (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GAsyncReadyCallback callback,
-    gpointer user_data);
-
-gboolean user_group_call_remove_user_finish (
-    userGroup *proxy,
-    GAsyncResult *res,
-    GError **error);
-
-gboolean user_group_call_remove_user_sync (
-    userGroup *proxy,
-    const gchar *arg_user,
-    GCancellable *cancellable,
-    GError **error);
-
-void user_group_call_find_group_by_id (
-    userGroup *proxy,
+void group_admin_call_find_group_by_id (
+    groupAdmin *proxy,
     gint64 arg_id,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
     gpointer user_data);
 
-gboolean user_group_call_find_group_by_id_finish (
-    userGroup *proxy,
+gboolean group_admin_call_find_group_by_id_finish (
+    groupAdmin *proxy,
     gchar **out_group,
     GAsyncResult *res,
     GError **error);
 
-gboolean user_group_call_find_group_by_id_sync (
-    userGroup *proxy,
+gboolean group_admin_call_find_group_by_id_sync (
+    groupAdmin *proxy,
     gint64 arg_id,
     gchar **out_group,
     GCancellable *cancellable,
     GError **error);
 
-void user_group_call_find_group_by_name (
-    userGroup *proxy,
+void group_admin_call_find_group_by_name (
+    groupAdmin *proxy,
     const gchar *arg_name,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
     gpointer user_data);
 
-gboolean user_group_call_find_group_by_name_finish (
-    userGroup *proxy,
+gboolean group_admin_call_find_group_by_name_finish (
+    groupAdmin *proxy,
     gchar **out_group,
     GAsyncResult *res,
     GError **error);
 
-gboolean user_group_call_find_group_by_name_sync (
-    userGroup *proxy,
+gboolean group_admin_call_find_group_by_name_sync (
+    groupAdmin *proxy,
     const gchar *arg_name,
     gchar **out_group,
     GCancellable *cancellable,
     GError **error);
 
-void user_group_call_create_group (
-    userGroup *proxy,
+void group_admin_call_create_group (
+    groupAdmin *proxy,
     const gchar *arg_name,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
     gpointer user_data);
 
-gboolean user_group_call_create_group_finish (
-    userGroup *proxy,
+gboolean group_admin_call_create_group_finish (
+    groupAdmin *proxy,
     gchar **out_group,
     GAsyncResult *res,
     GError **error);
 
-gboolean user_group_call_create_group_sync (
-    userGroup *proxy,
+gboolean group_admin_call_create_group_sync (
+    groupAdmin *proxy,
     const gchar *arg_name,
     gchar **out_group,
     GCancellable *cancellable,
     GError **error);
 
-void user_group_call_delete_group (
-    userGroup *proxy,
+void group_admin_call_delete_group (
+    groupAdmin *proxy,
     gint64 arg_id,
     GCancellable *cancellable,
     GAsyncReadyCallback callback,
     gpointer user_data);
 
-gboolean user_group_call_delete_group_finish (
-    userGroup *proxy,
+gboolean group_admin_call_delete_group_finish (
+    groupAdmin *proxy,
     GAsyncResult *res,
     GError **error);
 
-gboolean user_group_call_delete_group_sync (
-    userGroup *proxy,
+gboolean group_admin_call_delete_group_sync (
+    groupAdmin *proxy,
     gint64 arg_id,
     GCancellable *cancellable,
     GError **error);
@@ -277,53 +184,43 @@ gboolean user_group_call_delete_group_sync (
 
 
 /* D-Bus property accessors: */
-guint64 user_group_get_gid (userGroup *object);
-void user_group_set_gid (userGroup *object, guint64 value);
-
-const gchar *user_group_get_group_name (userGroup *object);
-gchar *user_group_dup_group_name (userGroup *object);
-void user_group_set_group_name (userGroup *object, const gchar *value);
-
-gboolean user_group_get_local_group (userGroup *object);
-void user_group_set_local_group (userGroup *object, gboolean value);
-
-const gchar *const *user_group_get_users (userGroup *object);
-gchar **user_group_dup_users (userGroup *object);
-void user_group_set_users (userGroup *object, const gchar *const *value);
+const gchar *group_admin_get_version (groupAdmin *object);
+gchar *group_admin_dup_version (groupAdmin *object);
+void group_admin_set_version (groupAdmin *object, const gchar *value);
 
 
 /* ---- */
 
-#define USER_TYPE_GROUP_PROXY (user_group_proxy_get_type ())
-#define USER_GROUP_PROXY(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), USER_TYPE_GROUP_PROXY, userGroupProxy))
-#define USER_GROUP_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), USER_TYPE_GROUP_PROXY, userGroupProxyClass))
-#define USER_GROUP_PROXY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), USER_TYPE_GROUP_PROXY, userGroupProxyClass))
-#define USER_IS_GROUP_PROXY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), USER_TYPE_GROUP_PROXY))
-#define USER_IS_GROUP_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), USER_TYPE_GROUP_PROXY))
+#define GROUP_TYPE_ADMIN_PROXY (group_admin_proxy_get_type ())
+#define GROUP_ADMIN_PROXY(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), GROUP_TYPE_ADMIN_PROXY, groupAdminProxy))
+#define GROUP_ADMIN_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GROUP_TYPE_ADMIN_PROXY, groupAdminProxyClass))
+#define GROUP_ADMIN_PROXY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GROUP_TYPE_ADMIN_PROXY, groupAdminProxyClass))
+#define GROUP_IS_ADMIN_PROXY(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GROUP_TYPE_ADMIN_PROXY))
+#define GROUP_IS_ADMIN_PROXY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GROUP_TYPE_ADMIN_PROXY))
 
-typedef struct _userGroupProxy userGroupProxy;
-typedef struct _userGroupProxyClass userGroupProxyClass;
-typedef struct _userGroupProxyPrivate userGroupProxyPrivate;
+typedef struct _groupAdminProxy groupAdminProxy;
+typedef struct _groupAdminProxyClass groupAdminProxyClass;
+typedef struct _groupAdminProxyPrivate groupAdminProxyPrivate;
 
-struct _userGroupProxy
+struct _groupAdminProxy
 {
   /*< private >*/
   GDBusProxy parent_instance;
-  userGroupProxyPrivate *priv;
+  groupAdminProxyPrivate *priv;
 };
 
-struct _userGroupProxyClass
+struct _groupAdminProxyClass
 {
   GDBusProxyClass parent_class;
 };
 
-GType user_group_proxy_get_type (void) G_GNUC_CONST;
+GType group_admin_proxy_get_type (void) G_GNUC_CONST;
 
 #if GLIB_CHECK_VERSION(2, 44, 0)
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (userGroupProxy, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (groupAdminProxy, g_object_unref)
 #endif
 
-void user_group_proxy_new (
+void group_admin_proxy_new (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -331,10 +228,10 @@ void user_group_proxy_new (
     GCancellable        *cancellable,
     GAsyncReadyCallback  callback,
     gpointer             user_data);
-userGroup *user_group_proxy_new_finish (
+groupAdmin *group_admin_proxy_new_finish (
     GAsyncResult        *res,
     GError             **error);
-userGroup *user_group_proxy_new_sync (
+groupAdmin *group_admin_proxy_new_sync (
     GDBusConnection     *connection,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -342,7 +239,7 @@ userGroup *user_group_proxy_new_sync (
     GCancellable        *cancellable,
     GError             **error);
 
-void user_group_proxy_new_for_bus (
+void group_admin_proxy_new_for_bus (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -350,10 +247,10 @@ void user_group_proxy_new_for_bus (
     GCancellable        *cancellable,
     GAsyncReadyCallback  callback,
     gpointer             user_data);
-userGroup *user_group_proxy_new_for_bus_finish (
+groupAdmin *group_admin_proxy_new_for_bus_finish (
     GAsyncResult        *res,
     GError             **error);
-userGroup *user_group_proxy_new_for_bus_sync (
+groupAdmin *group_admin_proxy_new_for_bus_sync (
     GBusType             bus_type,
     GDBusProxyFlags      flags,
     const gchar         *name,
@@ -364,36 +261,36 @@ userGroup *user_group_proxy_new_for_bus_sync (
 
 /* ---- */
 
-#define USER_TYPE_GROUP_SKELETON (user_group_skeleton_get_type ())
-#define USER_GROUP_SKELETON(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), USER_TYPE_GROUP_SKELETON, userGroupSkeleton))
-#define USER_GROUP_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), USER_TYPE_GROUP_SKELETON, userGroupSkeletonClass))
-#define USER_GROUP_SKELETON_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), USER_TYPE_GROUP_SKELETON, userGroupSkeletonClass))
-#define USER_IS_GROUP_SKELETON(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), USER_TYPE_GROUP_SKELETON))
-#define USER_IS_GROUP_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), USER_TYPE_GROUP_SKELETON))
+#define GROUP_TYPE_ADMIN_SKELETON (group_admin_skeleton_get_type ())
+#define GROUP_ADMIN_SKELETON(o) (G_TYPE_CHECK_INSTANCE_CAST ((o), GROUP_TYPE_ADMIN_SKELETON, groupAdminSkeleton))
+#define GROUP_ADMIN_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GROUP_TYPE_ADMIN_SKELETON, groupAdminSkeletonClass))
+#define GROUP_ADMIN_SKELETON_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GROUP_TYPE_ADMIN_SKELETON, groupAdminSkeletonClass))
+#define GROUP_IS_ADMIN_SKELETON(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GROUP_TYPE_ADMIN_SKELETON))
+#define GROUP_IS_ADMIN_SKELETON_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GROUP_TYPE_ADMIN_SKELETON))
 
-typedef struct _userGroupSkeleton userGroupSkeleton;
-typedef struct _userGroupSkeletonClass userGroupSkeletonClass;
-typedef struct _userGroupSkeletonPrivate userGroupSkeletonPrivate;
+typedef struct _groupAdminSkeleton groupAdminSkeleton;
+typedef struct _groupAdminSkeletonClass groupAdminSkeletonClass;
+typedef struct _groupAdminSkeletonPrivate groupAdminSkeletonPrivate;
 
-struct _userGroupSkeleton
+struct _groupAdminSkeleton
 {
   /*< private >*/
   GDBusInterfaceSkeleton parent_instance;
-  userGroupSkeletonPrivate *priv;
+  groupAdminSkeletonPrivate *priv;
 };
 
-struct _userGroupSkeletonClass
+struct _groupAdminSkeletonClass
 {
   GDBusInterfaceSkeletonClass parent_class;
 };
 
-GType user_group_skeleton_get_type (void) G_GNUC_CONST;
+GType group_admin_skeleton_get_type (void) G_GNUC_CONST;
 
 #if GLIB_CHECK_VERSION(2, 44, 0)
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (userGroupSkeleton, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (groupAdminSkeleton, g_object_unref)
 #endif
 
-userGroup *user_group_skeleton_new (void);
+groupAdmin *group_admin_skeleton_new (void);
 
 
 G_END_DECLS
