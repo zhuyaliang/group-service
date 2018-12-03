@@ -71,6 +71,8 @@ group_update_from_grent (Group        *group,
         }
 
         g_object_thaw_notify (G_OBJECT (group));
+
+   		user_group_set_gid(USER_GROUP(group),group->gid);
 		user_group_set_group_name(USER_GROUP(group),group->group_name);
 }
 static gchar *
@@ -118,6 +120,7 @@ group_new (gid_t   gid)
     Group *group;
 
     group = g_object_new (TYPE_GROUP, NULL);
+	printf("gid = %d\r\n",gid);
    	user_group_set_gid(USER_GROUP(group),gid);
 	group->object_path = compute_object_path (group);
     return group;

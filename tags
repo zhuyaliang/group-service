@@ -1,0 +1,294 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AcquiredCallback	main.c	/^static void AcquiredCallback (GDBusConnection *Connection,$/;"	f	file:
+BusConnection	group-server.h	/^    GDBusConnection *BusConnection;$/;"	m	struct:GroupManage
+CC	Makefile	/^CC = gcc $/;"	m
+CFLAGS	Makefile	/^CFLAGS = `pkg-config --cflags --libs gtk+-3.0`$/;"	m
+ChangeGroup	group.c	/^gboolean ChangeGroup ( userGroup *object,$/;"	f
+ChangedProperty	group-generated.c	/^} ChangedProperty;$/;"	t	typeref:struct:__anon7	file:
+CreateGroupsHashTable	group-server.c	/^static GHashTable * CreateGroupsHashTable (void)$/;"	f	file:
+EXEC	Makefile	/^EXEC = server$/;"	m
+FileChangeCallback	group-server.c	/^typedef void  ( FileChangeCallback )(GFileMonitor *,$/;"	t	file:
+GROUP	group.h	15;"	d
+Group	group.h	/^typedef struct Group $/;"	s
+Group	group.h	/^}Group;$/;"	t	typeref:struct:Group
+GroupClass	group.h	/^typedef struct GroupClass$/;"	s
+GroupClass	group.h	/^} GroupClass;$/;"	t	typeref:struct:GroupClass
+GroupEntryGeneratorFunc	group-server.c	/^typedef struct group * (* GroupEntryGeneratorFunc) (FILE *);$/;"	t	typeref:struct:GroupEntryGeneratorFunc	file:
+GroupManage	group-server.h	/^typedef struct GroupManage$/;"	s
+GroupManage	group-server.h	/^}GroupManage;$/;"	t	typeref:struct:GroupManage
+GroupMonitor	group-server.h	/^    GFileMonitor    *GroupMonitor;$/;"	m	struct:GroupManage
+GroupsHashTable	group-server.h	/^    GHashTable      *GroupsHashTable;$/;"	m	struct:GroupManage
+GroupsMonitorChanged	group-server.c	/^static void GroupsMonitorChanged (GFileMonitor      *monitor,$/;"	f	file:
+IS_GROUP	group.h	16;"	d
+LOCALEDIR	main.c	11;"	d	file:
+LoadGroupEntries	group-server.c	/^static void LoadGroupEntries (GHashTable *groups,$/;"	f	file:
+LocalGroupIsExcluded	group-server.c	/^static gboolean LocalGroupIsExcluded (struct group *grent)$/;"	f	file:
+MAINC	Makefile	/^MAINC = main.c group-server.c group.c group-generated.c  -lgio-2.0 -lgobject-2.0 -lglib-2.0$/;"	m
+MonitorFileChange	group-server.c	/^static void MonitorFileChange(GroupManage *GM)$/;"	f	file:
+NAME_TO_CLAIM	main.c	9;"	d	file:
+NameLostCallback	main.c	/^static void NameLostCallback (GDBusConnection *connection,$/;"	f	file:
+PACKAGE	main.c	10;"	d	file:
+PATH_GROUP	group-server.c	24;"	d	file:
+PATH_PASSWD	group-server.c	22;"	d	file:
+PATH_SHADOW	group-server.c	23;"	d	file:
+PROP_0	group.c	/^        PROP_0,$/;"	e	enum:__anon1	file:
+PROP_GID	group.c	/^        PROP_GID,$/;"	e	enum:__anon1	file:
+PROP_GROUP_NAME	group.c	/^        PROP_GROUP_NAME,$/;"	e	enum:__anon1	file:
+PROP_LOCAL_GROUP	group.c	/^        PROP_LOCAL_GROUP,$/;"	e	enum:__anon1	file:
+PROP_USERS	group.c	/^        PROP_USERS,$/;"	e	enum:__anon1	file:
+PasswdMonitor	group-server.h	/^    GFileMonitor    *PasswdMonitor;$/;"	m	struct:GroupManage
+QueueLoadGroups	group-server.c	/^static void QueueLoadGroups (GroupManage *GM)$/;"	f	file:
+QueueReloadGroups	group-server.c	/^static void QueueReloadGroups (GroupManage *GM)$/;"	f	file:
+RegisterGroup	group-server.c	/^static void RegisterGroup (GroupManage *GM,Group *group)$/;"	f	file:
+ReloadGroups	group-server.c	/^static void ReloadGroups (GroupManage *GM)$/;"	f	file:
+ReloadGroupsTimeout	group-server.c	/^static gboolean ReloadGroupsTimeout (GroupManage *GM)$/;"	f	file:
+ReloadId	group-server.h	/^    guint            ReloadId;$/;"	m	struct:GroupManage
+RemoveGroup	group.c	/^gboolean RemoveGroup (userGroup *object,$/;"	f
+SetGroupName	group.c	/^gboolean SetGroupName( userGroup *object,$/;"	f
+SetupMonitor	group-server.c	/^static GFileMonitor *SetupMonitor (const gchar *FileName,$/;"	f	file:
+ShadowMonitor	group-server.h	/^    GFileMonitor    *ShadowMonitor;$/;"	m	struct:GroupManage
+SignalInit	main.c	/^static void SignalInit (userGroup *skeleton)$/;"	f	file:
+SignalQuit	main.c	/^static gboolean SignalQuit (gpointer data)$/;"	f	file:
+Skeleton	group-server.h	/^    userGroup       *Skeleton;$/;"	m	struct:GroupManage
+StartLoadGroup	group-server.c	/^void StartLoadGroup( GroupManage *GM)$/;"	f
+TYPE_GROUP	group.h	14;"	d
+USER_GROUP	group-generated.h	20;"	d
+USER_GROUP_GET_IFACE	group-generated.h	22;"	d
+USER_GROUP_PROXY	group-generated.h	298;"	d
+USER_GROUP_PROXY_CLASS	group-generated.h	299;"	d
+USER_GROUP_PROXY_GET_CLASS	group-generated.h	300;"	d
+USER_GROUP_SKELETON	group-generated.h	368;"	d
+USER_GROUP_SKELETON_CLASS	group-generated.h	369;"	d
+USER_GROUP_SKELETON_GET_CLASS	group-generated.h	370;"	d
+USER_IS_GROUP	group-generated.h	21;"	d
+USER_IS_GROUP_PROXY	group-generated.h	301;"	d
+USER_IS_GROUP_PROXY_CLASS	group-generated.h	302;"	d
+USER_IS_GROUP_SKELETON	group-generated.h	371;"	d
+USER_IS_GROUP_SKELETON_CLASS	group-generated.h	372;"	d
+USER_TYPE_GROUP	group-generated.h	19;"	d
+USER_TYPE_GROUP_PROXY	group-generated.h	297;"	d
+USER_TYPE_GROUP_SKELETON	group-generated.h	367;"	d
+_ExtendedGDBusArgInfo	group-generated.c	/^} _ExtendedGDBusArgInfo;$/;"	t	typeref:struct:__anon2	file:
+_ExtendedGDBusInterfaceInfo	group-generated.c	/^} _ExtendedGDBusInterfaceInfo;$/;"	t	typeref:struct:__anon6	file:
+_ExtendedGDBusMethodInfo	group-generated.c	/^} _ExtendedGDBusMethodInfo;$/;"	t	typeref:struct:__anon3	file:
+_ExtendedGDBusPropertyInfo	group-generated.c	/^} _ExtendedGDBusPropertyInfo;$/;"	t	typeref:struct:__anon5	file:
+_ExtendedGDBusSignalInfo	group-generated.c	/^} _ExtendedGDBusSignalInfo;$/;"	t	typeref:struct:__anon4	file:
+__GROUP_GENERATED_H__	group-generated.h	9;"	d
+__GROUP_SERVER__	group-server.h	2;"	d
+__GROUP__	group.h	2;"	d
+_changed_property_free	group-generated.c	/^_changed_property_free (ChangedProperty *data)$/;"	f	file:
+_g_strv_equal0	group-generated.c	/^_g_strv_equal0 (gchar **a, gchar **b)$/;"	f	file:
+_g_value_equal	group-generated.c	/^_g_value_equal (const GValue *a, const GValue *b)$/;"	f	file:
+_g_variant_equal0	group-generated.c	/^_g_variant_equal0 (GVariant *a, GVariant *b)$/;"	f	file:
+_userGroupIface	group-generated.h	/^struct _userGroupIface$/;"	s
+_userGroupProxy	group-generated.h	/^struct _userGroupProxy$/;"	s
+_userGroupProxyClass	group-generated.h	/^struct _userGroupProxyClass$/;"	s
+_userGroupProxyPrivate	group-generated.c	/^struct _userGroupProxyPrivate$/;"	s	file:
+_userGroupSkeleton	group-generated.h	/^struct _userGroupSkeleton$/;"	s
+_userGroupSkeletonClass	group-generated.h	/^struct _userGroupSkeletonClass$/;"	s
+_userGroupSkeletonPrivate	group-generated.c	/^struct _userGroupSkeletonPrivate$/;"	s	file:
+_user_group_emit_changed	group-generated.c	/^_user_group_emit_changed (gpointer user_data)$/;"	f	file:
+_user_group_interface_info	group-generated.c	/^static const _ExtendedGDBusInterfaceInfo _user_group_interface_info =$/;"	v	file:
+_user_group_method_info_add_user	group-generated.c	/^static const _ExtendedGDBusMethodInfo _user_group_method_info_add_user =$/;"	v	file:
+_user_group_method_info_add_user_IN_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_add_user_IN_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_add_user_IN_ARG_user	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_add_user_IN_ARG_user =$/;"	v	file:
+_user_group_method_info_create_group	group-generated.c	/^static const _ExtendedGDBusMethodInfo _user_group_method_info_create_group =$/;"	v	file:
+_user_group_method_info_create_group_IN_ARG_name	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_create_group_IN_ARG_name =$/;"	v	file:
+_user_group_method_info_create_group_IN_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_create_group_IN_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_create_group_OUT_ARG_group	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_create_group_OUT_ARG_group =$/;"	v	file:
+_user_group_method_info_create_group_OUT_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_create_group_OUT_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_delete_group	group-generated.c	/^static const _ExtendedGDBusMethodInfo _user_group_method_info_delete_group =$/;"	v	file:
+_user_group_method_info_delete_group_IN_ARG_id	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_delete_group_IN_ARG_id =$/;"	v	file:
+_user_group_method_info_delete_group_IN_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_delete_group_IN_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_find_group_by_id	group-generated.c	/^static const _ExtendedGDBusMethodInfo _user_group_method_info_find_group_by_id =$/;"	v	file:
+_user_group_method_info_find_group_by_id_IN_ARG_id	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_id_IN_ARG_id =$/;"	v	file:
+_user_group_method_info_find_group_by_id_IN_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_id_IN_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_find_group_by_id_OUT_ARG_group	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_id_OUT_ARG_group =$/;"	v	file:
+_user_group_method_info_find_group_by_id_OUT_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_id_OUT_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_find_group_by_name	group-generated.c	/^static const _ExtendedGDBusMethodInfo _user_group_method_info_find_group_by_name =$/;"	v	file:
+_user_group_method_info_find_group_by_name_IN_ARG_name	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_name_IN_ARG_name =$/;"	v	file:
+_user_group_method_info_find_group_by_name_IN_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_name_IN_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_find_group_by_name_OUT_ARG_group	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_find_group_by_name_OUT_ARG_group =$/;"	v	file:
+_user_group_method_info_find_group_by_name_OUT_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_find_group_by_name_OUT_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_pointers	group-generated.c	/^static const _ExtendedGDBusMethodInfo * const _user_group_method_info_pointers[] =$/;"	v	file:
+_user_group_method_info_remove_user	group-generated.c	/^static const _ExtendedGDBusMethodInfo _user_group_method_info_remove_user =$/;"	v	file:
+_user_group_method_info_remove_user_IN_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_remove_user_IN_ARG_pointers[] =$/;"	v	file:
+_user_group_method_info_remove_user_IN_ARG_user	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_remove_user_IN_ARG_user =$/;"	v	file:
+_user_group_method_info_set_group_name	group-generated.c	/^static const _ExtendedGDBusMethodInfo _user_group_method_info_set_group_name =$/;"	v	file:
+_user_group_method_info_set_group_name_IN_ARG_name	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_method_info_set_group_name_IN_ARG_name =$/;"	v	file:
+_user_group_method_info_set_group_name_IN_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_method_info_set_group_name_IN_ARG_pointers[] =$/;"	v	file:
+_user_group_on_signal_changed	group-generated.c	/^_user_group_on_signal_changed ($/;"	f	file:
+_user_group_on_signal_group_added	group-generated.c	/^_user_group_on_signal_group_added ($/;"	f	file:
+_user_group_on_signal_group_deleted	group-generated.c	/^_user_group_on_signal_group_deleted ($/;"	f	file:
+_user_group_property_info_gid	group-generated.c	/^static const _ExtendedGDBusPropertyInfo _user_group_property_info_gid =$/;"	v	file:
+_user_group_property_info_group_name	group-generated.c	/^static const _ExtendedGDBusPropertyInfo _user_group_property_info_group_name =$/;"	v	file:
+_user_group_property_info_local_group	group-generated.c	/^static const _ExtendedGDBusPropertyInfo _user_group_property_info_local_group =$/;"	v	file:
+_user_group_property_info_pointers	group-generated.c	/^static const _ExtendedGDBusPropertyInfo * const _user_group_property_info_pointers[] =$/;"	v	file:
+_user_group_property_info_users	group-generated.c	/^static const _ExtendedGDBusPropertyInfo _user_group_property_info_users =$/;"	v	file:
+_user_group_schedule_emit_changed	group-generated.c	/^_user_group_schedule_emit_changed (userGroupSkeleton *skeleton, const _ExtendedGDBusPropertyInfo *info, guint prop_id, const GValue *orig_value)$/;"	f	file:
+_user_group_signal_info_changed	group-generated.c	/^static const _ExtendedGDBusSignalInfo _user_group_signal_info_changed =$/;"	v	file:
+_user_group_signal_info_group_added	group-generated.c	/^static const _ExtendedGDBusSignalInfo _user_group_signal_info_group_added =$/;"	v	file:
+_user_group_signal_info_group_added_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_signal_info_group_added_ARG_pointers[] =$/;"	v	file:
+_user_group_signal_info_group_added_ARG_user	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_signal_info_group_added_ARG_user =$/;"	v	file:
+_user_group_signal_info_group_deleted	group-generated.c	/^static const _ExtendedGDBusSignalInfo _user_group_signal_info_group_deleted =$/;"	v	file:
+_user_group_signal_info_group_deleted_ARG_pointers	group-generated.c	/^static const _ExtendedGDBusArgInfo * const _user_group_signal_info_group_deleted_ARG_pointers[] =$/;"	v	file:
+_user_group_signal_info_group_deleted_ARG_user	group-generated.c	/^static const _ExtendedGDBusArgInfo _user_group_signal_info_group_deleted_ARG_user =$/;"	v	file:
+_user_group_signal_info_pointers	group-generated.c	/^static const _ExtendedGDBusSignalInfo * const _user_group_signal_info_pointers[] =$/;"	v	file:
+_user_group_skeleton_handle_get_property	group-generated.c	/^_user_group_skeleton_handle_get_property ($/;"	f	file:
+_user_group_skeleton_handle_method_call	group-generated.c	/^_user_group_skeleton_handle_method_call ($/;"	f	file:
+_user_group_skeleton_handle_set_property	group-generated.c	/^_user_group_skeleton_handle_set_property ($/;"	f	file:
+_user_group_skeleton_vtable	group-generated.c	/^static const GDBusInterfaceVTable _user_group_skeleton_vtable =$/;"	v	file:
+changed	group-generated.h	/^  void (*changed) ($/;"	m	struct:_userGroupIface
+changed_properties	group-generated.c	/^  GList *changed_properties;$/;"	m	struct:_userGroupSkeletonPrivate	file:
+changed_properties_idle_source	group-generated.c	/^  GSource *changed_properties_idle_source;$/;"	m	struct:_userGroupSkeletonPrivate	file:
+compute_object_path	group.c	/^compute_object_path (Group *group)$/;"	f	file:
+context	group-generated.c	/^  GMainContext *context;$/;"	m	struct:_userGroupSkeletonPrivate	file:
+entry_generator_fgetgrent	group-server.c	/^entry_generator_fgetgrent (FILE *fd)$/;"	f	file:
+get_gid	group-generated.h	/^  guint64  (*get_gid) (userGroup *object);$/;"	m	struct:_userGroupIface
+get_group_name	group-generated.h	/^  const gchar * (*get_group_name) (userGroup *object);$/;"	m	struct:_userGroupIface
+get_local_group	group-generated.h	/^  gboolean  (*get_local_group) (userGroup *object);$/;"	m	struct:_userGroupIface
+get_users	group-generated.h	/^  const gchar *const * (*get_users) (userGroup *object);$/;"	m	struct:_userGroupIface
+gid	group.h	/^    gid_t         gid;$/;"	m	struct:Group
+group_added	group-generated.h	/^  void (*group_added) ($/;"	m	struct:_userGroupIface
+group_class_init	group.c	/^group_class_init (GroupClass *class)$/;"	f	file:
+group_deleted	group-generated.h	/^  void (*group_deleted) ($/;"	m	struct:_userGroupIface
+group_finalize	group.c	/^group_finalize (GObject *object)$/;"	f	file:
+group_get_group_name	group.c	/^const gchar *group_get_group_name (Group *group)$/;"	f
+group_get_object_path	group.c	/^const gchar *group_get_object_path (Group *group)$/;"	f
+group_get_type	group.c	/^GType group_get_type(void)$/;"	f
+group_init	group.c	/^static void group_init (Group *group)$/;"	f	file:
+group_name	group.h	/^    gchar        *group_name;$/;"	m	struct:Group
+group_new	group.c	/^group_new (gid_t   gid)$/;"	f
+group_update_from_grent	group.c	/^group_update_from_grent (Group        *group,$/;"	f
+handle_add_user	group-generated.h	/^  gboolean (*handle_add_user) ($/;"	m	struct:_userGroupIface
+handle_create_group	group-generated.h	/^  gboolean (*handle_create_group) ($/;"	m	struct:_userGroupIface
+handle_delete_group	group-generated.h	/^  gboolean (*handle_delete_group) ($/;"	m	struct:_userGroupIface
+handle_find_group_by_id	group-generated.h	/^  gboolean (*handle_find_group_by_id) ($/;"	m	struct:_userGroupIface
+handle_find_group_by_name	group-generated.h	/^  gboolean (*handle_find_group_by_name) ($/;"	m	struct:_userGroupIface
+handle_remove_user	group-generated.h	/^  gboolean (*handle_remove_user) ($/;"	m	struct:_userGroupIface
+handle_set_group_name	group-generated.h	/^  gboolean (*handle_set_group_name) ($/;"	m	struct:_userGroupIface
+hyphen_name	group-generated.c	/^  const gchar *hyphen_name;$/;"	m	struct:__anon5	file:
+hyphen_name	group-generated.c	/^  const gchar *hyphen_name;$/;"	m	struct:__anon6	file:
+info	group-generated.c	/^  const _ExtendedGDBusPropertyInfo *info;$/;"	m	struct:__anon7	file:
+local_group	group.h	/^    gboolean      local_group;$/;"	m	struct:Group
+lock	group-generated.c	/^  GMutex lock;$/;"	m	struct:_userGroupSkeletonPrivate	file:
+loop	main.c	/^static GMainLoop *loop = NULL;$/;"	v	file:
+main	main.c	/^int main (int argc, char *argv[])$/;"	f
+object_path	group.h	/^    gchar *object_path;$/;"	m	struct:Group
+orig_value	group-generated.c	/^  GValue orig_value; \/* the value before the change *\/$/;"	m	struct:__anon7	file:
+parent	group.h	/^	userGroupSkeleton parent;$/;"	m	struct:Group
+parent_class	group-generated.h	/^  GDBusInterfaceSkeletonClass parent_class;$/;"	m	struct:_userGroupSkeletonClass
+parent_class	group-generated.h	/^  GDBusProxyClass parent_class;$/;"	m	struct:_userGroupProxyClass
+parent_class	group.h	/^        userGroupSkeletonClass  parent_class;$/;"	m	struct:GroupClass
+parent_iface	group-generated.h	/^  GTypeInterface parent_iface;$/;"	m	struct:_userGroupIface
+parent_instance	group-generated.h	/^  GDBusInterfaceSkeleton parent_instance;$/;"	m	struct:_userGroupSkeleton
+parent_instance	group-generated.h	/^  GDBusProxy parent_instance;$/;"	m	struct:_userGroupProxy
+parent_struct	group-generated.c	/^  GDBusArgInfo parent_struct;$/;"	m	struct:__anon2	file:
+parent_struct	group-generated.c	/^  GDBusInterfaceInfo parent_struct;$/;"	m	struct:__anon6	file:
+parent_struct	group-generated.c	/^  GDBusMethodInfo parent_struct;$/;"	m	struct:__anon3	file:
+parent_struct	group-generated.c	/^  GDBusPropertyInfo parent_struct;$/;"	m	struct:__anon5	file:
+parent_struct	group-generated.c	/^  GDBusSignalInfo parent_struct;$/;"	m	struct:__anon4	file:
+pass_fdlist	group-generated.c	/^  gboolean pass_fdlist;$/;"	m	struct:__anon3	file:
+priv	group-generated.h	/^  userGroupProxyPrivate *priv;$/;"	m	struct:_userGroupProxy
+priv	group-generated.h	/^  userGroupSkeletonPrivate *priv;$/;"	m	struct:_userGroupSkeleton
+prop_id	group-generated.c	/^  guint prop_id;$/;"	m	struct:__anon7	file:
+properties	group-generated.c	/^  GValue *properties;$/;"	m	struct:_userGroupSkeletonPrivate	file:
+qdata	group-generated.c	/^  GData *qdata;$/;"	m	struct:_userGroupProxyPrivate	file:
+signal_name	group-generated.c	/^  const gchar *signal_name;$/;"	m	struct:__anon3	file:
+signal_name	group-generated.c	/^  const gchar *signal_name;$/;"	m	struct:__anon4	file:
+use_gvariant	group-generated.c	/^  gboolean use_gvariant;$/;"	m	struct:__anon2	file:
+use_gvariant	group-generated.c	/^  gboolean use_gvariant;$/;"	m	struct:__anon5	file:
+userGroup	group-generated.h	/^typedef struct _userGroup userGroup;$/;"	t	typeref:struct:_userGroup
+userGroupIface	group-generated.h	/^typedef struct _userGroupIface userGroupIface;$/;"	t	typeref:struct:_userGroupIface
+userGroupInterface	group-generated.c	/^typedef userGroupIface userGroupInterface;$/;"	t	file:
+userGroupProxy	group-generated.h	/^typedef struct _userGroupProxy userGroupProxy;$/;"	t	typeref:struct:_userGroupProxy
+userGroupProxyClass	group-generated.h	/^typedef struct _userGroupProxyClass userGroupProxyClass;$/;"	t	typeref:struct:_userGroupProxyClass
+userGroupProxyPrivate	group-generated.h	/^typedef struct _userGroupProxyPrivate userGroupProxyPrivate;$/;"	t	typeref:struct:_userGroupProxyPrivate
+userGroupSkeleton	group-generated.h	/^typedef struct _userGroupSkeleton userGroupSkeleton;$/;"	t	typeref:struct:_userGroupSkeleton
+userGroupSkeletonClass	group-generated.h	/^typedef struct _userGroupSkeletonClass userGroupSkeletonClass;$/;"	t	typeref:struct:_userGroupSkeletonClass
+userGroupSkeletonPrivate	group-generated.h	/^typedef struct _userGroupSkeletonPrivate userGroupSkeletonPrivate;$/;"	t	typeref:struct:_userGroupSkeletonPrivate
+user_group_call_add_user	group-generated.c	/^user_group_call_add_user ($/;"	f
+user_group_call_add_user_finish	group-generated.c	/^user_group_call_add_user_finish ($/;"	f
+user_group_call_add_user_sync	group-generated.c	/^user_group_call_add_user_sync ($/;"	f
+user_group_call_create_group	group-generated.c	/^user_group_call_create_group ($/;"	f
+user_group_call_create_group_finish	group-generated.c	/^user_group_call_create_group_finish ($/;"	f
+user_group_call_create_group_sync	group-generated.c	/^user_group_call_create_group_sync ($/;"	f
+user_group_call_delete_group	group-generated.c	/^user_group_call_delete_group ($/;"	f
+user_group_call_delete_group_finish	group-generated.c	/^user_group_call_delete_group_finish ($/;"	f
+user_group_call_delete_group_sync	group-generated.c	/^user_group_call_delete_group_sync ($/;"	f
+user_group_call_find_group_by_id	group-generated.c	/^user_group_call_find_group_by_id ($/;"	f
+user_group_call_find_group_by_id_finish	group-generated.c	/^user_group_call_find_group_by_id_finish ($/;"	f
+user_group_call_find_group_by_id_sync	group-generated.c	/^user_group_call_find_group_by_id_sync ($/;"	f
+user_group_call_find_group_by_name	group-generated.c	/^user_group_call_find_group_by_name ($/;"	f
+user_group_call_find_group_by_name_finish	group-generated.c	/^user_group_call_find_group_by_name_finish ($/;"	f
+user_group_call_find_group_by_name_sync	group-generated.c	/^user_group_call_find_group_by_name_sync ($/;"	f
+user_group_call_remove_user	group-generated.c	/^user_group_call_remove_user ($/;"	f
+user_group_call_remove_user_finish	group-generated.c	/^user_group_call_remove_user_finish ($/;"	f
+user_group_call_remove_user_sync	group-generated.c	/^user_group_call_remove_user_sync ($/;"	f
+user_group_call_set_group_name	group-generated.c	/^user_group_call_set_group_name ($/;"	f
+user_group_call_set_group_name_finish	group-generated.c	/^user_group_call_set_group_name_finish ($/;"	f
+user_group_call_set_group_name_sync	group-generated.c	/^user_group_call_set_group_name_sync ($/;"	f
+user_group_complete_add_user	group-generated.c	/^user_group_complete_add_user ($/;"	f
+user_group_complete_create_group	group-generated.c	/^user_group_complete_create_group ($/;"	f
+user_group_complete_delete_group	group-generated.c	/^user_group_complete_delete_group ($/;"	f
+user_group_complete_find_group_by_id	group-generated.c	/^user_group_complete_find_group_by_id ($/;"	f
+user_group_complete_find_group_by_name	group-generated.c	/^user_group_complete_find_group_by_name ($/;"	f
+user_group_complete_remove_user	group-generated.c	/^user_group_complete_remove_user ($/;"	f
+user_group_complete_set_group_name	group-generated.c	/^user_group_complete_set_group_name ($/;"	f
+user_group_default_init	group-generated.c	/^user_group_default_init (userGroupIface *iface)$/;"	f	file:
+user_group_dup_group_name	group-generated.c	/^user_group_dup_group_name (userGroup *object)$/;"	f
+user_group_dup_users	group-generated.c	/^user_group_dup_users (userGroup *object)$/;"	f
+user_group_emit_changed	group-generated.c	/^user_group_emit_changed ($/;"	f
+user_group_emit_group_added	group-generated.c	/^user_group_emit_group_added ($/;"	f
+user_group_emit_group_deleted	group-generated.c	/^user_group_emit_group_deleted ($/;"	f
+user_group_get_gid	group-generated.c	/^user_group_get_gid (userGroup *object)$/;"	f
+user_group_get_group_name	group-generated.c	/^user_group_get_group_name (userGroup *object)$/;"	f
+user_group_get_local_group	group-generated.c	/^user_group_get_local_group (userGroup *object)$/;"	f
+user_group_get_users	group-generated.c	/^user_group_get_users (userGroup *object)$/;"	f
+user_group_interface_info	group-generated.c	/^user_group_interface_info (void)$/;"	f
+user_group_override_properties	group-generated.c	/^user_group_override_properties (GObjectClass *klass, guint property_id_begin)$/;"	f
+user_group_proxy_class_init	group-generated.c	/^user_group_proxy_class_init (userGroupProxyClass *klass)$/;"	f	file:
+user_group_proxy_finalize	group-generated.c	/^user_group_proxy_finalize (GObject *object)$/;"	f	file:
+user_group_proxy_g_properties_changed	group-generated.c	/^user_group_proxy_g_properties_changed (GDBusProxy *_proxy,$/;"	f	file:
+user_group_proxy_g_signal	group-generated.c	/^user_group_proxy_g_signal (GDBusProxy *proxy,$/;"	f	file:
+user_group_proxy_get_gid	group-generated.c	/^user_group_proxy_get_gid (userGroup *object)$/;"	f	file:
+user_group_proxy_get_group_name	group-generated.c	/^user_group_proxy_get_group_name (userGroup *object)$/;"	f	file:
+user_group_proxy_get_local_group	group-generated.c	/^user_group_proxy_get_local_group (userGroup *object)$/;"	f	file:
+user_group_proxy_get_property	group-generated.c	/^user_group_proxy_get_property (GObject      *object,$/;"	f	file:
+user_group_proxy_get_users	group-generated.c	/^user_group_proxy_get_users (userGroup *object)$/;"	f	file:
+user_group_proxy_iface_init	group-generated.c	/^user_group_proxy_iface_init (userGroupIface *iface)$/;"	f	file:
+user_group_proxy_init	group-generated.c	/^user_group_proxy_init (userGroupProxy *proxy)$/;"	f	file:
+user_group_proxy_new	group-generated.c	/^user_group_proxy_new ($/;"	f
+user_group_proxy_new_finish	group-generated.c	/^user_group_proxy_new_finish ($/;"	f
+user_group_proxy_new_for_bus	group-generated.c	/^user_group_proxy_new_for_bus ($/;"	f
+user_group_proxy_new_for_bus_finish	group-generated.c	/^user_group_proxy_new_for_bus_finish ($/;"	f
+user_group_proxy_new_for_bus_sync	group-generated.c	/^user_group_proxy_new_for_bus_sync ($/;"	f
+user_group_proxy_new_sync	group-generated.c	/^user_group_proxy_new_sync ($/;"	f
+user_group_proxy_set_property	group-generated.c	/^user_group_proxy_set_property (GObject      *object,$/;"	f	file:
+user_group_proxy_set_property_cb	group-generated.c	/^user_group_proxy_set_property_cb (GDBusProxy *proxy,$/;"	f	file:
+user_group_set_gid	group-generated.c	/^user_group_set_gid (userGroup *object, guint64 value)$/;"	f
+user_group_set_group_name	group-generated.c	/^user_group_set_group_name (userGroup *object, const gchar *value)$/;"	f
+user_group_set_local_group	group-generated.c	/^user_group_set_local_group (userGroup *object, gboolean value)$/;"	f
+user_group_set_users	group-generated.c	/^user_group_set_users (userGroup *object, const gchar *const *value)$/;"	f
+user_group_skeleton_class_init	group-generated.c	/^user_group_skeleton_class_init (userGroupSkeletonClass *klass)$/;"	f	file:
+user_group_skeleton_dbus_interface_flush	group-generated.c	/^user_group_skeleton_dbus_interface_flush (GDBusInterfaceSkeleton *_skeleton)$/;"	f	file:
+user_group_skeleton_dbus_interface_get_info	group-generated.c	/^user_group_skeleton_dbus_interface_get_info (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)$/;"	f	file:
+user_group_skeleton_dbus_interface_get_properties	group-generated.c	/^user_group_skeleton_dbus_interface_get_properties (GDBusInterfaceSkeleton *_skeleton)$/;"	f	file:
+user_group_skeleton_dbus_interface_get_vtable	group-generated.c	/^user_group_skeleton_dbus_interface_get_vtable (GDBusInterfaceSkeleton *skeleton G_GNUC_UNUSED)$/;"	f	file:
+user_group_skeleton_finalize	group-generated.c	/^user_group_skeleton_finalize (GObject *object)$/;"	f	file:
+user_group_skeleton_get_gid	group-generated.c	/^user_group_skeleton_get_gid (userGroup *object)$/;"	f	file:
+user_group_skeleton_get_group_name	group-generated.c	/^user_group_skeleton_get_group_name (userGroup *object)$/;"	f	file:
+user_group_skeleton_get_local_group	group-generated.c	/^user_group_skeleton_get_local_group (userGroup *object)$/;"	f	file:
+user_group_skeleton_get_property	group-generated.c	/^user_group_skeleton_get_property (GObject      *object,$/;"	f	file:
+user_group_skeleton_get_users	group-generated.c	/^user_group_skeleton_get_users (userGroup *object)$/;"	f	file:
+user_group_skeleton_iface_init	group-generated.c	/^user_group_skeleton_iface_init (userGroupIface *iface)$/;"	f	file:
+user_group_skeleton_init	group-generated.c	/^user_group_skeleton_init (userGroupSkeleton *skeleton)$/;"	f	file:
+user_group_skeleton_new	group-generated.c	/^user_group_skeleton_new (void)$/;"	f
+user_group_skeleton_notify	group-generated.c	/^user_group_skeleton_notify (GObject      *object,$/;"	f	file:
+user_group_skeleton_set_property	group-generated.c	/^user_group_skeleton_set_property (GObject      *object,$/;"	f	file:
+users	group.h	/^	GStrv         users;$/;"	m	struct:Group

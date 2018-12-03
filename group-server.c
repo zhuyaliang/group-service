@@ -53,10 +53,10 @@ entry_generator_fgetgrent (FILE *fd)
 static gboolean LocalGroupIsExcluded (struct group *grent)
 {
         struct passwd *pwent = getpwnam (grent->gr_name);
-        
+/*        
 		if (pwent && pwent->pw_gid == grent->gr_gid)
                 return TRUE;
-
+*/
         return FALSE;
 }
 static void LoadGroupEntries (GHashTable *groups,
