@@ -30,7 +30,6 @@ typedef struct GroupClass
         userGroupSkeletonClass  parent_class;
 } GroupClass;
 
-static userGroup *skeleton=NULL;
 GType          group_get_type                (void) G_GNUC_CONST;
 Group *        group_new                     (gid_t           gid);
 void           group_update_from_grent       (Group          *group,
@@ -45,5 +44,18 @@ gboolean       group_get_local_group         (Group          *group);
 GStrv          group_get_users               (Group          *group);
 
 G_END_DECLS
+
+
+gboolean SetGroupName( userGroup *object,
+                       GDBusMethodInvocation *invocation,
+                       const gchar *arg_user);
+
+gboolean ChangeGroup ( userGroup *object,
+                       GDBusMethodInvocation *invocation,
+                       const gchar *arg_user);
+
+gboolean RemoveGroup (userGroup *object,
+                      GDBusMethodInvocation *invocation,
+                      const gchar *arg_user);
 
 #endif

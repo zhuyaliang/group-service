@@ -1,5 +1,5 @@
 CC = gcc 
-MAINC = group_server.c group.c user-group-generated.c -lgio-2.0 -lgobject-2.0 -lglib-2.0
+MAINC = main.c group-server.c group.c user-group-generated.c -lgio-2.0 -lgobject-2.0 -lglib-2.0
 EXEC = server
 CFLAGS = `pkg-config --cflags --libs gtk+-3.0`
 main:  

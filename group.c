@@ -118,4 +118,22 @@ group_new (gid_t   gid)
     return group;
 }
 
+gboolean SetGroupName( userGroup *object,
+                       GDBusMethodInvocation *invocation,
+                       const gchar *arg_user)
+{
 
+}
+gboolean ChangeGroup ( userGroup *object,
+                       GDBusMethodInvocation *invocation,
+                       const gchar *arg_user)
+{
+
+}
+
+gboolean RemoveGroup (userGroup *object,
+                      GDBusMethodInvocation *invocation,
+                      const gchar *arg_user)
+{
+
+}
