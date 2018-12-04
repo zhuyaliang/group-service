@@ -73,16 +73,16 @@ pkg.generate(
   ],
 )
 
-if get_option('introspection')
-  gnome.generate_gir(
-    libgroupservice,
-    sources: sources + headers + [enum_sources[1]],
-    includes: ['GObject-2.0', 'Gio-2.0'],
-    dependencies: libaccountsservice_dep,
-    namespace: 'Group Service',
-    nsversion: gas_api_version,
-    identifier_prefix: gas_id,
-    header: join_paths(subdir, 'gas.h'),
-    install: true,
-  )
-endif
+#if get_option('introspection')
+#  gnome.generate_gir(
+#    libgroupservice,
+#    sources: sources + headers + [enum_sources[1]],
+#    includes: ['GObject-2.0', 'Gio-2.0'],
+#    dependencies: libaccountsservice_dep,
+#    namespace: 'Group Service',
+#    nsversion: gas_api_version,
+#    identifier_prefix: gas_id,
+#    header: join_paths(subdir, 'gas.h'),
+#    install: true,
+#  )
+#endif

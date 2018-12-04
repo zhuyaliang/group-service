@@ -20,9 +20,9 @@
 #include "group-generated.h"
 #include "group-list-generated.h"
 
-#define GROUPADMIN_NAME      "org.user.admin"
-#define GROUPADMIN_PATH      "/org/user/admin"
-#define GROUPADMIN_INTERFACE "org.user.admin"
+#define GROUPADMIN_NAME      "org.group.admin"
+#define GROUPADMIN_PATH      "/org/group/admin"
+#define GROUPADMIN_INTERFACE "org.group.admin"
 
 typedef enum 
 {
@@ -780,7 +780,6 @@ GSList * gas_group_manager_list_groups (GasGroupManager *manager)
     GSList *retval = NULL;
 
     g_return_val_if_fail (GAS_IS_GROUP_MANAGER (manager), NULL);
-
     load_groups (manager);
 	g_hash_table_foreach (priv->normal_groups_by_name,listify_hash_values_hfunc,&retval);
 
@@ -811,16 +810,16 @@ static void load_groups (GasGroupManager *manager)
     g_auto(GStrv) group_paths = NULL;
     gboolean could_list = FALSE;
 
-    if (!ensure_group_admin_proxy (manager)) {
-            return;
+    if (!ensure_group_admin_proxy (manager)) 
+	{
+		g_print("check group_admin_proxy fail !!!\r\n");
+    	return;
     }
-
     could_list = user_group_admin_call_list_cached_groups_sync (priv->group_admin_proxy,
                                                                 &group_paths,
                                                                 NULL, &error);
-
     if (!could_list) {
-            g_debug ("GasGroupManager: ListCachedGroups failed: %s", error->message);
+            g_print ("GasGroupManager: ListCachedGroups failed: %s", error->message);
             return;
     }
 
