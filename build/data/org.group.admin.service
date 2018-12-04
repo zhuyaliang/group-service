@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=org.group.admin
+Exec=/usr/libexec/group-admin-daemon
+User=root
+SystemdService=group-admin-daemon.service

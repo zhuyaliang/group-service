@@ -1,0 +1,23 @@
+# ninja log v5
+10	186	1543922822	src/group-list-generated.c	9ea1a945c9f88ff8
+1	269	1543922822	src/group-generated.h	871eebb476e7572f
+1	270	1543922822	src/group-generated.c	b1ff5dd022a30856
+187	463	1543922822	src/group-list-generated.h	c8c2b0a755b6982d
+270	869	1543922823	data/org.group.admin.policy	8d47879b94beb82f
+270	1067	1543922823	src/libgroupservice/gas-group-enum-types.h	fc9244b08e75fcd0
+464	1259	1543922823	src/src@@group-admin-daemon@exe/main.c.o	e34fa6e751fb110e
+1261	2220	1543922824	src/src@@group-admin-daemon@exe/group.c.o	26e03733275a263
+1067	2722	1543922825	src/src@@group-generated@sta/meson-generated_.._group-generated.c.o	77c37f9d8a53b71
+869	3111	1543922825	src/src@@group-generated@sta/meson-generated_.._group-list-generated.c.o	ac4cf5e539fd282e
+3112	3136	1543922825	src/libgroup-generated.a	c8f791d556017e41
+2722	3479	1543922825	src/src@@group-admin-daemon@exe/util.c.o	44c5604f84614e0
+2220	3532	1543922825	src/src@@group-admin-daemon@exe/group-server.c.o	2fe6f0b4c1dec2b0
+3533	3839	1543922826	src/group-admin-daemon	5d770a8f9ea1cb71
+3137	4072	1543922826	src/libgroupservice/gas-group-enum-types.c	e567d119665a097c
+4072	4368	1543922826	src/libgroupservice/src@libgroupservice@@group-service@sha/meson-generated_.._gas-group-enum-types.c.o	7431c929a5237b5d
+3480	4613	1543922827	src/libgroupservice/src@libgroupservice@@group-service@sha/gas-group.c.o	2fae87df1418ec9f
+3839	5121	1543922827	src/libgroupservice/src@libgroupservice@@group-service@sha/gas-group-manager.c.o	9523024c7eb95bf4
+0	3744	1543922987	build.ninja	2257ed7c09dbc6d8
+3	148	1543922988	src/libgroupservice/libgroup-service.so.0.0.0	541f3e039e31cf9a
+0	3867	1543923670	build.ninja	2257ed7c09dbc6d8
+2	810	0	meson-install	a929a37830b7b666

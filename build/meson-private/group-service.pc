@@ -1,0 +1,13 @@
+prefix=/usr
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+exec_prefix=${prefix}
+datadir=${prefix}/share
+interfacesdir=${datadir}/group-service/interfaces
+
+Name: Group Service
+Description: Client Library for communicating with group service
+Version: 1.0.0
+Libs: -L${libdir} -lgroup-service
+Cflags: -I${includedir}/group-service-1.0
