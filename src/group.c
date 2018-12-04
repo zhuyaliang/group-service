@@ -244,22 +244,62 @@ static gboolean ChangeGroupName (UserGroupList *object,
 
     return TRUE;
 }    
+static void RemoveUserAuthorized_cb (Manage                *manage,
+                                 Group                 *g,
+                                 GDBusMethodInvocation *Invocation,
+                                 gpointer               udata)
+
+{
+    gchar *name = udata;    
+    GError *error = NULL;
+    const gchar *argv[6];
+    
+    if(getpwnam (name) == NULL)
+    {
+        g_print("%s user does not exist \r\n",name);
+        return;
+    } 
+    if(is_user_in_group(g,name))
+    {    
+    
+        sys_log (Invocation, "%s user '%s' %s group '%s'","remove",
+                name,"from",group_get_group_name (g));
+
+        argv[0] = "/usr/sbin/groupmems";
+        argv[1] = "-g";
+        argv[2] = group_get_group_name (g);
+        argv[3] = "-d";
+        argv[4] = name;
+        argv[5] = NULL;
+
+        if (!spawn_with_login_uid (Invocation, argv, &error)) 
+        {
+            g_print("running '%s' failed: %s", argv[0], error->message);
+            g_error_free (error);
+            return;
+        }
+
+        ManageLoadGroup (manage);
+        
+    }
+    user_group_list_complete_remove_user_from_group (USER_GROUP_LIST(g),Invocation);
+}    
 static gboolean RemoveUserFromGroup (UserGroupList *object,
                                      GDBusMethodInvocation *Invocation,
-                                     const gchar *arg_name)
+                                     const gchar *name)
 {
-    /*
+    
     Group *group = (Group*) object;
 
     LocalCheckAuthorization (group->manage,
                              group,
                              "org.group.admin.group-administration",
                              TRUE,
-                             ChangeNameAuthorized_cb,
+                             RemoveUserAuthorized_cb,
                              Invocation,
                              g_strdup (name),
                              (GDestroyNotify)g_free);
-                             */
+                             
     return TRUE;
 }    
 static void user_group_list_iface_init (UserGroupListIface *iface)
