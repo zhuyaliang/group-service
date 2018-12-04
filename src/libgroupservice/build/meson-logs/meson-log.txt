@@ -1,0 +1,10 @@
+Build started at 2018-12-04T16:26:08.553734
+Main binary: /usr/bin/python
+Python system: Linux
+The Meson build system
+Version: 0.47.1
+Source dir: /root/group-service/src/libgroupservice
+Build dir: /root/group-service/src/libgroupservice/build
+Build type: native build
+
+ERROR: First statement must be a call to project

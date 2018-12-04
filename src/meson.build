@@ -61,4 +61,4 @@ executable(
   install_dir: gas_libexecdir,
 )
 
-#subdir('libaccountsservice')
+subdir('libgroupservice')

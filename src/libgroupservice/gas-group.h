@@ -18,19 +18,20 @@ GType          gas_group_get_type                  (void) G_GNUC_CONST;
 
 const char    *gas_group_get_object_path           (GasGroup   *Group);
 
-uid_t          gas_group_get_uid                   (GasGroup   *Group);
+gid_t          gas_group_get_gid                   (GasGroup   *Group);
 
 const char    *gas_group_get_group_name            (GasGroup   *Group);
 
 gboolean       gas_group_is_local_group            (GasGroup   *Group);
 
-gboolean       gas_group_user_is_group             (GasGroup   *Group
+gboolean       gas_group_user_is_group             (GasGroup   *Group,
                                                     const char *user);
 
 char const **  gas_group_get_group_users           (GasGroup   *Group);
 
 gint           gas_group_collate                   (GasGroup   *Group1,
                                                     GasGroup   *Group2);
+gboolean       gas_group_is_loaded                   (GasGroup   *group);
 
 void           gas_group_set_group_name            (GasGroup   *group,
                                                     const char *name);

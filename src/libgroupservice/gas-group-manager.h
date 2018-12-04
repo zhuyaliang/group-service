@@ -1,3 +1,4 @@
+#ifndef __GAS_GROUP_MANAGER_H__
 #define __GAS_GROUP_MANAGER_H__
 
 #include <glib-object.h>
@@ -8,7 +9,7 @@
 G_BEGIN_DECLS
 
 #define GAS_TYPE_GROUP_MANAGER         (gas_group_manager_get_type ())
-#define GAS_GROUP_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GAS_TYPE_USER_MANAGER, GasGroupManager))
+#define GAS_GROUP_MANAGER(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GAS_TYPE_GROUP_MANAGER, GasGroupManager))
 #define GAS_GROUP_MANAGER_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), GAS_TYPE_GROUP_MANAGER, GasGroupManagerClass))
 #define GAS_IS_GROUP_MANAGER(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAS_TYPE_GROUP_MANAGER))
 #define GAS_IS_GROUP_MANAGER_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GAS_TYPE_GROUP_MANAGER))
@@ -36,7 +37,7 @@ struct _GasGroupManagerClass
                                                       GasGroup        *group);
         void          (* group_is_logged_in_changed) (GasGroupManager *GroupManager,
                                                       GasGroup        *group);
-        void          (* group_changed)              (GasUserManager  *GropuManager,
+        void          (* group_changed)              (GasGroupManager  *GropuManager,
                                                       GasGroup        *group);
 };
 
@@ -46,7 +47,7 @@ GasGroupManager *    gas_group_manager_get_default           (void);
 
 gboolean             gas_group_manager_no_service            (GasGroupManager *manager);
 
-GSList *             gas_group_manager_list_users            (GasGroupManager *manager);
+GSList *             gas_group_manager_list_groups           (GasGroupManager *manager);
 
 GasGroup *           gas_group_manager_get_group             (GasGroupManager *manager,
                                                               const char      *name);
@@ -58,7 +59,7 @@ GasGroup *           gas_group_manager_create_group          (GasGroupManager *m
                                                               GError             **error);
 
 void                 gas_group_manager_create_group_async     (GasGroupManager *manager,
-                                                              const gchar        *name
+                                                              const gchar        *name,
                                                               GCancellable       *cancellable,
                                                               GAsyncReadyCallback callback,
                                                               gpointer            data);
@@ -68,7 +69,7 @@ GasGroup *           gas_group_manager_create_group_finish    (GasGroupManager *
                                                                GError          **error);
 
 gboolean             gas_group_manager_delete_group           (GasGroupManager *manager,
-                                                               GasGRoup        *group,
+                                                               GasGroup        *group,
                                                                GError          **error);
 
 void                 gas_group_manager_delete_group_async     (GasGroupManager *manager,

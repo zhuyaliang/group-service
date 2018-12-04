@@ -1,5 +1,4 @@
 option('systemdsystemunitdir', type: 'string', value: '', description: 'custom directory for systemd system units')
-option('gdmconffile', type: 'string', value: '/etc/gdm/custom.conf', description: 'GDM configuration file')
 
 option('admin_group', type: 'string', value: '', description: 'Set group for administrative accounts')
 option('user_heuristics', type: 'boolean', value: true, description: 'Enable heuristics for guessing system vs. human users in the range 500-minimum-uid')

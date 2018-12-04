@@ -1,7 +1,7 @@
 project('group-service', 'c',
   version : '1.0.0',
   license : 'GPLv3',
-  meson_version : '>=0.40.1',
+  meson_version : '>=0.46.0',
   default_options : [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11'],
   )
 
@@ -29,6 +29,8 @@ dbus_sys_dir = dbus_dep.get_pkgconfig_variable('system_bus_services_dir', define
 
 systemd_system_unit_dir = get_option('systemdsystemunitdir')
 install_systemd_unit_dir = (systemd_system_unit_dir != 'no')
+enable_systemd = get_option('systemd')
+enable_elogind = get_option('elogind')
 
 if install_systemd_unit_dir and systemd_system_unit_dir == ''
   systemd_dep = dependency('systemd', required: false)
@@ -57,7 +59,7 @@ test_args = [
   '-Wformat-security',
   '-Wformat-signedness',
   '-Wignored-qualifiers',
-  '-Wimplicit-function-declaration',
+  #  '-Wimplicit-function-declaration',
   '-Winit-self',
   '-Winline',
   '-Wmissing-declarations',
