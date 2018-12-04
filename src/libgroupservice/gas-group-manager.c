@@ -67,8 +67,6 @@ typedef struct
     GSList                *exclude_groupnames;
     GSList                *include_groupnames;
 
-    guint                  load_id;
-
     gboolean               is_loaded;
 	gboolean               list_cached_groups_done;
 } GasGroupManagerPrivate;
@@ -96,19 +94,19 @@ static void     gas_group_manager_finalize   (GObject             *object);
 static void fetch_group_incrementally (GasGroupManagerFetchGroupRequest *request);
 static gboolean ensure_group_admin_proxy     (GasGroupManager *manager);
 static void     load_groups                  (GasGroupManager *manager);
-static void     load_group                  (GasGroupManager *manager,
-                                             const char     *username);
+static void     load_group                  (GasGroupManager  *manager,
+                                             const char       *groupname);
 
 static void     set_is_loaded (GasGroupManager *manager, gboolean is_loaded);
 
 static void     on_new_group_loaded (GasGroup        *group,
-                                    GParamSpec     *pspec,
-                                    GasGroupManager *manager);
+                                     GParamSpec     *pspec,
+                                     GasGroupManager *manager);
 static void     give_up (GasGroupManager                 *manager,
                          GasGroupManagerFetchGroupRequest *request);
 
 static void     update_group                    (GasGroupManager *manager,
-                                                GasGroup        *user);
+                                                 GasGroup        *group);
 static gpointer group_manager_object = NULL;
 
 G_DEFINE_TYPE_WITH_PRIVATE (GasGroupManager, gas_group_manager, G_TYPE_OBJECT)
@@ -146,12 +144,12 @@ static void on_group_changed (GasGroup *group,GasGroupManager *manager)
 
     if (priv->is_loaded) 
     {
-        g_print ("GasGroupManager: sending group-changed signal for %s",
+        g_debug ("GasGroupManager: sending group-changed signal for %s",
                  DescribeGroup (group));
 
         g_signal_emit (manager, signals[GROUP_CHANGED], 0, group);
 
-        g_print ("GasGroupManager: sent group-changed signal for %s",
+        g_debug ("GasGroupManager: sent group-changed signal for %s",
                  DescribeGroup (group));
 
         update_group (manager,group);
@@ -159,7 +157,7 @@ static void on_group_changed (GasGroup *group,GasGroupManager *manager)
 }
 
 static gint match_name_cmpfunc (gconstpointer a,
-                               gconstpointer b)
+                                gconstpointer b)
 {
     return g_strcmp0 ((char *) a,(char *) b);
 }
@@ -202,7 +200,6 @@ static void add_group (GasGroupManager *manager,
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     const char *object_path;
 
-    g_print ("GasGroupManager: tracking group '%s'", gas_group_get_group_name (group));
     g_hash_table_insert (priv->normal_groups_by_name,
                          g_strdup (gas_group_get_group_name (group)),
                                    g_object_ref (group));
@@ -227,10 +224,6 @@ static void remove_group (GasGroupManager *manager,GasGroup *group)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
 
-    g_print ("GasGroupManager: no longer tracking group '%s' (with object path %s)",
-              gas_group_get_group_name (group),
-              gas_group_get_object_path (group));
-
     g_object_ref (group);
     g_signal_handlers_disconnect_by_func (group, on_group_changed, manager);
 
@@ -245,17 +238,14 @@ static void remove_group (GasGroupManager *manager,GasGroup *group)
 
     if (priv->is_loaded) 
     {
-        g_print ("GasGroupManager: loaded, so emitting group-removed signal");
+        g_debug ("GasGroupManager: loaded, so emitting group-removed signal");
         g_signal_emit (manager, signals[GROUP_REMOVED], 0, group);
     } 
     else 
     {
-        g_print ("GasGroupManager: not yet loaded, so not emitting group-removed signal");
+        g_debug ("GasGroupManager: not yet loaded, so not emitting group-removed signal");
     }
 
-    g_print ("GasGroupManager: group '%s' (with object path %s) now removed",
-             gas_group_get_group_name (group),
-             gas_group_get_object_path (group));
     g_object_unref (group);
 }
 
@@ -263,7 +253,6 @@ static void update_group (GasGroupManager *manager,GasGroup *group)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     
-    g_print ("GasGroupManager: updating %s", DescribeGroup (group));
     g_hash_table_insert (priv->normal_groups_by_name,
                          g_strdup (gas_group_get_group_name (group)),
                          g_object_ref (group));
@@ -323,7 +312,7 @@ static void on_new_group_loaded (GasGroup *group,
 
     if (groupname_in_exclude_list (manager, name)) 
     {
-        g_print ("GasGroupManager: excluding group '%s'", name);
+        g_debug ("GasGroupManager: excluding group '%s'", name);
         g_object_unref (group);
         goto out;
     }
@@ -334,12 +323,12 @@ static void on_new_group_loaded (GasGroup *group,
 out:
     if (priv->new_groups_inhibiting_load == NULL) 
     {
-        g_print ("GasGroupManager: no pending groups, trying to set loaded property");
+        g_debug ("GasGroupManager: no pending groups, trying to set loaded property");
         set_is_loaded (manager, TRUE);
     } 
     else 
     {
-        g_print ("GasGroupManager: not all groups loaded yet");
+        g_debug ("GasGroupManager: not all groups loaded yet");
     }
 }
 
@@ -370,7 +359,7 @@ static GasGroup *add_new_group_for_object_path (const char *object_path,
     group = g_hash_table_lookup (priv->groups_by_object_path, object_path);
     if (group != NULL) 
     {
-        g_print ("GasGroupManager: tracking existing %s with object path %s",
+        g_debug ("GasGroupManager: tracking existing %s with object path %s",
                   DescribeGroup (group), object_path);
         return group;
     }
@@ -378,12 +367,10 @@ static GasGroup *add_new_group_for_object_path (const char *object_path,
     group = find_new_group_with_object_path (manager, object_path);
     if (group != NULL) 
     {
-        g_print ("GasGroupManager: tracking existing (but very recently added) %s with object path %s",
+        g_debug ("GasGroupManager: tracking existing (but very recently added) %s with object path %s",
                   DescribeGroup (group), object_path);
         return group;
     }
-
-    g_print ("GasGroupManager: tracking new group with object path %s", object_path);
 
     group = create_new_group (manager);
     _gas_group_update_from_object_path (group, object_path);
@@ -400,7 +387,7 @@ static void new_group_add_in_group_admin_service (GDBusProxy *proxy,
 
     if (!priv->is_loaded) 
     {
-        g_print ("GasGroupManager: ignoring new group in group_admin service with object path %s since not loaded yet",
+        g_debug ("GasGroupManager: ignoring new group in group_admin service with object path %s since not loaded yet",
                  object_path);
         return;
     }
@@ -420,14 +407,9 @@ static void old_group_removed_in_group_admin_service (GDBusProxy *proxy,
     group = g_hash_table_lookup (priv->groups_by_object_path, object_path);
     if (group == NULL) 
     {
-        g_print ("GasGroupManager: ignoring untracked group %s", object_path);
+        g_debug ("GasGroupManager: ignoring untracked group %s", object_path);
         return;
     } 
-    else 
-    {
-        g_print ("GasGroupManager: tracked group %s removed from group-admin",object_path);
-    }
-
     node = g_slist_find (priv->new_groups, group);
     if (node != NULL) 
     {
@@ -435,7 +417,6 @@ static void old_group_removed_in_group_admin_service (GDBusProxy *proxy,
         g_object_unref (group);
         priv->new_groups = g_slist_delete_link (priv->new_groups, node);
     }
-
     remove_group (manager,group);
 }
 
@@ -462,8 +443,8 @@ on_find_group_by_name_finished (GObject       *object,
 }
 static void
 on_find_group_by_id_finished (GObject       *object,
-                             GAsyncResult  *result,
-                             gpointer       data)
+                              GAsyncResult  *result,
+                              gpointer       data)
 {
     UserGroupAdmin *proxy = USER_GROUP_ADMIN (object);
     GasGroupManagerFetchGroupRequest *request = data;
@@ -528,7 +509,6 @@ static void load_groups_paths (GasGroupManager       *manager,
     
 	if (g_strv_length ((char **) group_paths) > 0) 
 	{
-
     	for (i = 0; group_paths[i] != NULL; i++) 
 		{
 			group = add_new_group_for_object_path (group_paths[i], manager);
@@ -631,7 +611,7 @@ static void fetch_group_incrementally (GasGroupManagerFetchGroupRequest *request
             break;
     	case GAS_GROUP_MANAGER_GET_GROUP_STATE_UNFETCHED:
             break;
-    default:
+    	default:
             g_assert_not_reached ();
     }
 
@@ -643,8 +623,8 @@ static void fetch_group_incrementally (GasGroupManagerFetchGroupRequest *request
 
 static void
 fetch_group_with_groupname_from_group_admin_service (GasGroupManager *manager,
-                                                GasGroup        *group,
-                                                const char      *name)
+                                                     GasGroup        *group,
+                                                     const char      *name)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     GasGroupManagerFetchGroupRequest *request;
@@ -723,15 +703,15 @@ static void load_group (GasGroupManager *manager,const char *name)
 
     if (group == NULL) 
 	{
-    	g_print ("GasGroupManager: trying to track new gropu with name %s",name);
+    	g_debug ("GasGroupManager: trying to track new gropu with name %s",name);
         group = create_new_group (manager);
     }
 
     user_group_admin_call_find_group_by_name_sync (priv->group_admin_proxy,
-                                                            name,
-                                                            &object_path,
-                                                            NULL,
-                                                            &error);
+                                                   name,
+                                                   &object_path,
+                                                   NULL,
+                                                   &error);
 
     _gas_group_update_from_object_path (group, object_path);
 }
@@ -754,7 +734,6 @@ GasGroup * gas_group_manager_get_group_by_id (GasGroupManager *manager,
     } 
 	else 
 	{
-    	g_print ("GasGroupManager: trying to track new group with gid %lu", (gulong) id);
         group = create_new_group (manager);
 
         if (priv->group_admin_proxy != NULL)
@@ -786,21 +765,19 @@ GSList * gas_group_manager_list_groups (GasGroupManager *manager)
     return g_slist_sort (retval, (GCompareFunc) gas_group_collate);
 }
 
-static GSList *
-slist_deep_copy (const GSList *list)
+static GSList * slist_deep_copy (const GSList *list)
 {
-        GSList *retval;
-        GSList *l;
+    GSList *retval;
+    GSList *l;
 
-        if (list == NULL)
-                return NULL;
+    if (list == NULL)
+            return NULL;
 
-        retval = g_slist_copy ((GSList *) list);
-        for (l = retval; l != NULL; l = l->next) {
-                l->data = g_strdup (l->data);
-        }
-
-        return retval;
+    retval = g_slist_copy ((GSList *) list);
+    for (l = retval; l != NULL; l = l->next) {
+            l->data = g_strdup (l->data);
+    }
+    return retval;
 }
 
 static void load_groups (GasGroupManager *manager)
@@ -818,15 +795,14 @@ static void load_groups (GasGroupManager *manager)
     could_list = user_group_admin_call_list_cached_groups_sync (priv->group_admin_proxy,
                                                                 &group_paths,
                                                                 NULL, &error);
-    if (!could_list) {
-            g_print ("GasGroupManager: ListCachedGroups failed: %s", error->message);
-            return;
+    if (!could_list) 
+	{
+    	g_print ("GasGroupManager: ListCachedGroups failed: %s", error->message);
+        return;
     }
 
     load_groups_paths (manager, (const char * const *) group_paths);
-
     load_included_groupnames (manager);
-
     priv->list_cached_groups_done = TRUE;
 }
 
@@ -919,16 +895,16 @@ static void gas_group_manager_class_init (GasGroupManagerClass *klass)
                                                             G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
     g_object_class_install_property (object_class,
                                      PROP_INCLUDE_GROUPNAMES_LIST,
-                                     g_param_spec_pointer ("include-usernames-list",
-                                                           "Include usernames list",
-                                                           "Usernames who are specifically included",
+                                     g_param_spec_pointer ("include-groupnames-list",
+                                                           "Include groupnames list",
+                                                           "Groupnames who are specifically included",
                                                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     g_object_class_install_property (object_class,
                                      PROP_EXCLUDE_GROUPNAMES_LIST,
-                                     g_param_spec_pointer ("exclude-usernames-list",
-                                                           "Exclude usernames list",
-                                                           "Usernames who are specifically excluded",
+                                     g_param_spec_pointer ("exclude-groupames-list",
+                                                           "Exclude groupnames list",
+                                                           "Groupnames who are specifically excluded",
                                                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
 
     signals [GROUP_ADDED] = g_signal_new ("group-added",
@@ -1127,11 +1103,11 @@ static void gas_group_manager_async_complete_handler (GObject      *source,
         g_object_unref (task);
 }
 
-void gas_group_manager_create_group_async (GasGroupManager      *manager,
-                                    const char          *name,
-                                    GCancellable        *cancellable,
-                                    GAsyncReadyCallback  callback,
-                                    gpointer             user_data)
+void gas_group_manager_create_group_async (GasGroupManager     *manager,
+                                           const char          *name,
+                                           GCancellable        *cancellable,
+                                           GAsyncReadyCallback  callback,
+                                           gpointer             user_data)
 {
 	GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     GTask *task;
@@ -1161,26 +1137,29 @@ GasGroup *gas_group_manager_create_group_finish (GasGroupManager  *manager,
     GError *remote_error = NULL;
 
     inner_result = g_task_propagate_pointer (G_TASK (result), error);
-    if (inner_result == NULL) {
-            return FALSE;
+    if (inner_result == NULL) 
+	{
+    	return FALSE;
     }
 
     if (user_group_admin_call_create_group_finish (priv->group_admin_proxy,
-                                                   &path, inner_result, &remote_error)) {
+                                                   &path, inner_result, &remote_error)) 
+	{
     	group = add_new_group_for_object_path (path, manager);
     }
 
-    if (remote_error) {
-            g_dbus_error_strip_remote_error (remote_error);
-            g_propagate_error (error, remote_error);
+    if (remote_error) 
+	{
+    	g_dbus_error_strip_remote_error (remote_error);
+        g_propagate_error (error, remote_error);
     }
 
     return group;
 }
 
 gboolean gas_group_manager_delete_group (GasGroupManager  *manager,
-                              GasGroup         *group,
-                              GError         **error)
+                                         GasGroup         *group,
+                                         GError         **error)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     GError *local_error = NULL;
@@ -1192,17 +1171,18 @@ gboolean gas_group_manager_delete_group (GasGroupManager  *manager,
     if (!user_group_admin_call_delete_group_sync (priv->group_admin_proxy,
                                                   gas_group_get_gid (group),
                                                   NULL,
-                                                  &local_error)) {
-            return FALSE;
+                                                  &local_error)) 
+	{
+    	return FALSE;
     }
 
     return TRUE;
 }
-void gas_group_manager_delete_group_async (GasGroupManager      *manager,
-                                    GasGroup             *group,
-                                    GCancellable        *cancellable,
-                                    GAsyncReadyCallback  callback,
-                                    gpointer             user_data)
+void gas_group_manager_delete_group_async (GasGroupManager     *manager,
+                                    	   GasGroup            *group,
+                                           GCancellable        *cancellable,
+                                           GAsyncReadyCallback  callback,
+                                           gpointer             user_data)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     GTask *task;
@@ -1222,8 +1202,8 @@ void gas_group_manager_delete_group_async (GasGroupManager      *manager,
 }
 
 gboolean gas_group_manager_delete_group_finish (GasGroupManager  *manager,
-                                     GAsyncResult    *result,
-                                     GError         **error)
+                                                GAsyncResult    *result,
+                                                GError         **error)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     GAsyncResult *inner_result;
@@ -1231,15 +1211,17 @@ gboolean gas_group_manager_delete_group_finish (GasGroupManager  *manager,
     GError *remote_error = NULL;
 
     inner_result = g_task_propagate_pointer (G_TASK (result), error);
-    if (inner_result == NULL) {
-            return FALSE;
+    if (inner_result == NULL) 
+	{
+    	return FALSE;
     }
 
     success = user_group_admin_call_delete_group_finish (priv->group_admin_proxy,
                                                          inner_result, &remote_error);
-    if (remote_error) {
-            g_dbus_error_strip_remote_error (remote_error);
-            g_propagate_error (error, remote_error);
+    if (remote_error) 
+	{
+    	g_dbus_error_strip_remote_error (remote_error);
+        g_propagate_error (error, remote_error);
     }
 
     return success;

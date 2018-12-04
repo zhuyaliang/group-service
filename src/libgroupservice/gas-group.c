@@ -199,7 +199,17 @@ char const **gas_group_get_group_users (GasGroup *group)
         return NULL;
     return user_group_list_get_users(group->group_proxy);
 }    
+gboolean gas_group_is_local_group(GasGroup *group)
+{
+    g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
 
+    if (group->group_proxy == NULL)
+	{			
+        return FALSE;
+	}
+	return user_group_list_get_local_group(group->group_proxy);
+
+}		
 const char * gas_group_get_group_name (GasGroup *group)
 {
     g_return_val_if_fail (GAS_IS_GROUP (group), NULL);
@@ -209,6 +219,23 @@ const char * gas_group_get_group_name (GasGroup *group)
 
     return user_group_list_get_group_name(group->group_proxy);
 }
+gboolean gas_group_user_is_group (GasGroup *group,const char *user)
+{
+    char const **users;
+    int i = 0;
+	g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
+    g_return_val_if_fail (user != NULL,FALSE);
+    g_return_val_if_fail (getpwnam(user) != NULL,FALSE);
+    g_return_val_if_fail (USER_GROUP_IS_LIST (group->group_proxy),FALSE);
+	users = gas_group_get_group_users(group);
+    while(users[i] != NULL)
+    {
+        if(g_strcmp0(users[i],user) == 0)
+            return TRUE;
+        i++;
+    }    
+    return FALSE;
+}    
 
 const char * gas_group_get_object_path (GasGroup *group)
 {
@@ -253,7 +280,7 @@ void _gas_group_update_from_object_path (GasGroup *group,
                                                   &error);
     if (!group_proxy) 
     {
-        g_print ("Couldn't create accounts proxy: %s", error->message);
+        g_print ("Couldn't create group-admin proxy: %s", error->message);
         return;
     }
 
