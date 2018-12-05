@@ -1,0 +1,14 @@
+option('systemdsystemunitdir', type: 'string', value: '', description: 'custom directory for systemd system units')
+option('gdmconffile', type: 'string', value: '/etc/gdm/custom.conf', description: 'GDM configuration file')
+
+option('admin_group', type: 'string', value: '', description: 'Set group for administrative accounts')
+option('user_heuristics', type: 'boolean', value: true, description: 'Enable heuristics for guessing system vs. human users in the range 500-minimum-uid')
+option('extra_admin_groups', type: 'array', value: [], description: 'Comma-separated list of extra groups that administrator users are part of')
+option('minimum_uid', type: 'integer', value: 1000, description: 'Set minimum uid for human users')
+
+option('systemd', type: 'boolean', value: false, description: 'Use systemd')
+option('elogind', type: 'boolean', value: false, description: 'Use elogind')
+
+option('introspection', type: 'boolean', value: true, description: 'Enable introspection for this build')
+option('docbook', type: 'boolean', value: false, description: 'build documentation (requires xmlto)')
+option('gtk_doc', type: 'boolean', value: false, description: 'use gtk-doc to build documentation')

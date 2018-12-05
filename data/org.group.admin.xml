@@ -15,7 +15,7 @@
       <arg name="group" direction="out" type="o">
       </arg>
     </method>
-
+    
     <method name="CreateGroup">
       <arg name="name" direction="in" type="s">
       </arg>
@@ -28,7 +28,7 @@
       </arg>
     </method>
 
-    <property name="Version" type="s" access="read">
+    <property name="DaemonVersion" type="s" access="read">
     </property>
 
     <signal name="GroupAdded">
@@ -39,6 +39,7 @@
     <signal name="GroupDeleted">
       <arg name="user" type="o">
       </arg>
-    </signal>
+  </signal>
+
   </interface>
 </node>

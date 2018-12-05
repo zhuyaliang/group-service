@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//group-admim//DTD PolicyKit Policy Configuration 1.0//EN"
+ "https://github.com/zhuyaliang">
+<policyconfig>
+  <vendor/>
+  <vendor_url/>
+  <icon_name>stock_person</icon_name>
+
+  <action id="org.group.admin.change-own-user-data">
+    <description>Change your own user data</description>
+    <message>Authentication is required to change your own user data</message>
+    <defaults>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+  </action>
+
+  <action id="org.group.admin.group-administration">
+    <description>Manage user accounts</description>
+    <message>Authentication is required to change user data</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+  </action>
+</policyconfig>
