@@ -46,7 +46,8 @@ gid_t          group_get_gid                 (Group          *group);
 const gchar *  group_get_group_name          (Group          *group);
 gboolean       group_get_local_group         (Group          *group);
 GStrv          group_get_users               (Group          *group);
-
+gboolean       is_user_in_group              (Group          *group,
+                                              const char      *user);
 G_END_DECLS
 
 #endif

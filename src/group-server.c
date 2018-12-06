@@ -106,7 +106,8 @@ static void LoadGroupEntries (GHashTable *groups,
         {    
         	break;
         }    
-		group = group_new (manage,grent->gr_gid);
+		
+        group = group_new (manage,grent->gr_gid);
         g_object_freeze_notify (G_OBJECT (group));
         group_update_from_grent (group, grent);
         g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
@@ -708,4 +709,3 @@ static void manage_user_group_admin_iface_init (UserGroupAdminIface *iface)
     iface->handle_find_group_by_name = ManageFindGroupByname;
     iface->get_daemon_version =        ManageGetDammonVersion;
 }
-
