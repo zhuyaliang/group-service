@@ -33,6 +33,7 @@ typedef void (*AuthorizedCallback)   (Manage                *,
                                       gpointer              );
 
 int RegisterGroupManage (Manage *manage);
+void ManageLoadGroup(Manage *manage);
 void LocalCheckAuthorization(Manage                *manage,
                              Group                 *group,
                              const gchar           *ActionFile,

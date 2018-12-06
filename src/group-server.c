@@ -315,6 +315,10 @@ static void manage_class_init (ManageClass *klass)
 									  "daemon-version");
 										  
 }
+void ManageLoadGroup (Manage *manage)
+{
+    ReloadGroups(manage);
+}    
 Manage *manage_new(void)
 {
 	Manage *manage = NULL;

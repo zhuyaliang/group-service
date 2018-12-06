@@ -164,16 +164,16 @@ static void AddUserAuthorized_cb (Manage                *manage,
         argv[3] = "-a";
         argv[4] = name;
         argv[5] = NULL;
-/*
-        if (!spawn_with_login_uid (context, argv, &error)) 
+
+        if (!spawn_with_login_uid (Invocation, argv, &error)) 
         {
             g_print("running '%s' failed: %s", argv[0], error->message);
             g_error_free (error);
             return;
         }
 
-        daemon_reload (daemon);
-        */
+        ManageLoadGroup (manage);
+        
     }
     user_group_list_complete_add_user_to_group(USER_GROUP_LIST(g),Invocation);
 }    
