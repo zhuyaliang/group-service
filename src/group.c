@@ -48,13 +48,16 @@ gboolean group_get_local_group(Group *group)
 }
 gboolean is_user_in_group(Group *group,const char *user)
 {
-    GStrv users;
+    char const **users;
     int i = 0;
     users = user_group_list_get_users(USER_GROUP_LIST(group));
     while(users[i] != NULL)
     {
-        printf("users[%d] = %s\r\n",i,users[i]);
+        if(g_strcmp0(users[i],user) == 0)
+            return TRUE;
+        i++;
     }    
+    return FALSE;
 }    
 void
 group_update_from_grent (Group        *group,
@@ -148,33 +151,31 @@ static void AddUserAuthorized_cb (Manage                *manage,
     {
         g_print("%s user does not exist \r\n",name);
         return;
-    }  
-    /*
-    if()
-    sys_log (Invocation, "%s user '%s' %s group '%s'","add",
-             name,"to",group_get_group_name (g));
+    } 
+    if(!is_user_in_group(g,name))
+    {    
+    
+        sys_log (Invocation, "%s user '%s' %s group '%s'","add",
+                name,"to",group_get_group_name (g));
 
         argv[0] = "/usr/sbin/groupmems";
         argv[1] = "-g";
-        argv[2] = group_get_group_name (data->group);
-        argv[3] = data->add? "-a" : "-d";
-        argv[4] = user_get_user_name (data->user);
+        argv[2] = group_get_group_name (g);
+        argv[3] = "-a";
+        argv[4] = name;
         argv[5] = NULL;
-
-        error = NULL;
-        if (!spawn_with_login_uid (context, argv, &error)) {
-                throw_error (context, ERROR_FAILED, "running '%s' failed: %s", argv[0], error->message);
-                g_error_free (error);
-                return;
+/*
+        if (!spawn_with_login_uid (context, argv, &error)) 
+        {
+            g_print("running '%s' failed: %s", argv[0], error->message);
+            g_error_free (error);
+            return;
         }
 
         daemon_reload (daemon);
-
-        if (data->add)
-                accounts_group_complete_add_user (NULL, context);
-        else
-                accounts_group_complete_remove_user (NULL, context);
-                */
+        */
+    }
+    user_group_list_complete_add_user_to_group(USER_GROUP_LIST(g),Invocation);
 }    
 static gboolean AddUserToGroup (UserGroupList *object,
                                 GDBusMethodInvocation *Invocation,
