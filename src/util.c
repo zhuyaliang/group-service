@@ -1,3 +1,24 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*-
+ *
+ * Copyright (C) 2009-2010 Red Hat, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * Written by: Matthias Clasen <mclasen@redhat.com>
+ */
+
 #include "config.h"
 
 #include <string.h>
@@ -34,6 +55,7 @@ get_cmdline_of_pid (GPid pid)
                            error->message);
                 return NULL;
         }
+        /* The kernel uses '\0' to separate arguments - replace those with a space. */
         for (n = 0; n < contents_len - 1; n++) {
                 if (contents[n] == '\0')
                         contents[n] = ' ';
@@ -53,9 +75,9 @@ get_caller_pid (GDBusMethodInvocation *context,
         guint32 pid_as_int;
 
         reply = g_dbus_connection_call_sync (g_dbus_method_invocation_get_connection (context),
-                                             "org.group.admin.DBus",
-                                             "/org/group/admin/DBus",
-                                             "org.group.admin.DBus",
+                                             "org.freedesktop.DBus",
+                                             "/org/freedesktop/DBus",
+                                             "org.freedesktop.DBus",
                                              "GetConnectionUnixProcessID",
                                              g_variant_new ("(s)",
                                                             g_dbus_method_invocation_get_sender (context)),
@@ -136,27 +158,33 @@ sys_log (GDBusMethodInvocation *context,
 static void
 get_caller_loginuid (GDBusMethodInvocation *context, gchar *loginuid, gint size)
 {
-        GPid pid;
-        gint uid;
-        g_autofree gchar *path = NULL;
-        g_autofree gchar *buf = NULL;
+    GPid pid;
+    gint uid;
+    g_autofree gchar *path = NULL;
+    g_autofree gchar *buf = NULL;
 
-        if (!get_caller_uid (context, &uid)) {
-                uid = getuid ();
-        }
+    if (!get_caller_uid (context, &uid)) 
+    {
+        uid = getuid ();
+    }
 
-        if (get_caller_pid (context, &pid)) {
-                path = g_strdup_printf ("/proc/%d/loginuid", (int) pid);
-        } else {
-                path = NULL;
-        }
+    if (get_caller_pid (context, &pid)) 
+    {
+        path = g_strdup_printf ("/proc/%d/loginuid", (int) pid);
+    } 
+    else 
+    {
+        path = NULL;
+    }
 
-        if (path != NULL && g_file_get_contents (path, &buf, NULL, NULL)) {
-                strncpy (loginuid, buf, size);
-        }
-        else {
-                g_snprintf (loginuid, size, "%d", uid);
-        }
+    if (path != NULL && g_file_get_contents (path, &buf, NULL, NULL)) 
+    {
+        strncpy (loginuid, buf, size);
+    }
+    else 
+    {
+        g_snprintf (loginuid, size, "%d", uid);
+    }
 }
 
 static gboolean
@@ -188,13 +216,12 @@ compat_check_exit_status (int      estatus,
 static void
 setup_loginuid (gpointer data)
 {
-     /*   const char *id = data;
+        const char *id = data;
         int fd;
 
         fd = open ("/proc/self/loginuid", O_WRONLY);
         write (fd, id, strlen (id));
         close (fd);
-        */
 }
 
 gboolean
@@ -202,25 +229,21 @@ spawn_with_login_uid (GDBusMethodInvocation  *context,
                       const gchar            *argv[],
                       GError                **error)
 {
-        gboolean ret = FALSE;
-        gchar loginuid[20];
-        gint status;
+    gboolean ret = FALSE;
+    gchar loginuid[20];
+    gint status;
+    g_usleep(2000);    
+    get_caller_loginuid (context, loginuid, G_N_ELEMENTS (loginuid)-1);
 
+    if (!g_spawn_sync (NULL, (gchar**)argv, NULL, 0, setup_loginuid, loginuid, NULL, NULL, &status, error))
+        goto out;
+    if (!compat_check_exit_status (status, error))
+        goto out;
 
-        
-       // get_caller_loginuid (context, loginuid, G_N_ELEMENTS (loginuid));
-
-        if (!g_spawn_sync (NULL, (gchar**)argv, NULL, 0, setup_loginuid, loginuid, NULL, NULL, &status, error))
-                goto out;
-        if (!compat_check_exit_status (status, error))
-                goto out;
-
-               
-        ret = TRUE;
- out:
-        return ret;
+    ret = TRUE;
+out:
+    return ret;
 }
-
 
 gboolean
 get_caller_uid (GDBusMethodInvocation *context,
@@ -230,9 +253,9 @@ get_caller_uid (GDBusMethodInvocation *context,
         g_autoptr(GError) error = NULL;
 
         reply = g_dbus_connection_call_sync (g_dbus_method_invocation_get_connection (context),
-                                             "org.group.admin.DBus",
-                                             "/org/group/admin/DBus",
-                                             "org.group.admin.DBus",
+                                             "org.freedesktop.DBus",
+                                             "/org/freedesktop/DBus",
+                                             "org.freedesktop.DBus",
                                              "GetConnectionUnixUser",
                                              g_variant_new ("(s)",
                                                             g_dbus_method_invocation_get_sender (context)),
@@ -248,7 +271,6 @@ get_caller_uid (GDBusMethodInvocation *context,
                            error->message);
                 return FALSE;
         }
-
         g_variant_get (reply, "(u)", uid);
 
         return TRUE;

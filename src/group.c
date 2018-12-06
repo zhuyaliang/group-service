@@ -15,6 +15,8 @@
 #include <gio/gio.h>
 #include <gio/gunixinputstream.h>
 #include "group.h"
+#include "group-server.h"
+
 enum {
         PROP_0,
         PROP_GID,
@@ -99,11 +101,12 @@ static void group_init (Group *group)
     group->group_name = NULL;
 	group->gid = -1;
 }
-Group * group_new (gid_t   gid)
+Group * group_new (Manage *manage,gid_t gid)
 {
     Group *group;
 
     group = g_object_new (TYPE_GROUP, NULL);
+    group->manage = manage;
    	user_group_list_set_gid(USER_GROUP_LIST(group),gid);
 	group->object_path = compute_object_path (group);
     return group;
@@ -114,10 +117,54 @@ static gboolean AddUserToGroup (UserGroupList *object,
 {
     return TRUE;
 }    
-static gboolean ChangeGroupName (UserGroupList *object,
-                                GDBusMethodInvocation *invocation,
-                                const gchar *arg_name)
+static void ChangeNameAuthorized_cb (Manage                *manage,
+                                     Group                 *g,
+                                     GDBusMethodInvocation *Invocation,
+                                     gpointer               udata)
+
 {
+    gchar *name = udata;    
+    GError *error = NULL;
+    const gchar *argv[6];
+
+    if (g_strcmp0 (group_get_group_name (g), name) != 0)
+    {    
+        sys_log (Invocation, "changing name of group '%s' to '%s'",
+                 group_get_group_name (g),name);
+
+        argv[0] = "/usr/sbin/groupmod";
+        argv[1] = "-n";
+        argv[2] = name;
+        argv[3] = "--";
+        argv[4] = group_get_group_name (g);
+        argv[5] = NULL;
+
+        if (!spawn_with_login_uid (Invocation, argv, &error)) 
+        {
+            g_print("running '%s' failed: %s", argv[0], error->message);
+            g_error_free (error);
+            return;
+        }
+       
+    }
+    user_group_list_complete_change_group_name(USER_GROUP_LIST(g),Invocation);
+        
+}
+static gboolean ChangeGroupName (UserGroupList *object,
+                                 GDBusMethodInvocation *Invocation,
+                                 const gchar *name)
+{
+    Group *group = (Group*) object;
+
+    LocalCheckAuthorization (group->manage,
+                             group,
+                             "org.group.admin.group-administration",
+                             TRUE,
+                             ChangeNameAuthorized_cb,
+                             Invocation,
+                             g_strdup (name),
+                             (GDestroyNotify)g_free);
+
     return TRUE;
 }    
 static gboolean RemoveUserFromGroup (UserGroupList *object,
@@ -132,5 +179,3 @@ static void user_group_list_iface_init (UserGroupListIface *iface)
     iface->handle_change_group_name =      ChangeGroupName;
     iface->handle_remove_user_from_group = RemoveUserFromGroup;
 }
-
-

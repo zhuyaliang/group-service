@@ -10,6 +10,7 @@
 #include "group-generated.h"
 #include "group-list-generated.h"
 #include "util.h"
+#include "types.h"
 G_BEGIN_DECLS
 
 #define TYPE_GROUP       (group_get_type ())
@@ -19,7 +20,8 @@ G_BEGIN_DECLS
 typedef struct Group 
 {
 	UserGroupListSkeleton parent;
-
+    
+    Manage       *manage;
     gchar *object_path;
     gid_t         gid;
     gchar        *group_name;
@@ -32,7 +34,8 @@ typedef struct GroupClass
 } GroupClass;
 
 GType          group_get_type                (void) G_GNUC_CONST;
-Group *        group_new                     (gid_t           gid);
+Group *        group_new                     (Manage         *manage,  
+                                              gid_t           gid);
 void           group_update_from_grent       (Group          *group,
                                               struct group   *grent);
 

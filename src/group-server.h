@@ -2,6 +2,7 @@
 #define __GROUP_SERVER__
 
 #include "group.h"
+#include "types.h"
 G_BEGIN_DECLS
 
 #define TYPE_MANAGE         (manage_get_type ())

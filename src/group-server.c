@@ -44,8 +44,6 @@ typedef void  ( FileChangeCallback )(GFileMonitor *,
                                      GFileMonitorEvent,
 									 Manage       *);
 static void manage_user_group_admin_iface_init (UserGroupAdminIface *iface);
-static Group *ManageLocalFindGroupByname (Manage *manage,
-                                   const gchar *name);
 
 G_DEFINE_TYPE_WITH_CODE (Manage,manage, USER_GROUP_TYPE_ADMIN_SKELETON, 
                          G_ADD_PRIVATE (Manage) G_IMPLEMENT_INTERFACE (
@@ -87,15 +85,6 @@ entry_generator_fgetgrent (FILE *fd)
     fclose (fd);
 	return NULL;
 }
-static gboolean LocalGroupIsExcluded (struct group *grent)
-{
-/*        struct passwd *pwent = getpwnam (grent->gr_name);
-        
-		if (pwent && pwent->pw_gid == grent->gr_gid)
-                return TRUE;
-*/
-        return FALSE;
-}
 static void LoadGroupEntries (GHashTable *groups,
 				              GroupEntryGeneratorFunc EntryGenerator,
 							  Manage *manage)
@@ -114,26 +103,19 @@ static void LoadGroupEntries (GHashTable *groups,
 	{
     	grent = EntryGenerator (fd);
         if (grent == NULL)
+        {    
         	break;
-
-        if (LocalGroupIsExcluded (grent)) 
-		{
-            continue;
-        }
-
-       	if (g_hash_table_lookup (groups, grent->gr_name)) 
-		{
-            continue;
-        }
-        
-		group = group_new (grent->gr_gid);
+        }    
+		group = group_new (manage,grent->gr_gid);
         g_object_freeze_notify (G_OBJECT (group));
         group_update_from_grent (group, grent);
-
         g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
     }
-
 }
+static void UnRegisterGroup (Manage *manage,Group *group)
+{
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (group));
+}    
 static void RegisterGroup (Manage *manage,Group *group)
 {
 	GError *error = NULL;
@@ -158,14 +140,22 @@ static void ReloadGroups (Manage *manage)
 {
 	GHashTable *GroupsHashTable;
     GHashTableIter iter;
+    GHashTable *OldGroups;
     gpointer name,value;
-	
+    
 	manage->priv = MANAGE_GET_PRIVATE (manage);
     GroupsHashTable = CreateGroupsHashTable ();
 	LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
+    OldGroups = manage->priv->GroupsHashTable;
     manage->priv->GroupsHashTable = GroupsHashTable;
-	g_hash_table_iter_init (&iter, GroupsHashTable);
-	
+    
+    g_hash_table_iter_init (&iter, OldGroups);
+    while (g_hash_table_iter_next (&iter, &name,&value)) 
+	{
+    	UnRegisterGroup (manage,value);
+  	}
+
+    g_hash_table_iter_init (&iter, GroupsHashTable);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
 	{
     	RegisterGroup (manage,value);
@@ -207,12 +197,13 @@ static void GroupsMonitorChanged (GFileMonitor      *monitor,
                                   GFileMonitorEvent  event_type,
 								  Manage            *manage)
 {
-        if (event_type != G_FILE_MONITOR_EVENT_CHANGED &&
-            event_type != G_FILE_MONITOR_EVENT_CREATED) {
-                return;
-        }
+    if (event_type != G_FILE_MONITOR_EVENT_CHANGED &&
+        event_type != G_FILE_MONITOR_EVENT_CREATED) 
+    {
+        return;
+    }
 
-        QueueReloadGroups(manage);
+    QueueReloadGroups(manage);
 }
 
 
@@ -265,14 +256,15 @@ static void manage_init (Manage *manage)
 }
 static void manage_finalize (GObject *object)
 {
-        ManagePrivate *priv;
-        Manage *manage;
+    ManagePrivate *priv;
+    Manage *manage;
 
-        manage = MANAGE (object);
-        priv = MANAGE_GET_PRIVATE (manage);;
+    manage = MANAGE (object);
+    priv = MANAGE_GET_PRIVATE (manage);;
 
-        if (priv->BusConnection != NULL)
-                g_object_unref (priv->BusConnection);
+    if (priv->BusConnection != NULL)
+        g_object_unref (priv->BusConnection);
+    g_hash_table_destroy (priv->GroupsHashTable);
 
 }
 static void get_property (GObject    *object,
@@ -387,7 +379,8 @@ typedef struct
 
 static void CheckAuthDataFree (CheckAuthData *data)
 {
-    g_object_unref (data->manage);
+    if(data->manage)
+        g_object_unref (data->manage);
     if (data->group)
         g_object_unref (data->group);
 
@@ -432,13 +425,14 @@ static void CheckAuth_cb (PolkitAuthority *Authority,
     if (is_authorized) 
     {
         (* cad->Authorized_cb) (cad->manage,
-                                    cad->group,
-                                    cad->Invocation,
-                                    cad->data);
+                                cad->group,
+                                cad->Invocation,
+                                cad->data);
     }
 
     CheckAuthDataFree (data);
 }
+
 void LocalCheckAuthorization(Manage                *manage,
                              Group                 *group,
                              const gchar           *ActionFile,
@@ -482,80 +476,21 @@ void LocalCheckAuthorization(Manage                *manage,
 
     g_object_unref (subject);
 }
-typedef struct 
+static Group * AddNewGroupForDus (Manage *manage,struct group *grent) 
 {
-    gchar *NewGroupName;
-} CreateGroupData;
-
-static void CreateGroupDataFree (gpointer data)
-{
-    CreateGroupData *cd = data;
-    g_free (cd->NewGroupName);
-    g_free (cd);
-}
-static void CreateNewGroup_cb (Manage                *manage,
-                               Group                 *g,
-                               GDBusMethodInvocation *Invocation,
-                               gpointer               data)
-
-{
-    CreateGroupData *cd = data;
-    GError *error = NULL;
     Group *group;
-    const gchar *argv[4];
+    group = group_new (manage,grent->gr_gid);
+    group_update_from_grent (group, grent);
+    RegisterGroup (manage, group);
 
-    if (getgrnam (cd->NewGroupName) != NULL) 
-    {
-        g_print("A group with name '%s' already exists", cd->NewGroupName);
-       // throw_error (context, ERROR_GROUP_EXISTS, "A group with name '%s' already exists", cd->group_name);
-        return;
-    }
-    sys_log (Invocation, "create group '%s'", cd->NewGroupName);
+    g_hash_table_insert (manage->priv->GroupsHashTable,
+                         g_strdup (group_get_group_name (group)),
+                         group);
 
-    argv[0] = "/usr/sbin/groupadd";
-    argv[1] = "--";
-    argv[2] = cd->NewGroupName;
-    argv[3] = NULL;
+    user_group_admin_emit_group_added (USER_GROUP_ADMIN(manage), group_get_object_path (group));
 
-    if (!spawn_with_login_uid (Invocation, argv, &error)) 
-    {
-        printf("running '%s' failed: %s", argv[0], error->message);
-        //throw_error (context, ERROR_FAILED, "running '%s' failed: %s", argv[0], error->message);
-        g_error_free (error);
-        return;
-    }
-
-    group = ManageLocalFindGroupByname (manage, cd->NewGroupName);
-    user_group_admin_complete_create_group (NULL, Invocation, group_get_object_path (group));
-}
-static gboolean ManageCreateGroup (UserGroupAdmin *object,
-                                   GDBusMethodInvocation *Invocation,
-                                   const gchar *name)
-{
-    Manage *manage = (Manage *)object;
-    CreateGroupData *data;
-    
-    data = g_new0 (CreateGroupData, 1);
-    data->NewGroupName = g_strdup (name);
-    LocalCheckAuthorization(manage,
-                            NULL,
-                           "org.group.admin.group-administration",
-                            TRUE,
-                            CreateNewGroup_cb,
-                            Invocation,
-                            data,
-                            (GDestroyNotify)CreateGroupDataFree);
-
-    return TRUE;
+    return group;
 }    
-static gboolean ManageDeleteGroup (UserGroupAdmin *object,
-                                   GDBusMethodInvocation *Invocation,
-                                   gint64 arg_id)
-{
-    return TRUE;
-
-}    
- 
 static Group *ManageLocalFindGroupByid(Manage *manage,
                                        gid_t gid)
 {
@@ -572,7 +507,7 @@ static Group *ManageLocalFindGroupByid(Manage *manage,
     group = g_hash_table_lookup (priv->GroupsHashTable, grent->gr_name);
     if(group == NULL)
     {
-        printf("Not Local Group\r\n");
+        AddNewGroupForDus(manage,grent);
     } 
    
     return group;
@@ -612,9 +547,9 @@ static Group *ManageLocalFindGroupByname (Manage *manage,
     }
 
     group = g_hash_table_lookup (priv->GroupsHashTable, grent->gr_name);
-    if(group_get_local_group(group) == FALSE)
-    {
-        g_print("Not local group !!!"); 
+    if(group == NULL)
+    {  
+        group = AddNewGroupForDus (manage, grent);
     }    
     return group;
 }
@@ -644,6 +579,127 @@ static const gchar * ManageGetDammonVersion (UserGroupAdmin *object)
     return VERSION;
 }    
 
+typedef struct 
+{
+    gchar *NewGroupName;
+} CreateGroupData;
+
+static void CreateGroupDataFree (gpointer data)
+{
+    CreateGroupData *cd = data;
+    g_free (cd->NewGroupName);
+    g_free (cd);
+}
+static void CreateNewGroup_cb (Manage                *manage,
+                               Group                 *g,
+                               GDBusMethodInvocation *Invocation,
+                               gpointer               data)
+
+{
+    CreateGroupData *cd = data;
+    GError *error = NULL;
+    Group *group;
+    const gchar *argv[4];
+
+    if (getgrnam (cd->NewGroupName) != NULL) 
+    {
+        g_print("A group with name '%s' already exists", cd->NewGroupName);
+        return;
+    }
+    sys_log (Invocation, "create group '%s'", cd->NewGroupName);
+
+    argv[0] = "/usr/sbin/groupadd";
+    argv[1] = "--";
+    argv[2] = cd->NewGroupName;
+    argv[3] = NULL;
+
+    if (!spawn_with_login_uid (Invocation, argv, &error)) 
+    {
+        printf("running '%s' failed: %s", argv[0], error->message);
+        g_error_free (error);
+        return;
+    }
+    group = ManageLocalFindGroupByname (manage, cd->NewGroupName);
+    user_group_admin_complete_create_group (USER_GROUP_ADMIN(manage), Invocation, group_get_object_path (group));
+}
+static gboolean ManageCreateGroup (UserGroupAdmin *object,
+                                   GDBusMethodInvocation *Invocation,
+                                   const gchar *name)
+{
+    Manage *manage = (Manage *)object;
+    CreateGroupData *data;
+    
+    data = g_new0 (CreateGroupData, 1);
+    data->NewGroupName = g_strdup (name);
+    LocalCheckAuthorization(manage,
+                            NULL,
+                           "org.group.admin.group-administration",
+                            TRUE,
+                            CreateNewGroup_cb,
+                            Invocation,
+                            data,
+                            (GDestroyNotify)CreateGroupDataFree);
+
+    return TRUE;
+}
+typedef struct 
+{
+    gint64 gid;
+} DeleteGroupData;
+static void DeleteOldGroup_cb (Manage                *manage,
+                               Group                 *g,
+                               GDBusMethodInvocation *Invocation,
+                               gpointer               data)
+
+{
+    GError *error = NULL;
+    DeleteGroupData *gd = data;
+    struct group *grent;
+    const gchar *argv[4];
+
+    grent = getgrgid (gd->gid);
+    if (grent == NULL) 
+    {
+        g_print("No group with gid %ld found", gd->gid);
+        return;
+    }
+    sys_log (Invocation, "delete group '%s' (%d)", grent->gr_name, gd->gid);
+
+    argv[0] = "/usr/sbin/groupdel";
+    argv[1] = "--";
+    argv[2] = grent->gr_name;
+    argv[3] = NULL;
+
+    if (!spawn_with_login_uid (Invocation, argv, &error)) 
+    {
+        g_print ("running '%s' failed: %s", argv[0], error->message);
+        g_error_free (error);
+        return;
+    }
+    user_group_admin_complete_delete_group(USER_GROUP_ADMIN(manage),Invocation);
+}    
+static gboolean ManageDeleteGroup (UserGroupAdmin *object,
+                                   GDBusMethodInvocation *Invocation,
+                                   gint64 gid)
+{
+    Manage *manage = (Manage*)object;
+    DeleteGroupData *data;
+
+    data = g_new0 (DeleteGroupData, 1);
+    data->gid = gid;
+
+    LocalCheckAuthorization(manage,
+                            NULL,
+                           "org.group.admin.group-administration",
+                            TRUE,
+                            DeleteOldGroup_cb,
+                            Invocation,
+                            data,
+                            (GDestroyNotify)g_free);
+
+    return TRUE;
+
+}    
 static void manage_user_group_admin_iface_init (UserGroupAdminIface *iface)
 {
     iface->handle_create_group =       ManageCreateGroup;
