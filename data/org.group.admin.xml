@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <node>
     <interface name="org.group.admin">
+   
+    <method name="ListCachedGroups">
+       <arg name="groups" direction="out" type="ao">
+      </arg>
+    </method>
 
 	<method name="FindGroupById">
       <arg name="id" direction="in" type="x">

@@ -704,9 +704,35 @@ static gboolean ManageDeleteGroup (UserGroupAdmin *object,
 
     return TRUE;
 
+}
+
+static gboolean ManageListGroup (UserGroupAdmin *object,
+                                GDBusMethodInvocation *Invocation)
+{
+    Manage *manage = (Manage*)object;
+    GPtrArray *GroupPaths;
+    GHashTableIter iter;
+    const gchar *name;
+    Group *group;
+
+    GroupPaths  = g_ptr_array_new ();
+    g_hash_table_iter_init (&iter, manage->priv->GroupsHashTable);
+    while (g_hash_table_iter_next (&iter, (gpointer *)&name, (gpointer *)&group)) 
+    {
+        g_ptr_array_add (GroupPaths, (gpointer) group_get_object_path (group));
+    }
+    g_ptr_array_add (GroupPaths, NULL);
+
+    user_group_admin_complete_list_cached_groups (object, Invocation, 
+                                                 (const gchar * const *)GroupPaths->pdata);
+
+    g_ptr_array_free (GroupPaths, TRUE);
+
+    return TRUE; 
 }    
 static void manage_user_group_admin_iface_init (UserGroupAdminIface *iface)
 {
+    iface->handle_list_cached_groups = ManageListGroup;
     iface->handle_create_group =       ManageCreateGroup;
     iface->handle_delete_group =       ManageDeleteGroup;
     iface->handle_find_group_by_id =   ManageFindGRoupByid;

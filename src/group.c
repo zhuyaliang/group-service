@@ -63,8 +63,6 @@ void
 group_update_from_grent (Group        *group,
                          struct group *grent)
 {
-    const gchar *users[20];
-    int i = 0;
     g_object_freeze_notify (G_OBJECT (group));
     if (grent->gr_gid != group->gid) {
             group->gid = grent->gr_gid;
@@ -81,18 +79,7 @@ group_update_from_grent (Group        *group,
     user_group_list_set_local_group(USER_GROUP_LIST(group),TRUE);
    	user_group_list_set_gid(USER_GROUP_LIST(group),group->gid);
 	user_group_list_set_group_name(USER_GROUP_LIST(group),group->group_name);
-   
-    while(grent->gr_mem[i] != NULL)
-    {
-        users[i] = g_strdup(grent->gr_mem[i]);
-        i++;
-        if(i == 19)
-        {
-            break;
-        }    
-    }
-    users[i] = NULL;
-    user_group_list_set_users(USER_GROUP_LIST(group),users);
+    user_group_list_set_users(USER_GROUP_LIST(group),(const gchar *const *)grent->gr_mem);
 }
 static gchar *
 compute_object_path (Group *group)
