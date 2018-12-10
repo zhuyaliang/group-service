@@ -8,27 +8,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: group-service\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-05 17:12+0800\n"
+"POT-Creation-Date: 2018-12-10 11:20+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: data/org.group.admin.policy.in:11
 msgid "Change your own user data"
-msgstr ""
+msgstr "修改您的用户数据"
 
 #: data/org.group.admin.policy.in:12
 msgid "Authentication is required to change your own user data"
-msgstr ""
+msgstr "修改您的用户数据：需要授权"
 
 #: data/org.group.admin.policy.in:21
-msgid "Manage user accounts"
-msgstr ""
+msgid "Manage group admin"
+msgstr "组管理"
 
 #: data/org.group.admin.policy.in:22
 msgid "Authentication is required to change user data"
-msgstr ""
+msgstr "修改用户数据：需要授权"

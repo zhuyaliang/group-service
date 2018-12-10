@@ -1,3 +1,17 @@
+/*  group-service 
+* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*
+*   This program is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*   You should have received a copy of the GNU General Public License
+*   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 #include <config.h>
 
 #include <float.h>
@@ -5,9 +19,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
-#include <crypt.h>
-
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
@@ -107,7 +118,7 @@ static void gas_group_class_init (GasGroupClass *class)
                                      PROP_IS_LOADED,
                                      g_param_spec_boolean ("is-loaded",
                                                            "Is loaded",
-                                                           "Determines whether or not the user object is loaded and ready to read from.",
+                                                           "Determines whether or not the group object is loaded and ready to read from.",
                                                            FALSE,
                                                            G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
     g_object_class_install_property (gobject_class,
