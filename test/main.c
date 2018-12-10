@@ -67,8 +67,8 @@
 		return FALSE;
 	}
  	printf("Cretae new group %s success\r\n",gas_group_get_group_name(new_group));
-	gas_group_add_user_group(new_group,"mouse");
-	gas_group_remove_user_group(new_group,"mouse");         
+	//gas_group_add_user_group(new_group,"mouse");
+	//gas_group_remove_user_group(new_group,"mouse");         
 	gas_group_set_group_name(new_group,"test-group-gas-22");
 	printf("Change the group name to %s\r\n",gas_group_get_group_name(new_group));
     for(l = list; l ; l = l->next,i++)
