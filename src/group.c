@@ -150,7 +150,8 @@ static void AddUserAuthorized_cb (Manage                *manage,
     
     if(getpwnam (name) == NULL)
     {
-        g_print("%s user does not exist \r\n",name);
+        DbusPrintf(Invocation,ERROR_GROUP_DOES_NOT_EXIST,
+                  "%s user does not exist",name);
         return;
     } 
     if(!is_user_in_group(g,name))
@@ -168,7 +169,8 @@ static void AddUserAuthorized_cb (Manage                *manage,
 
         if (!spawn_with_login_uid (Invocation, argv, &error)) 
         {
-            g_print("running '%s' failed: %s", argv[0], error->message);
+            DbusPrintf(Invocation,ERROR_FAILED,
+                       "running '%s' failed: %s", argv[0], error->message);
             g_error_free (error);
             return;
         }
@@ -219,7 +221,8 @@ static void ChangeNameAuthorized_cb (Manage                *manage,
 
         if (!spawn_with_login_uid (Invocation, argv, &error)) 
         {
-            g_print("running '%s' failed: %s", argv[0], error->message);
+            DbusPrintf(Invocation,ERROR_FAILED,
+                       "running '%s' failed: %s", argv[0], error->message);
             g_error_free (error);
             return;
         }
@@ -257,7 +260,8 @@ static void RemoveUserAuthorized_cb (Manage                *manage,
     
     if(getpwnam (name) == NULL)
     {
-        g_print("%s user does not exist \r\n",name);
+        DbusPrintf(Invocation,ERROR_GROUP_DOES_NOT_EXIST,
+                   "%s user does not exist",name);
         return;
     } 
     if(is_user_in_group(g,name))
@@ -275,7 +279,8 @@ static void RemoveUserAuthorized_cb (Manage                *manage,
 
         if (!spawn_with_login_uid (Invocation, argv, &error)) 
         {
-            g_print("running '%s' failed: %s", argv[0], error->message);
+            DbusPrintf(Invocation,ERROR_FAILED,
+                       "running '%s' failed: %s", argv[0], error->message);
             g_error_free (error);
             return;
         }

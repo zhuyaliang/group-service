@@ -38,6 +38,17 @@ struct Manage {
 struct ManageClass {
     UserGroupAdminSkeletonClass parent_class;
 };
+typedef enum 
+{
+    ERROR_FAILED,
+    ERROR_GROUP_EXISTS,
+    ERROR_GROUP_DOES_NOT_EXIST,
+    ERROR_PERMISSION_DENIED,
+    ERROR_NOT_SUPPORTED,
+    NUM_ERRORS
+} Error;
+#define ERROR error_quark ()
+GQuark error_quark (void);
 
 GType   manage_get_type              (void) G_GNUC_CONST;
 Manage *manage_new                   (void);
@@ -46,6 +57,10 @@ typedef void (*AuthorizedCallback)   (Manage                *,
                                       GDBusMethodInvocation *,
                                       gpointer              );
 
+void DbusPrintf (GDBusMethodInvocation *Invocation,
+                 gint                   ErrorCode,
+                 const gchar           *format,
+                 ...);
 int RegisterGroupManage (Manage *manage);
 void ManageLoadGroup(Manage *manage);
 void LocalCheckAuthorization(Manage                *manage,

@@ -64,10 +64,28 @@ G_DEFINE_TYPE_WITH_CODE (Manage,manage, USER_GROUP_TYPE_ADMIN_SKELETON,
                          USER_GROUP_TYPE_ADMIN, manage_user_group_admin_iface_init));
 
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (Manage, g_object_unref)
-/*
-static void DbusPrintf (GDBusMethodInvocation *Invocation,
-                        gint                   ErrorCode,
-                        const gchar           *format,
+static const GDBusErrorEntry group_error_entries[] =
+{
+    { ERROR_FAILED, "org.group.admin.Error.Failed" },
+    { ERROR_GROUP_EXISTS, "org.group.admin.Error.GroupExists" },
+    { ERROR_GROUP_DOES_NOT_EXIST, "org.group.admin.Error.GRoupDoesNotExist" },
+    { ERROR_PERMISSION_DENIED, "org.group.admin.Error.PermissionDenied" },
+    { ERROR_NOT_SUPPORTED, "org.group.admin.Error.NotSupported" }
+};
+GQuark error_quark (void)
+{
+    static volatile gsize quark_volatile = 0;
+    
+    g_dbus_error_register_error_domain ("group_error",
+                                        &quark_volatile,
+                                        group_error_entries,
+                                        G_N_ELEMENTS (group_error_entries));
+
+    return (GQuark) quark_volatile;
+}
+void DbusPrintf (GDBusMethodInvocation *Invocation,
+                 gint                   ErrorCode,
+                 const gchar           *format,
                         ...)
 {
     va_list args;
@@ -76,9 +94,8 @@ static void DbusPrintf (GDBusMethodInvocation *Invocation,
     va_start (args, format);
     Message = g_strdup_vprintf (format, args);
     va_end (args);
-   // g_dbus_method_invocation_return_error (Invocation, ERROR, ErrorCode, "%s", Message);
+    g_dbus_method_invocation_return_error (Invocation, ERROR, ErrorCode, "%s", Message);
 }
-*/
 static GHashTable * CreateGroupsHashTable (void)
 {
         return g_hash_table_new_full (g_str_hash,
@@ -420,7 +437,7 @@ static void CheckAuth_cb (PolkitAuthority *Authority,
     result = polkit_authority_check_authorization_finish (Authority, res, &error);
     if (error) 
     {
-        //DbusPrintf (cad->Invocation, ERROR_PERMISSION_DENIED, "Not authorized: %s", error->message);
+        DbusPrintf (cad->Invocation, ERROR_PERMISSION_DENIED, "Not authorized: %s", error->message);
         g_error_free(error);
     }
     else 
@@ -431,11 +448,11 @@ static void CheckAuth_cb (PolkitAuthority *Authority,
         }
         else if (polkit_authorization_result_get_is_challenge (result)) 
         {
-            //throw_error (cad->context, ERROR_PERMISSION_DENIED, "Authentication is required");
+            DbusPrintf (cad->Invocation, ERROR_PERMISSION_DENIED, "Authentication is required");
         }
         else 
         {
-            //throw_error (cad->context, ERROR_PERMISSION_DENIED, "Not authorized");
+            DbusPrintf (cad->Invocation, ERROR_PERMISSION_DENIED, "Not authorized");
         }
 
         g_object_unref (result);
@@ -545,7 +562,7 @@ static gboolean ManageFindGRoupByid (UserGroupAdmin *object,
     }
     else 
     {
-        //DbusPrintf (invocation, ERROR_FAILED, "Failed to look up user with name %d.", gid);
+        DbusPrintf (invocation, ERROR_FAILED, "Failed to look up group with name %d.", gid);
     }
 
     return TRUE;
@@ -587,7 +604,7 @@ static gboolean ManageFindGroupByname(UserGroupAdmin *object,
     }
     else 
     {
-        //DbusPrintf (invocation, ERROR_FAILED, "Failed to look up user with name %s.", name);
+        DbusPrintf (invocation, ERROR_FAILED, "Failed to look up group with name %s.", name);
     }
 
     return TRUE;
@@ -622,7 +639,8 @@ static void CreateNewGroup_cb (Manage                *manage,
 
     if (getgrnam (cd->NewGroupName) != NULL) 
     {
-        g_print("A group with name '%s' already exists", cd->NewGroupName);
+        DbusPrintf (Invocation, ERROR_GROUP_EXISTS, 
+                    "A gtoup with name '%s' already exists", cd->NewGroupName);
         return;
     }
     sys_log (Invocation, "create group '%s'", cd->NewGroupName);
@@ -634,7 +652,8 @@ static void CreateNewGroup_cb (Manage                *manage,
 
     if (!spawn_with_login_uid (Invocation, argv, &error)) 
     {
-        printf("running '%s' failed: %s", argv[0], error->message);
+        DbusPrintf(Invocation, ERROR_FAILED,
+                   "running '%s' failed: %s", argv[0], error->message);
         g_error_free (error);
         return;
     }
@@ -679,7 +698,8 @@ static void DeleteOldGroup_cb (Manage                *manage,
     grent = getgrgid (gd->gid);
     if (grent == NULL) 
     {
-        g_print("No group with gid %ld found", gd->gid);
+        DbusPrintf(Invocation, ERROR_GROUP_DOES_NOT_EXIST,
+                  "No group with gid %ld found", gd->gid);
         return;
     }
     sys_log (Invocation, "delete group '%s' (%d)", grent->gr_name, gd->gid);
@@ -691,7 +711,8 @@ static void DeleteOldGroup_cb (Manage                *manage,
 
     if (!spawn_with_login_uid (Invocation, argv, &error)) 
     {
-        g_print ("running '%s' failed: %s", argv[0], error->message);
+        DbusPrintf (Invocation, ERROR_FAILED,
+                    "running '%s' failed: %s", argv[0], error->message);
         g_error_free (error);
         return;
     }
@@ -703,7 +724,12 @@ static gboolean ManageDeleteGroup (UserGroupAdmin *object,
 {
     Manage *manage = (Manage*)object;
     DeleteGroupData *data;
-
+    
+    if ((gid_t)gid == 0) 
+    {
+        DbusPrintf (Invocation, ERROR_FAILED, "Refuse to delete root group");
+        return FALSE;
+    }
     data = g_new0 (DeleteGroupData, 1);
     data->gid = gid;
 

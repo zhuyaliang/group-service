@@ -93,57 +93,71 @@ get_caller_pid (GDBusMethodInvocation *context,
         return TRUE;
 }
 
-void
-sys_log (GDBusMethodInvocation *context,
-         const gchar           *format,
+void sys_log (GDBusMethodInvocation *context,
+              const gchar           *format,
                                 ...)
 {
-        va_list args;
-        g_autofree gchar *msg = NULL;
+    va_list args;
+    g_autofree gchar *msg = NULL;
+    
+    va_start (args, format);
+    msg = g_strdup_vprintf (format, args);
+    va_end (args);
 
-        va_start (args, format);
-        msg = g_strdup_vprintf (format, args);
-        va_end (args);
+    if (context) 
+    {
+        PolkitSubject *subject;
+        g_autofree gchar *cmdline = NULL;
+        g_autofree gchar *id = NULL;
+        GPid pid = 0;
+        gint uid = -1;
+        g_autofree gchar *tmp = NULL;
 
-        if (context) {
-                PolkitSubject *subject;
-                g_autofree gchar *cmdline = NULL;
-                g_autofree gchar *id = NULL;
-                GPid pid = 0;
-                gint uid = -1;
-                g_autofree gchar *tmp = NULL;
+        subject = polkit_system_bus_name_new (g_dbus_method_invocation_get_sender (context));
+        id = polkit_subject_to_string (subject);
 
-                subject = polkit_system_bus_name_new (g_dbus_method_invocation_get_sender (context));
-                id = polkit_subject_to_string (subject);
-
-                if (get_caller_pid (context, &pid)) {
-                        cmdline = get_cmdline_of_pid (pid);
-                } else {
-                        pid = 0;
-                        cmdline = NULL;
-                }
-
-                if (cmdline != NULL) {
-                        if (get_caller_uid (context, &uid)) {
-                                tmp = g_strdup_printf ("request by %s [%s pid:%d uid:%d]: %s", id, cmdline, (int) pid, uid, msg);
-                        } else {
-                                tmp = g_strdup_printf ("request by %s [%s pid:%d]: %s", id, cmdline, (int) pid, msg);
-                        }
-                } else {
-                        if (get_caller_uid (context, &uid) && pid != 0) {
-                                tmp = g_strdup_printf ("request by %s [pid:%d uid:%d]: %s", id, (int) pid, uid, msg);
-                        } else if (pid != 0) {
-                                tmp = g_strdup_printf ("request by %s [pid:%d]: %s", id, (int) pid, msg);
-                        } else {
-                                tmp = g_strdup_printf ("request by %s: %s", id, msg);
-                        }
-                }
-
-                g_free (msg);
-                msg = g_steal_pointer (&tmp);
-
-                g_object_unref (subject);
+        if (get_caller_pid (context, &pid)) 
+        {
+            cmdline = get_cmdline_of_pid (pid);
         }
+        else 
+        {
+            pid = 0;
+            cmdline = NULL;
+        }
+
+        if (cmdline != NULL) 
+        {
+            if (get_caller_uid (context, &uid)) 
+            {
+                tmp = g_strdup_printf ("request by %s [%s pid:%d uid:%d]: %s", id, cmdline, (int) pid, uid, msg);
+            } 
+            else 
+            {
+                tmp = g_strdup_printf ("request by %s [%s pid:%d]: %s", id, cmdline, (int) pid, msg);
+            }
+        }
+        else 
+        {
+            if (get_caller_uid (context, &uid) && pid != 0) 
+            {
+                tmp = g_strdup_printf ("request by %s [pid:%d uid:%d]: %s", id, (int) pid, uid, msg);
+            } 
+            else if (pid != 0) 
+            {
+                tmp = g_strdup_printf ("request by %s [pid:%d]: %s", id, (int) pid, msg);
+            } 
+            else 
+            {
+                tmp = g_strdup_printf ("request by %s: %s", id, msg);
+            }
+        }
+
+        g_free (msg);
+        msg = g_steal_pointer (&tmp);
+
+        g_object_unref (subject);
+    }
 
         syslog (LOG_NOTICE, "%s", msg);
 }
