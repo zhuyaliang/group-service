@@ -325,7 +325,7 @@ void gas_group_add_user_group (GasGroup *group,const char *name)
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (name != NULL);
     g_return_if_fail (USER_GROUP_IS_LIST (group->group_proxy));
-    g_return_if_fail (getpwnam (name) == NULL);
+    g_return_if_fail (getpwnam (name) != NULL);
 
     if (!user_group_list_call_add_user_to_group_sync (group->group_proxy,
                                                       name,
@@ -342,7 +342,7 @@ void gas_group_remove_user_group (GasGroup *group,const char *name)
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (name != NULL);
     g_return_if_fail (USER_GROUP_IS_LIST (group->group_proxy));
-    g_return_if_fail (getpwnam (name) == NULL);
+    g_return_if_fail (getpwnam (name) != NULL);
 
     if (!user_group_list_call_remove_user_from_group_sync(group->group_proxy,
                                                           name,
