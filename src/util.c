@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -30,67 +30,68 @@
 static gchar *
 get_cmdline_of_pid (GPid pid)
 {
-        gchar *ret;
-        g_autofree gchar *filename = NULL;
-        g_autofree gchar *contents = NULL;
-        gsize contents_len;
-        g_autoptr(GError) error = NULL;
-        guint n;
+    gchar *ret;
+    g_autofree gchar *filename = NULL;
+    g_autofree gchar *contents = NULL;
+    gsize contents_len;
+    g_autoptr(GError) error = NULL;
+    guint n;
 
-        filename = g_strdup_printf ("/proc/%d/cmdline", (int) pid);
+    filename = g_strdup_printf ("/proc/%d/cmdline", (int) pid);
 
-        if (!g_file_get_contents (filename,
-                                  &contents,
-                                  &contents_len,
-                                  &error)) {
-                g_warning ("Error opening `%s': %s",
-                           filename,
-                           error->message);
-                return NULL;
-        }
-        /* The kernel uses '\0' to separate arguments - replace those with a space. */
-        for (n = 0; n < contents_len - 1; n++) {
-                if (contents[n] == '\0')
-                        contents[n] = ' ';
-        }
+    if (!g_file_get_contents (filename,
+                              &contents,
+                              &contents_len,
+                              &error)) 
+    {
+        g_warning ("Error opening `%s': %s",
+                    filename,
+                    error->message);
+            return NULL;
+    }
+    /* The kernel uses '\0' to separate arguments - replace those with a space. */
+    for (n = 0; n < contents_len - 1; n++) 
+    {
+        if (contents[n] == '\0')
+            contents[n] = ' ';
+    }
 
-        ret = g_strdup (contents);
-        g_strstrip (ret);
-        return ret;
+    ret = g_strdup (contents);
+    g_strstrip (ret);
+    return ret;
 }
 
 static gboolean
 get_caller_pid (GDBusMethodInvocation *context,
                 GPid                  *pid)
 {
-        g_autoptr(GVariant) reply = NULL;
-        g_autoptr(GError) error = NULL;
-        guint32 pid_as_int;
+    g_autoptr(GVariant) reply = NULL;
+    g_autoptr(GError) error = NULL;
+    guint32 pid_as_int;
 
-        reply = g_dbus_connection_call_sync (g_dbus_method_invocation_get_connection (context),
-                                             "org.freedesktop.DBus",
-                                             "/org/freedesktop/DBus",
-                                             "org.freedesktop.DBus",
-                                             "GetConnectionUnixProcessID",
-                                             g_variant_new ("(s)",
-                                                            g_dbus_method_invocation_get_sender (context)),
-                                             G_VARIANT_TYPE ("(u)"),
-                                             G_DBUS_CALL_FLAGS_NONE,
-                                             -1,
-                                             NULL,
-                                             &error);
+    reply = g_dbus_connection_call_sync (g_dbus_method_invocation_get_connection (context),
+                                        "org.freedesktop.DBus",
+                                        "/org/freedesktop/DBus",
+                                        "org.freedesktop.DBus",
+                                        "GetConnectionUnixProcessID",
+                                         g_variant_new ("(s)",
+                                         g_dbus_method_invocation_get_sender (context)),
+                                         G_VARIANT_TYPE ("(u)"),
+                                         G_DBUS_CALL_FLAGS_NONE,
+                                         -1,
+                                         NULL,
+                                         &error);
 
-        if (reply == NULL) {
-                g_warning ("Could not talk to message bus to find uid of sender %s: %s",
-                           g_dbus_method_invocation_get_sender (context),
-                           error->message);
-                return FALSE;
-        }
-
-        g_variant_get (reply, "(u)", &pid_as_int);
-        *pid = pid_as_int;
-
-        return TRUE;
+    if (reply == NULL) 
+    {
+        g_warning ("Could not talk to message bus to find uid of sender %s: %s",
+                    g_dbus_method_invocation_get_sender (context),
+                    error->message);
+        return FALSE;
+    }
+    g_variant_get (reply, "(u)", &pid_as_int);
+    *pid = pid_as_int;
+    return TRUE;
 }
 
 void sys_log (GDBusMethodInvocation *context,
@@ -159,7 +160,7 @@ void sys_log (GDBusMethodInvocation *context,
         g_object_unref (subject);
     }
 
-        syslog (LOG_NOTICE, "%s", msg);
+    syslog (LOG_NOTICE, "%s", msg);
 }
 
 static void
@@ -199,36 +200,38 @@ compat_check_exit_status (int      estatus,
                           GError **error)
 {
 #if GLIB_CHECK_VERSION(2, 33, 12)
-        return g_spawn_check_exit_status (estatus, error);
+    return g_spawn_check_exit_status (estatus, error);
 #else
-        if (!WIFEXITED (estatus)) {
-                g_set_error (error,
-                             G_SPAWN_ERROR,
-                             G_SPAWN_ERROR_FAILED,
-                             "Exited abnormally");
-                return FALSE;
-        }
-        if (WEXITSTATUS (estatus) != 0) {
-                g_set_error (error,
-                             G_SPAWN_ERROR,
-                             G_SPAWN_ERROR_FAILED,
-                             "Exited with code %d",
-                             WEXITSTATUS(estatus));
-                return FALSE;
-        }
-        return TRUE;
+    if (!WIFEXITED (estatus)) 
+    {
+        g_set_error (error,
+                     G_SPAWN_ERROR,
+                     G_SPAWN_ERROR_FAILED,
+                    "Exited abnormally");
+            return FALSE;
+    }
+    if (WEXITSTATUS (estatus) != 0) 
+    {
+        g_set_error (error,
+                     G_SPAWN_ERROR,
+                     G_SPAWN_ERROR_FAILED,
+                    "Exited with code %d",
+                     WEXITSTATUS(estatus));
+        return FALSE;
+    }
+    return TRUE;
 #endif
 }
 
 static void
 setup_loginuid (gpointer data)
 {
-        const char *id = data;
-        int fd;
+    const char *id = data;
+    int fd;
 
-        fd = open ("/proc/self/loginuid", O_WRONLY);
-        write (fd, id, strlen (id));
-        close (fd);
+    fd = open ("/proc/self/loginuid", O_WRONLY);
+    write (fd, id, strlen (id));
+    close (fd);
 }
 
 gboolean
@@ -256,29 +259,29 @@ gboolean
 get_caller_uid (GDBusMethodInvocation *context,
                 gint                  *uid)
 {
-        g_autoptr(GVariant) reply = NULL;
-        g_autoptr(GError) error = NULL;
+    g_autoptr(GVariant) reply = NULL;
+    g_autoptr(GError) error = NULL;
 
-        reply = g_dbus_connection_call_sync (g_dbus_method_invocation_get_connection (context),
-                                             "org.freedesktop.DBus",
-                                             "/org/freedesktop/DBus",
-                                             "org.freedesktop.DBus",
-                                             "GetConnectionUnixUser",
-                                             g_variant_new ("(s)",
-                                                            g_dbus_method_invocation_get_sender (context)),
-                                             G_VARIANT_TYPE ("(u)"),
-                                             G_DBUS_CALL_FLAGS_NONE,
-                                             -1,
-                                             NULL,
-                                             &error);
+    reply = g_dbus_connection_call_sync (g_dbus_method_invocation_get_connection (context),
+                                         "org.freedesktop.DBus",
+                                         "/org/freedesktop/DBus",
+                                         "org.freedesktop.DBus",
+                                         "GetConnectionUnixUser",
+                                         g_variant_new ("(s)",
+                                                        g_dbus_method_invocation_get_sender (context)),
+                                         G_VARIANT_TYPE ("(u)"),
+                                         G_DBUS_CALL_FLAGS_NONE,
+                                         -1,
+                                         NULL,
+                                         &error);
 
-        if (reply == NULL) {
-                g_warning ("Could not talk to message bus to find uid of sender %s: %s",
-                           g_dbus_method_invocation_get_sender (context),
-                           error->message);
-                return FALSE;
-        }
-        g_variant_get (reply, "(u)", uid);
+    if (reply == NULL) {
+            g_warning ("Could not talk to message bus to find uid of sender %s: %s",
+                       g_dbus_method_invocation_get_sender (context),
+                       error->message);
+            return FALSE;
+    }
+    g_variant_get (reply, "(u)", uid);
 
-        return TRUE;
+    return TRUE;
 }

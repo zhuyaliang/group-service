@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -17,10 +17,8 @@
 
 #include <sys/types.h>
 #include <grp.h>
-
 #include <glib.h>
 #include <gio/gio.h>
-
 #include "group-generated.h"
 #include "group-list-generated.h"
 #include "util.h"
@@ -33,7 +31,7 @@ G_BEGIN_DECLS
 
 typedef struct Group 
 {
-	UserGroupListSkeleton parent;
+    UserGroupListSkeleton parent;
     
     Manage       *manage;
     gchar *object_path;

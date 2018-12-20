@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -35,14 +35,14 @@
 
 enum 
 {
-	PROP_0,
+    PROP_0,
     PROP_MANAGE_VERSION
 };
 
 struct ManagePrivate
 {
-	GDBusConnection *BusConnection;
-	GHashTable   *GroupsHashTable;
+    GDBusConnection *BusConnection;
+    GHashTable   *GroupsHashTable;
     GFileMonitor *PasswdMonitor;
     GFileMonitor *ShadowMonitor;
     GFileMonitor *GroupMonitor;
@@ -56,7 +56,7 @@ typedef void  ( FileChangeCallback )(GFileMonitor *,
                                      GFile        *,
                                      GFile        *,
                                      GFileMonitorEvent,
-									 Manage       *);
+                                     Manage       *);
 static void manage_user_group_admin_iface_init (UserGroupAdminIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (Manage,manage, USER_GROUP_TYPE_ADMIN_SKELETON, 
@@ -106,15 +106,15 @@ static GHashTable * CreateGroupsHashTable (void)
 static struct group *
 entry_generator_fgetgrent (FILE *fd)
 {
-	struct group *grent;
+    struct group *grent;
 	
     grent = fgetgrent (fd);
     if (grent != NULL) 
-	{
+    {
       	return grent;
     }
     fclose (fd);
-	return NULL;
+    return NULL;
 }
 static void LoadGroupEntries (GHashTable *groups,
 				              GroupEntryGeneratorFunc EntryGenerator,
@@ -122,16 +122,16 @@ static void LoadGroupEntries (GHashTable *groups,
 {
     struct group *grent;
     Group *group = NULL;
-	FILE *fd;
+    FILE *fd;
 
-	fd = fopen (PATH_GROUP, "r");
-   	if(fd == NULL) 
+    fd = fopen (PATH_GROUP, "r");
+    if(fd == NULL) 
     {
-    	return;
+        return;
 	}
 	
     while(1) 
-	{
+    {
     	grent = EntryGenerator (fd);
         if (grent == NULL)
         {    
@@ -150,18 +150,18 @@ static void UnRegisterGroup (Manage *manage,Group *group)
 }    
 static void RegisterGroup (Manage *manage,Group *group)
 {
-	GError *error = NULL;
-	GDBusConnection *Connection = NULL;
-	Connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
+    GError *error = NULL;
+    GDBusConnection *Connection = NULL;
+    Connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
 	
-	if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
+    if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
                                            Connection,
                                            group_get_object_path (group),
                                            &error)) 
-	{
-    	if (error != NULL) 
-		{
-        	g_print ("error exporting group object: %s", error->message);
+    {
+        if (error != NULL) 
+        {
+            g_print ("error exporting group object: %s", error->message);
             g_error_free (error);
         }
         return;
@@ -170,57 +170,54 @@ static void RegisterGroup (Manage *manage,Group *group)
 
 static void ReloadGroups (Manage *manage)
 {
-	GHashTable *GroupsHashTable;
+    GHashTable *GroupsHashTable;
     GHashTableIter iter;
     GHashTable *OldGroups;
     gpointer name,value;
     
-	manage->priv = MANAGE_GET_PRIVATE (manage);
+    manage->priv = MANAGE_GET_PRIVATE (manage);
     GroupsHashTable = CreateGroupsHashTable ();
-	LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
+    LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
     OldGroups = manage->priv->GroupsHashTable;
     manage->priv->GroupsHashTable = GroupsHashTable;
     
     g_hash_table_iter_init (&iter, OldGroups);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
-	{
+    {
     	UnRegisterGroup (manage,value);
-  	}
+    }
 
     g_hash_table_iter_init (&iter, GroupsHashTable);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
-	{
+    {
     	RegisterGroup (manage,value);
-  	}
-
-
+    }
 }
 static gboolean ReloadGroupsTimeout (Manage *manage)
 {
-        ReloadGroups (manage);
-        manage->priv->ReloadId = 0;
-
-        return FALSE;
+    ReloadGroups (manage);
+    manage->priv->ReloadId = 0;
+    return FALSE;
 }
 
 static void QueueReloadGroups (Manage *manage)
 {
-	if (manage->priv->ReloadId > 0) 
-	{
-    	return;
+    if (manage->priv->ReloadId > 0) 
+    {
+        return;
     }
     manage->priv->ReloadId = g_timeout_add (500, 
-					              (GSourceFunc)ReloadGroupsTimeout,
-								  manage);
+					                       (GSourceFunc)ReloadGroupsTimeout,
+								           manage);
 }
 static void QueueLoadGroups (Manage *manage)
 {
-	if (manage->priv->ReloadId > 0) 
-	{
+    if (manage->priv->ReloadId > 0) 
+    {
     	return;
     }
 
-   	manage->priv->ReloadId = g_idle_add ((GSourceFunc)ReloadGroupsTimeout,manage);
+    manage->priv->ReloadId = g_idle_add ((GSourceFunc)ReloadGroupsTimeout,manage);
 }
 
 static void GroupsMonitorChanged (GFileMonitor      *monitor,
@@ -271,8 +268,8 @@ static GFileMonitor *SetupMonitor (const gchar *FileName,
 
 static void manage_init (Manage *manage)
 {
-	manage->priv = MANAGE_GET_PRIVATE (manage);
-	manage->priv->ReloadId = 0;
+    manage->priv = MANAGE_GET_PRIVATE (manage);
+    manage->priv->ReloadId = 0;
     manage->priv->GroupsHashTable = CreateGroupsHashTable();
     manage->priv->PasswdMonitor = SetupMonitor (PATH_PASSWD,
 					                            GroupsMonitorChanged,
@@ -284,7 +281,7 @@ static void manage_init (Manage *manage)
 					                            GroupsMonitorChanged,
 												manage);
 
-	QueueLoadGroups (manage);
+    QueueLoadGroups (manage);
 }
 static void manage_finalize (GObject *object)
 {
@@ -352,7 +349,7 @@ void ManageLoadGroup (Manage *manage)
 }    
 Manage *manage_new(void)
 {
-	Manage *manage = NULL;
+    Manage *manage = NULL;
 
     manage = MANAGE(g_object_new (TYPE_MANAGE, NULL));
 
@@ -374,14 +371,14 @@ int	RegisterGroupManage (Manage *manage)
         return -1;
     }
 
-	manage->priv->BusConnection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
+    manage->priv->BusConnection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
     if (manage->priv->BusConnection == NULL)
-   	{
+    {
     	if (error != NULL)
-		{			
+        {			
         	g_print ("error getting system bus: %s\r\n", error->message);
         	g_error_free(error);
-		}
+        }
         printf ("error getting system bus\r\n");
         return -1;
     }
@@ -390,18 +387,18 @@ int	RegisterGroupManage (Manage *manage)
                                            manage->priv->BusConnection,
                                           "/org/group/admin",
                                            &error)) 
-	{
+    {
     	if (error != NULL)
-		{			
+        {			
         	g_print ("error export system bus: %s\r\n", error->message);
         	g_print ("error exporting interface: %s\r\n", error->message);
         	g_error_free(error);
-		}
+        }
         printf ("error exporting interface: \r\n");
         return -1;
 	}
 	
-	return 0;
+    return 0;
 }
 typedef struct 
 {

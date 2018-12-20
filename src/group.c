@@ -78,15 +78,17 @@ group_update_from_grent (Group        *group,
                          struct group *grent)
 {
     g_object_freeze_notify (G_OBJECT (group));
-    if (grent->gr_gid != group->gid) {
-            group->gid = grent->gr_gid;
-            g_object_notify (G_OBJECT (group), "gid");
+    if (grent->gr_gid != group->gid) 
+    {
+        group->gid = grent->gr_gid;
+        g_object_notify (G_OBJECT (group), "gid");
     }
 
-    if (g_strcmp0 (group->group_name, grent->gr_name) != 0) {
-            g_free (group->group_name);
-            group->group_name = g_strdup (grent->gr_name);
-            g_object_notify (G_OBJECT (group), "group-name");
+    if (g_strcmp0 (group->group_name, grent->gr_name) != 0) 
+    {
+        g_free (group->group_name);
+        group->group_name = g_strdup (grent->gr_name);
+        g_object_notify (G_OBJECT (group), "group-name");
     }
 
     g_object_thaw_notify (G_OBJECT (group));
@@ -101,7 +103,7 @@ compute_object_path (Group *group)
 	gchar *object_path;
 	group->gid = (gulong) user_group_list_get_gid (USER_GROUP_LIST(group));
     object_path = g_strdup_printf ("/org/group/admin/Group%ld",
-                                       (long) group->gid);
+                                    (long) group->gid);
 	return object_path;
 }
 static void group_finalize (GObject *object)
@@ -134,8 +136,8 @@ Group * group_new (Manage *manage,gid_t gid)
 
     group = g_object_new (TYPE_GROUP, NULL);
     group->manage = manage;
-   	user_group_list_set_gid(USER_GROUP_LIST(group),gid);
-	group->object_path = compute_object_path (group);
+    user_group_list_set_gid(USER_GROUP_LIST(group),gid);
+    group->object_path = compute_object_path (group);
     return group;
 }
 static void AddUserAuthorized_cb (Manage                *manage,

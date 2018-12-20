@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -33,13 +33,13 @@ static void AcquiredCallback (GDBusConnection *Connection,
                               const gchar *name,
                               gpointer UserData)
 {
-	Manage *manage;
+    Manage *manage;
 
-	manage = manage_new();
-	if(RegisterGroupManage (manage) < 0)
-	{
-		printf("error !!!\r\n");;
-	}
+    manage = manage_new();
+    if(RegisterGroupManage (manage) < 0)
+    {
+        printf("error !!!\r\n");;
+    }
 }
 
 static void NameLostCallback (GDBusConnection *connection,
@@ -54,10 +54,8 @@ int main (int argc, char *argv[])
 {    
     guint OwnID;
 
-//    bindtextdomain (PACKAGE, LOCALEDIR);   
     bind_textdomain_codeset (PACKAGE, "UTF-8");
     setlocale (LC_ALL, "");
-    //textdomain (PACKAGE);
 #if !GLIB_CHECK_VERSION (2, 35, 3)
     g_type_init ();
 #endif

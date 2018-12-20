@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ typedef struct ManagePrivate ManagePrivate;
 
 struct Manage {
     UserGroupAdminSkeleton parent;
-	ManagePrivate *priv;
+    ManagePrivate *priv;
 };
 
 struct ManageClass {
@@ -57,18 +57,18 @@ typedef void (*AuthorizedCallback)   (Manage                *,
                                       GDBusMethodInvocation *,
                                       gpointer              );
 
-void DbusPrintf (GDBusMethodInvocation *Invocation,
-                 gint                   ErrorCode,
-                 const gchar           *format,
+void    DbusPrintf (GDBusMethodInvocation *Invocation,
+                    gint                   ErrorCode,
+                    const gchar           *format,
                  ...);
-int RegisterGroupManage (Manage *manage);
-void ManageLoadGroup(Manage *manage);
-void LocalCheckAuthorization(Manage                *manage,
-                             Group                 *group,
-                             const gchar           *ActionFile,
-                             gboolean               AllowInteraction,
-                             AuthorizedCallback     Authorized_cb,
-                             GDBusMethodInvocation *Invocation,
-                             gpointer               Authorized_cb_data,
-                             GDestroyNotify         DestroyNotify);
+int     RegisterGroupManage (Manage *manage);
+void    ManageLoadGroup(Manage *manage);
+void    LocalCheckAuthorization(Manage                *manage,
+                                Group                 *group,
+                                const gchar           *ActionFile,
+                                gboolean               AllowInteraction,
+                                AuthorizedCallback     Authorized_cb,
+                                GDBusMethodInvocation *Invocation,
+                                gpointer               Authorized_cb_data,
+                                GDestroyNotify         DestroyNotify);
 #endif
