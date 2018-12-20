@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -34,24 +34,24 @@ typedef struct _GasGroupManagerClass GasGroupManagerClass;
 
 struct _GasGroupManager
 {
-        GObject  parent;
+    GObject  parent;
 
-        /*< private >*/
-        gpointer deprecated;
+    /*< private >*/
+    gpointer deprecated;
 };
 
 struct _GasGroupManagerClass
 {
-        GObjectClass   parent_class;
+    GObjectClass   parent_class;
 
-        void          (* group_added)                (GasGroupManager *GroupManager,
+    void          (* group_added)                (GasGroupManager *GroupManager,
                                                       GasGroup        *group);
 
-        void          (* group_removed)              (GasGroupManager *GroupManager,
+    void          (* group_removed)              (GasGroupManager *GroupManager,
                                                       GasGroup        *group);
-        void          (* group_is_logged_in_changed) (GasGroupManager *GroupManager,
+    void          (* group_is_logged_in_changed) (GasGroupManager *GroupManager,
                                                       GasGroup        *group);
-        void          (* group_changed)              (GasGroupManager  *GropuManager,
+    void          (* group_changed)              (GasGroupManager  *GropuManager,
                                                       GasGroup        *group);
 };
 
@@ -66,35 +66,35 @@ GSList *             gas_group_manager_list_groups           (GasGroupManager *m
 GasGroup *           gas_group_manager_get_group             (GasGroupManager *manager,
                                                               const char      *name);
 GasGroup *           gas_group_manager_get_group_by_id       (GasGroupManager *manager,
-                                                              uid_t           id);
+                                                              uid_t            id);
 
 GasGroup *           gas_group_manager_create_group          (GasGroupManager *manager,
-                                                              const char         *name,
-                                                              GError             **error);
+                                                              const char      *name,
+                                                              GError         **error);
 
 void                 gas_group_manager_create_group_async     (GasGroupManager *manager,
-                                                              const gchar        *name,
-                                                              GCancellable       *cancellable,
+                                                              const gchar      *name,
+                                                              GCancellable     *cancellable,
                                                               GAsyncReadyCallback callback,
-                                                              gpointer            data);
+                                                              gpointer          data);
 
 GasGroup *           gas_group_manager_create_group_finish    (GasGroupManager *manager,
                                                                GAsyncResult    *result,
-                                                               GError          **error);
+                                                               GError         **error);
 
 gboolean             gas_group_manager_delete_group           (GasGroupManager *manager,
                                                                GasGroup        *group,
-                                                               GError          **error);
+                                                               GError         **error);
 
 void                 gas_group_manager_delete_group_async     (GasGroupManager *manager,
                                                                GasGroup        *group,
-                                                               GCancellable       *cancellable,
+                                                               GCancellable    *cancellable,
                                                                GAsyncReadyCallback callback,
-                                                               gpointer            data);
+                                                               gpointer         data);
 
 gboolean             gas_group_manager_delete_group_finish    (GasGroupManager *manager,
                                                                GAsyncResult    *result,
-                                                               GError          **error);
+                                                               GError         **error);
 
 #if GLIB_CHECK_VERSION(2, 44, 0)
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (GasGroupManager, g_object_unref)

@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 
 enum 
 {
-	PROP_0,
+    PROP_0,
     PROP_GID,
     PROP_GROUP_NAME,
     PROP_LOCAL_GROUP,
@@ -45,20 +45,20 @@ enum
 enum 
 {
     CHANGED,
-   	LAST_SIGNAL
+    LAST_SIGNAL
 };
 
 struct _GasGroup 
 {
-	GObject         parent;
-	GDBusConnection *connection;
-	UserGroupList   *group_proxy;
-	guint           is_loaded : 1;
+    GObject         parent;
+    GDBusConnection *connection;
+    UserGroupList   *group_proxy;
+    guint           is_loaded : 1;
 };
 
 struct _GasGroupClass
 {
-	GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
 static void gas_group_finalize     (GObject      *object);
@@ -72,22 +72,22 @@ static void gas_group_get_property (GObject    *object,
                                     GValue     *value,
                                     GParamSpec *pspec)
 {
-	GasGroup *group;
+    GasGroup *group;
     const char *property_name;
-	group = GAS_GROUP (object);
+    group = GAS_GROUP (object);
 
     switch (param_id) 
-	{
-    case PROP_IS_LOADED:
-    	g_value_set_boolean (value, group->is_loaded);
-        break;
-    default:
-    	if (group->group_proxy != NULL) 
-		{
-			property_name = g_param_spec_get_name (pspec);
-			g_object_get_property (G_OBJECT (group->group_proxy), property_name, value);
-		}
-        break;
+    {
+        case PROP_IS_LOADED:
+            g_value_set_boolean (value, group->is_loaded);
+            break;
+        default:
+            if (group->group_proxy != NULL) 
+            {
+                property_name = g_param_spec_get_name (pspec);
+                g_object_get_property (G_OBJECT (group->group_proxy), property_name, value);
+            }
+            break;
     }
 }
 
@@ -141,27 +141,27 @@ static void gas_group_class_init (GasGroupClass *class)
 
 static void gas_group_init (GasGroup *group)
 {
-	GError *error = NULL;
+    GError *error = NULL;
 
     group->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
     if (group->connection == NULL) 
-	{
+    {
     	g_warning ("Couldn't connect to system bus: %s", error->message);
     }
 }
 
 static void gas_group_finalize (GObject *object)
 {
-	GasGroup *group;
-	group = GAS_GROUP (object);
+    GasGroup *group;
+    group = GAS_GROUP (object);
 
     if (group->group_proxy != NULL) 
-	{
+    {
     	g_object_unref (group->group_proxy);
     }
 
     if (group->connection != NULL) 
-	{
+    {
         g_object_unref (group->connection);
     }
 
@@ -169,16 +169,16 @@ static void gas_group_finalize (GObject *object)
 
 static void set_is_loaded (GasGroup *group,gboolean is_loaded)
 {
-	if (group->is_loaded != is_loaded) 
-	{
-    	group->is_loaded = is_loaded;
+    if (group->is_loaded != is_loaded) 
+    {
+        group->is_loaded = is_loaded;
         g_object_notify (G_OBJECT (group), "is-loaded");
     }
 }
 
 int gas_group_collate (GasGroup *group1,GasGroup *group2)
 {
-	const char *str1;
+    const char *str1;
     const char *str2;
 
     g_return_val_if_fail (GAS_IS_GROUP (group1), 0);
@@ -187,16 +187,19 @@ int gas_group_collate (GasGroup *group1,GasGroup *group2)
     str1 = gas_group_get_group_name (group1);
     str2 = gas_group_get_group_name (group2);
 
-    if (str1 == NULL && str2 != NULL) {
-            return -1;
+    if (str1 == NULL && str2 != NULL) 
+    {
+        return -1;
     }
 
-    if (str1 != NULL && str2 == NULL) {
-            return 1;
+    if (str1 != NULL && str2 == NULL) 
+    {
+        return 1;
     }
 
-    if (str1 == NULL && str2 == NULL) {
-            return 0;
+    if (str1 == NULL && str2 == NULL) 
+    {
+        return 0;
     }
 
     return g_utf8_collate (str1, str2);
@@ -215,10 +218,10 @@ gboolean gas_group_is_local_group(GasGroup *group)
     g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
 
     if (group->group_proxy == NULL)
-	{			
+    {			
         return FALSE;
-	}
-	return user_group_list_get_local_group(group->group_proxy);
+    }
+    return user_group_list_get_local_group(group->group_proxy);
 
 }		
 const char * gas_group_get_group_name (GasGroup *group)
@@ -234,7 +237,7 @@ gboolean gas_group_user_is_group (GasGroup *group,const char *user)
 {
     char const **users;
     int i = 0;
-	g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
+    g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
     g_return_val_if_fail (user != NULL,FALSE);
     g_return_val_if_fail (getpwnam(user) != NULL,FALSE);
     g_return_val_if_fail (USER_GROUP_IS_LIST (group->group_proxy),FALSE);

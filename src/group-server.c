@@ -98,10 +98,10 @@ void DbusPrintf (GDBusMethodInvocation *Invocation,
 }
 static GHashTable * CreateGroupsHashTable (void)
 {
-        return g_hash_table_new_full (g_str_hash,
-                                      g_str_equal,
-                                      g_free,
-                                      g_object_unref);
+    return g_hash_table_new_full (g_str_hash,
+                                  g_str_equal,
+                                  g_free,
+                                  g_object_unref);
 }
 static struct group *
 entry_generator_fgetgrent (FILE *fd)

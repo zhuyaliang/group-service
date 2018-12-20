@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -45,14 +45,14 @@ char const **  gas_group_get_group_users           (GasGroup   *Group);
 
 gint           gas_group_collate                   (GasGroup   *Group1,
                                                     GasGroup   *Group2);
-gboolean       gas_group_is_loaded                   (GasGroup   *group);
+gboolean       gas_group_is_loaded                 (GasGroup   *group);
 
 void           gas_group_set_group_name            (GasGroup   *group,
                                                     const char *name);
 void           gas_group_remove_user_group         (GasGroup   *group,
                                                     const char *user);
 void           gas_group_add_user_group            (GasGroup   *group,
-                                                   const char  *user);
+                                                    const char  *user);
 
 #if GLIB_CHECK_VERSION(2, 44, 0)
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (GasGroup, g_object_unref)

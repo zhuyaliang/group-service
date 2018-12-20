@@ -1,5 +1,5 @@
 /*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -31,12 +31,13 @@
 #include "group.h"
 #include "group-server.h"
 
-enum {
-        PROP_0,
-        PROP_GID,
-        PROP_GROUP_NAME,
-        PROP_LOCAL_GROUP,
-        PROP_USERS,
+enum
+{
+    PROP_0,
+    PROP_GID,
+    PROP_GROUP_NAME,
+    PROP_LOCAL_GROUP,
+    PROP_USERS,
 };
 
 static void user_group_list_iface_init (UserGroupListIface *iface);
@@ -46,11 +47,11 @@ G_DEFINE_TYPE_WITH_CODE (Group, group, USER_GROUP_TYPE_LIST_SKELETON,
 
 const gchar *group_get_group_name (Group *group)
 {
-	return user_group_list_get_group_name(USER_GROUP_LIST(group)); 
+    return user_group_list_get_group_name(USER_GROUP_LIST(group)); 
 }		
 const gchar *group_get_object_path (Group *group)
 {
-	return group->object_path;
+    return group->object_path;
 }
 gid_t group_get_gid (Group *group)
 {
@@ -100,11 +101,11 @@ group_update_from_grent (Group        *group,
 static gchar *
 compute_object_path (Group *group)
 {
-	gchar *object_path;
-	group->gid = (gulong) user_group_list_get_gid (USER_GROUP_LIST(group));
+    gchar *object_path;
+    group->gid = (gulong) user_group_list_get_gid (USER_GROUP_LIST(group));
     object_path = g_strdup_printf ("/org/group/admin/Group%ld",
                                     (long) group->gid);
-	return object_path;
+    return object_path;
 }
 static void group_finalize (GObject *object)
 {
@@ -128,7 +129,7 @@ static void group_init (Group *group)
 {
     group->object_path = NULL;
     group->group_name = NULL;
-	group->gid = -1;
+    group->gid = -1;
 }
 Group * group_new (Manage *manage,gid_t gid)
 {
