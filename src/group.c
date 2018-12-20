@@ -91,8 +91,8 @@ group_update_from_grent (Group        *group,
 
     g_object_thaw_notify (G_OBJECT (group));
     user_group_list_set_local_group(USER_GROUP_LIST(group),TRUE);
-   	user_group_list_set_gid(USER_GROUP_LIST(group),group->gid);
-	user_group_list_set_group_name(USER_GROUP_LIST(group),group->group_name);
+    user_group_list_set_gid(USER_GROUP_LIST(group),group->gid);
+    user_group_list_set_group_name(USER_GROUP_LIST(group),group->group_name);
     user_group_list_set_users(USER_GROUP_LIST(group),(const gchar *const *)grent->gr_mem);
 }
 static gchar *
