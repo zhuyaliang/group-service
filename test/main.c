@@ -1,25 +1,24 @@
 #include <stdio.h>
-//#include <gtk/gtk.h>
 #include <libgroupservice/gas-group.h>
 #include <libgroupservice/gas-group-manager.h>
- static void GroupTest (GasGroup *group,GasGroupManager *GroupManager)
+static void GroupTest (GasGroup *group,GasGroupManager *GroupManager)
 {
     const char *name = NULL;
     gid_t gid;
     name = gas_group_get_group_name(group);
     gid = gas_group_get_gid(group);
- 	if(name == NULL)
-	{
-		printf("Failed to get group name !!!\r\n");
-		return;
-	}
+    if(name == NULL)
+    {
+        printf("Failed to get group name !!!\r\n");
+        return;
+    }
 	printf("group name %s gid %d include %u user \r\n",
-			name,
-		   (int)gid,
-			g_strv_length((gchar **)gas_group_get_group_users(group)));	
+            name,
+            (int)gid,
+            g_strv_length((gchar **)gas_group_get_group_users(group)));	
 	
 }
- int main(void)
+int main(void)
 {
 	GasGroupManager *GroupManager;
     GasGroup *group;
@@ -31,8 +30,8 @@
  	GroupManager = gas_group_manager_get_default ();
 	if(GroupManager == NULL)
 	{
-		printf("Failed initialization group !!!\r\n");
-		return 1;
+        printf("Failed initialization group !!!\r\n");
+        return 1;
 	}
 	
 	if( gas_group_manager_no_service(GroupManager) == TRUE)
@@ -42,14 +41,14 @@
 	}	
 	
     list = gas_group_manager_list_groups (GroupManager);
-	count = g_slist_length(list);
-	if(count <= 0 )
-	{
-		printf("No group found !!!\r\n");
-		return 1;
-	}			
+    count = g_slist_length(list);
+    if(count <= 0 )
+    {
+        printf("No group found !!!\r\n");
+        return 1;
+    }			
     printf("There are %d group\r\n",count);
- 	new_group = gas_group_manager_create_group(GroupManager,
+    new_group = gas_group_manager_create_group(GroupManager,
 					                          "test-group-gas-21",
 											   &error);      
 	if(new_group == NULL)
@@ -66,8 +65,11 @@
 		return 1;
 	}
  	printf("Cretae new group %s success\r\n",gas_group_get_group_name(new_group));
-	//gas_group_add_user_group(new_group,"mouse");
-	//gas_group_remove_user_group(new_group,"mouse");         
+	/*
+    User is a local user name and can populate the test according to the actual situation
+    */
+    //gas_group_add_user_group(new_group,"user");
+	//gas_group_remove_user_group(new_group,"user");         
 	gas_group_set_group_name(new_group,"test-group-gas-22");
 	printf("Change the group name to %s\r\n",gas_group_get_group_name(new_group));
     for(l = list; l ; l = l->next,i++)
