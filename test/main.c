@@ -1,23 +1,22 @@
 #include <stdio.h>
-#include <gtk/gtk.h>
-#include <group-service-1.0/gas/gas-group.h>
-#include <group-service-1.0/gas/gas-group-manager.h>
+//#include <gtk/gtk.h>
+#include <libgroupservice/gas-group.h>
+#include <libgroupservice/gas-group-manager.h>
  static void GroupTest (GasGroup *group,GasGroupManager *GroupManager)
 {
     const char *name = NULL;
     gid_t gid;
-    GError *error = NULL;
-     name = gas_group_get_group_name(group);
+    name = gas_group_get_group_name(group);
     gid = gas_group_get_gid(group);
  	if(name == NULL)
 	{
 		printf("Failed to get group name !!!\r\n");
 		return;
 	}
-	printf("group name %s gid %d include %d user \r\n",
-					   name,
-					          gid,
-										 g_strv_length(gas_group_get_group_users(group)));	
+	printf("group name %s gid %d include %u user \r\n",
+			name,
+		   (int)gid,
+			g_strv_length((gchar **)gas_group_get_group_users(group)));	
 	
 }
  int main(void)
@@ -33,13 +32,13 @@
 	if(GroupManager == NULL)
 	{
 		printf("Failed initialization group !!!\r\n");
-		return FALSE;
+		return 1;
 	}
 	
 	if( gas_group_manager_no_service(GroupManager) == TRUE)
 	{
 		printf("Query Service Failure Service !!!\r\n");
-		return FALSE;
+		return 1;
 	}	
 	
     list = gas_group_manager_list_groups (GroupManager);
@@ -47,7 +46,7 @@
 	if(count <= 0 )
 	{
 		printf("No group found !!!\r\n");
-		return FALSE;
+		return 1;
 	}			
     printf("There are %d group\r\n",count);
  	new_group = gas_group_manager_create_group(GroupManager,
@@ -64,7 +63,7 @@
 		{
 			printf("Failed to create new group !!!\r\n");
 		}			
-		return FALSE;
+		return 1;
 	}
  	printf("Cretae new group %s success\r\n",gas_group_get_group_name(new_group));
 	//gas_group_add_user_group(new_group,"mouse");
@@ -87,9 +86,9 @@
 		else
 		{
 			printf("Failed to delete old group !!!\r\n");
-		}			
-		return FALSE;
+		}
+		return 1;
 	}
- 
- 	return TRUE;
+    printf("Delete Test Group %s Successfully",gas_group_get_group_name(new_group)); 
+ 	return 0;
 }		

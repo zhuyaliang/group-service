@@ -1,7 +1,8 @@
 pkg = import('pkgconfig')
 libgroupsservice_dir = meson.current_source_dir()
 
-subdir = gas_id.to_lower()
+#subdir = gas_id.to_lower()
+subdir = 'libgroupservice'
 
 headers = files(
   'gas-group.h',

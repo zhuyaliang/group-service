@@ -143,7 +143,10 @@ configure_file(
   )
 
 top_srcdir = include_directories('.')
+src_subdir = include_directories('.', 'src')
+
 
 subdir('po')
 subdir('src')
 subdir('data')
+subdir('test')
