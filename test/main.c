@@ -35,11 +35,11 @@ int main(void)
         return 1;
     }
 	
-	if( gas_group_manager_no_service(GroupManager) == TRUE)
-	{
-		printf("Query Service Failure Service !!!\r\n");
-		return 1;
-	}	
+    if( gas_group_manager_no_service(GroupManager) == TRUE)
+    {
+        printf("Query Service Failure Service !!!\r\n");
+        return 1;
+    }	
 	
     list = gas_group_manager_list_groups (GroupManager);
     count = g_slist_length(list);
@@ -52,27 +52,28 @@ int main(void)
     new_group = gas_group_manager_create_group(GroupManager,
 					                          "test-group-gas-21",
 											   &error);      
-	if(new_group == NULL)
-	{
-		if(error != NULL)
-		{
-			printf("Failed to create new group %s !!!\r\n",error->message);
-			g_error_free (error);
-		}	
-		else
-		{
-			printf("Failed to create new group !!!\r\n");
-		}			
-		return 1;
-	}
- 	printf("Cretae new group %s success\r\n",gas_group_get_group_name(new_group));
+    if(new_group == NULL)
+    {
+        if(error != NULL)
+        {
+            printf("Failed to create new group %s !!!\r\n",error->message);
+            g_error_free (error);
+        }	
+        else
+        {
+            printf("Failed to create new group !!!\r\n");
+        }			
+        return 1;
+    }
+    printf("Cretae new group %s success\r\n",gas_group_get_group_name(new_group));
 	/*
-    User is a local user name and can populate the test according to the actual situation
+    User is a local user name and can populate the test according to the 
+    actual situation
     */
     //gas_group_add_user_group(new_group,"user");
-	//gas_group_remove_user_group(new_group,"user");         
-	gas_group_set_group_name(new_group,"test-group-gas-22");
-	printf("Change the group name to %s\r\n",gas_group_get_group_name(new_group));
+    //gas_group_remove_user_group(new_group,"user");         
+    gas_group_set_group_name(new_group,"test-group-gas-22");
+    printf("Change the group name to %s\r\n",gas_group_get_group_name(new_group));
     for(l = list; l ; l = l->next,i++)
     {
         group = l->data;
@@ -80,18 +81,18 @@ int main(void)
     }
    
     if(gas_group_manager_delete_group(GroupManager,new_group,&error) == FALSE)
-	{
-		if(error != NULL)
-		{
-			printf("Failed to delete old group %s !!!\r\n",error->message);
-			g_error_free (error);
-		}	
-		else
-		{
-			printf("Failed to delete old group !!!\r\n");
-		}
-		return 1;
-	}
+    {
+        if(error != NULL)
+        {
+            printf("Failed to delete old group %s !!!\r\n",error->message);
+            g_error_free (error);
+        }	
+        else
+        {
+            printf("Failed to delete old group !!!\r\n");
+        }
+        return 1;
+    }
     printf("Delete Test Group %s Successfully",gas_group_get_group_name(new_group)); 
- 	return 0;
+    return 0;
 }		
