@@ -12,27 +12,28 @@ static void GroupTest (GasGroup *group,GasGroupManager *GroupManager)
         printf("Failed to get group name !!!\r\n");
         return;
     }
-	printf("group name %s gid %d include %u user \r\n",
+    printf("group name %s gid %d include %u user \r\n",
             name,
-            (int)gid,
+           (int)gid,
             g_strv_length((gchar **)gas_group_get_group_users(group)));	
 	
 }
 int main(void)
 {
-	GasGroupManager *GroupManager;
+    GasGroupManager *GroupManager;
     GasGroup *group;
-	GasGroup  *new_group;
-	GError *error = NULL;
-	GSList *list, *l;
-	int i = 0;
-	int count = 0;
- 	GroupManager = gas_group_manager_get_default ();
-	if(GroupManager == NULL)
-	{
+    GasGroup  *new_group;
+    GError *error = NULL;
+    GSList *list, *l;
+    int i = 0;
+    int count = 0;
+ 	
+    GroupManager = gas_group_manager_get_default ();
+    if(GroupManager == NULL)
+    {
         printf("Failed initialization group !!!\r\n");
         return 1;
-	}
+    }
 	
 	if( gas_group_manager_no_service(GroupManager) == TRUE)
 	{
