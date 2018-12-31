@@ -332,6 +332,23 @@ void gas_group_set_group_name (GasGroup *group,const char *name)
         return;
     }
 }
+void gas_group_set_group_id (GasGroup *group,uint gid)
+{
+    GError *error = NULL;
+
+    g_return_if_fail (GAS_IS_GROUP (group));
+    g_return_if_fail (USER_GROUP_IS_LIST (group->group_proxy));
+
+    if (!user_group_list_call_change_group_id_sync (group->group_proxy,
+                                                      gid,
+                                                      NULL,
+                                                      &error)) 
+    {
+        g_warning ("set_group_id call failed: %s", error->message);
+        return;
+    }
+}
+
 
 void gas_group_add_user_group (GasGroup *group,const char *name)
 {

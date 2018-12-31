@@ -251,6 +251,57 @@ static gboolean ChangeGroupName (UserGroupList *object,
 
     return TRUE;
 }    
+static void ChangeIdAuthorized_cb   (Manage                *manage,
+                                     Group                 *g,
+                                     GDBusMethodInvocation *Invocation,
+                                     gpointer               udata)
+
+{
+    uint id = GPOINTER_TO_UINT (udata);    
+    GError *error = NULL;
+	const gchar *Strid = g_strdup_printf("%u",id);
+    const gchar *argv[6];
+
+    if (group_get_gid (g) != id)
+    {    
+        sys_log (Invocation, "changing id of group '%u' to '%u'",
+                 group_get_gid (g),id);
+
+        argv[0] = "/usr/sbin/groupmod";
+        argv[1] = "-g";
+        argv[2] = Strid;
+        argv[3] = "--";
+        argv[4] = group_get_group_name (g);
+        argv[5] = NULL;
+        if (!spawn_with_login_uid (Invocation, argv, &error)) 
+        {
+            DbusPrintf(Invocation,ERROR_FAILED,
+                       "running '%s' failed: %s", argv[0], error->message);
+            g_error_free (error);
+			g_free(Strid);
+            return;
+        }
+       
+    }
+    user_group_list_complete_change_group_id(USER_GROUP_LIST(g),Invocation);
+}
+static gboolean ChangeGroupId (UserGroupList *object,
+                               GDBusMethodInvocation *Invocation,
+                               guint64 id)
+{
+    Group *group = (Group*) object;
+
+    LocalCheckAuthorization (group->manage,
+                             group,
+                             "org.group.admin.group-administration",
+                             TRUE,
+                             ChangeIdAuthorized_cb,
+                             Invocation,
+                             GUINT_TO_POINTER(id),
+                             NULL);
+
+    return TRUE;
+}    
 static void RemoveUserAuthorized_cb (Manage                *manage,
                                  Group                 *g,
                                  GDBusMethodInvocation *Invocation,
@@ -315,5 +366,6 @@ static void user_group_list_iface_init (UserGroupListIface *iface)
 {
     iface->handle_add_user_to_group =      AddUserToGroup;
     iface->handle_change_group_name =      ChangeGroupName;
+    iface->handle_change_group_id =        ChangeGroupId;
     iface->handle_remove_user_from_group = RemoveUserFromGroup;
 }

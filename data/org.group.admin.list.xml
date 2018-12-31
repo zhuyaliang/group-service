@@ -5,6 +5,9 @@
     <method name="ChangeGroupName">
         <arg name="name" direction="in" type="s"/>
     </method>
+    <method name="ChangeGroupId">
+        <arg name="Gid" direction="in" type="t"/>
+    </method>
 
     <method name="AddUserToGroup">
         <arg name="user" direction="in" type="s"/>
