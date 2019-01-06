@@ -713,14 +713,16 @@ static void DeleteOldGroup_cb (Manage                *manage,
         g_error_free (error);
         return;
     }
+	user_group_admin_emit_group_deleted(USER_GROUP_ADMIN(manage),group_get_object_path(g));
     user_group_admin_complete_delete_group(USER_GROUP_ADMIN(manage),Invocation);
 }    
-static gboolean ManageDeleteGroup (UserGroupAdmin *object,
+static gboolean ManageDeleteGroup (UserGroupAdmin        *object,
                                    GDBusMethodInvocation *Invocation,
-                                   gint64 gid)
+                                   gint64                 gid)
 {
     Manage *manage = (Manage*)object;
     DeleteGroupData *data;
+	Group *group;
     
     if ((gid_t)gid == 0) 
     {
@@ -729,9 +731,9 @@ static gboolean ManageDeleteGroup (UserGroupAdmin *object,
     }
     data = g_new0 (DeleteGroupData, 1);
     data->gid = gid;
-
+	group = ManageLocalFindGroupByid(manage,gid);
     LocalCheckAuthorization(manage,
-                            NULL,
+                            group,
                            "org.group.admin.group-administration",
                             TRUE,
                             DeleteOldGroup_cb,
