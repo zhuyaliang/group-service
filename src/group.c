@@ -286,7 +286,7 @@ static void ChangeIdAuthorized_cb   (Manage                *manage,
             g_free(Strid);
             return;
         }
-        user_group_list_set_gid(USER_GROUP_LIST(g),id)       
+        user_group_list_set_gid(USER_GROUP_LIST(g),id);       
         user_group_list_emit_changed (USER_GROUP_LIST(g)); 
     }
     user_group_list_complete_change_group_id(USER_GROUP_LIST(g),Invocation);
