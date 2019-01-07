@@ -155,12 +155,10 @@ static const char * DescribeGroup (GasGroup *group)
 static void on_group_changed (GasGroup *group,GasGroupManager *manager)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
-
     if (priv->is_loaded) 
     {
         g_debug ("GasGroupManager: sending group-changed signal for %s",
                  DescribeGroup (group));
-
         g_signal_emit (manager, signals[GROUP_CHANGED], 0, group);
 
         g_debug ("GasGroupManager: sent group-changed signal for %s",
@@ -266,10 +264,10 @@ static void remove_group (GasGroupManager *manager,GasGroup *group)
 static void update_group (GasGroupManager *manager,GasGroup *group)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
-    
     g_hash_table_insert (priv->normal_groups_by_name,
                          g_strdup (gas_group_get_group_name (group)),
                          g_object_ref (group));
+
     g_signal_emit (manager, signals[GROUP_ADDED], 0, group);
 }
 
@@ -366,7 +364,7 @@ static GasGroup *add_new_group_for_object_path (const char *object_path,
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     GasGroup *group;
-
+    
     group = g_hash_table_lookup (priv->groups_by_object_path, object_path);
     if (group != NULL) 
     {

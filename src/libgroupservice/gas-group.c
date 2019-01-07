@@ -299,7 +299,6 @@ void _gas_group_update_from_object_path (GasGroup *group,
     }
 
     group->group_proxy = group_proxy;
-
     g_signal_connect_object (group->group_proxy,
                             "changed",
                              G_CALLBACK (on_group_proxy_changed),

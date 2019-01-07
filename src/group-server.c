@@ -123,7 +123,7 @@ static void LoadGroupEntries (GHashTable *groups,
     struct group *grent;
     Group *group = NULL;
     FILE *fd;
-
+    
     fd = fopen (PATH_GROUP, "r");
     if(fd == NULL) 
     {

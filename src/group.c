@@ -96,7 +96,8 @@ group_update_from_grent (Group        *group,
     user_group_list_set_local_group(USER_GROUP_LIST(group),TRUE);
     user_group_list_set_gid(USER_GROUP_LIST(group),group->gid);
     user_group_list_set_group_name(USER_GROUP_LIST(group),group->group_name);
-    user_group_list_set_users(USER_GROUP_LIST(group),(const gchar *const *)grent->gr_mem);
+    user_group_list_set_users(USER_GROUP_LIST(group),
+                             (const gchar *const *)grent->gr_mem);
 }
 static gchar *
 compute_object_path (Group *group)
@@ -142,21 +143,22 @@ Group * group_new (Manage *manage,gid_t gid)
     return group;
 }
 static void AddUserAuthorized_cb (Manage                *manage,
-                                 Group                 *g,
-                                 GDBusMethodInvocation *Invocation,
-                                 gpointer               udata)
+                                  Group                 *g,
+                                  GDBusMethodInvocation *Invocation,
+                                  gpointer               udata)
 
 {
     gchar *name = udata;    
     GError *error = NULL;
     const gchar *argv[6];
-    
+    struct group * grent;
+
     if(getpwnam (name) == NULL)
     {
         DbusPrintf(Invocation,ERROR_GROUP_DOES_NOT_EXIST,
                   "%s user does not exist",name);
         return;
-    } 
+    }
     if(!is_user_in_group(g,name))
     {    
     
@@ -178,8 +180,10 @@ static void AddUserAuthorized_cb (Manage                *manage,
             return;
         }
 
-        ManageLoadGroup (manage);
-        
+        grent = getgrnam(group_get_group_name(g));
+        user_group_list_set_users(USER_GROUP_LIST(g),
+                                 (const gchar *const *)grent->gr_mem);
+        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
     }
     user_group_list_complete_add_user_to_group(USER_GROUP_LIST(g),Invocation);
 }    
@@ -229,7 +233,8 @@ static void ChangeNameAuthorized_cb (Manage                *manage,
             g_error_free (error);
             return;
         }
-       
+        user_group_list_set_group_name(USER_GROUP_LIST(g),name);       
+        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
     }
     user_group_list_complete_change_group_name(USER_GROUP_LIST(g),Invocation);
         
@@ -259,7 +264,7 @@ static void ChangeIdAuthorized_cb   (Manage                *manage,
 {
     uint id = GPOINTER_TO_UINT (udata);    
     GError *error = NULL;
-	const gchar *Strid = g_strdup_printf("%u",id);
+    const gchar *Strid = g_strdup_printf("%u",id);
     const gchar *argv[6];
 
     if (group_get_gid (g) != id)
@@ -278,10 +283,11 @@ static void ChangeIdAuthorized_cb   (Manage                *manage,
             DbusPrintf(Invocation,ERROR_FAILED,
                        "running '%s' failed: %s", argv[0], error->message);
             g_error_free (error);
-			g_free(Strid);
+            g_free(Strid);
             return;
         }
-       
+        user_group_list_set_gid(USER_GROUP_LIST(g),id)       
+        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
     }
     user_group_list_complete_change_group_id(USER_GROUP_LIST(g),Invocation);
 }
@@ -303,14 +309,15 @@ static gboolean ChangeGroupId (UserGroupList *object,
     return TRUE;
 }    
 static void RemoveUserAuthorized_cb (Manage                *manage,
-                                 Group                 *g,
-                                 GDBusMethodInvocation *Invocation,
-                                 gpointer               udata)
+                                     Group                 *g,
+                                     GDBusMethodInvocation *Invocation,
+                                     gpointer               udata)
 
 {
     gchar *name = udata;    
     GError *error = NULL;
     const gchar *argv[6];
+    struct group * grent;
     
     if(getpwnam (name) == NULL)
     {
@@ -339,7 +346,10 @@ static void RemoveUserAuthorized_cb (Manage                *manage,
             return;
         }
 
-        ManageLoadGroup (manage);
+        grent = getgrnam(group_get_group_name(g));
+        user_group_list_set_users(USER_GROUP_LIST(g),
+                                 (const gchar *const *)grent->gr_mem);
+        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
         
     }
     user_group_list_complete_remove_user_from_group (USER_GROUP_LIST(g),Invocation);
