@@ -73,7 +73,62 @@ gboolean is_user_in_group(Group *group,const char *user)
         i++;
     }    
     return FALSE;
-}    
+}   
+static gboolean on_group_changed_timeout (Group *group)
+{
+    group->changed_timeout_id = 0;
+
+    user_group_list_emit_changed(USER_GROUP_LIST (group));
+    
+    return G_SOURCE_REMOVE;
+}
+
+static void on_group_property_notify (Group *group)
+{
+    if (group->changed_timeout_id != 0)
+        return;
+    group->changed_timeout_id = g_timeout_add (250, (GSourceFunc) on_group_changed_timeout, group);
+}
+void RegisterGroup (Manage *manage,Group *group)
+{
+    GError *error = NULL;
+    GDBusConnection *Connection = NULL;
+    Connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
+    if (Connection == NULL) 
+    {
+        if (error != NULL)
+        {    
+            g_error ("error getting system bus: %s", error->message);
+            g_error_free(error);
+        }
+        return;
+    }
+    group->system_bus_connection = Connection;	
+    if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
+                                           Connection,
+                                           group_get_object_path (group),
+                                           &error)) 
+    {
+        if (error != NULL) 
+        {
+            g_error ("error exporting group object: %s", error->message);
+            g_error_free (error);
+        }
+        return;
+    }
+    g_signal_connect (G_OBJECT (group), 
+                     "notify", 
+                      G_CALLBACK (on_group_property_notify), 
+                      NULL);
+}
+
+void UnRegisterGroup (Manage *manage,Group *group)
+{
+    g_signal_handlers_disconnect_by_func (G_OBJECT (group), 
+                                          G_CALLBACK (on_group_property_notify), 
+                                          NULL);
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (group));
+}
 void
 group_update_from_grent (Group        *group,
                          struct group *grent)
@@ -92,12 +147,12 @@ group_update_from_grent (Group        *group,
         g_object_notify (G_OBJECT (group), "group-name");
     }
 
-    g_object_thaw_notify (G_OBJECT (group));
     user_group_list_set_local_group(USER_GROUP_LIST(group),TRUE);
     user_group_list_set_gid(USER_GROUP_LIST(group),group->gid);
     user_group_list_set_group_name(USER_GROUP_LIST(group),group->group_name);
     user_group_list_set_users(USER_GROUP_LIST(group),
                              (const gchar *const *)grent->gr_mem);
+    g_object_thaw_notify (G_OBJECT (group));
 }
 static gchar *
 compute_object_path (Group *group)
@@ -131,6 +186,7 @@ static void group_init (Group *group)
     group->object_path = NULL;
     group->group_name = NULL;
     group->gid = -1;
+
 }
 Group * group_new (Manage *manage,gid_t gid)
 {
@@ -140,6 +196,7 @@ Group * group_new (Manage *manage,gid_t gid)
     group->manage = manage;
     user_group_list_set_gid(USER_GROUP_LIST(group),gid);
     group->object_path = compute_object_path (group);
+    
     return group;
 }
 static void AddUserAuthorized_cb (Manage                *manage,

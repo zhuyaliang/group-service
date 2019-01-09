@@ -124,6 +124,7 @@ static void LoadGroupEntries (GHashTable *groups,
     Group *group = NULL;
     FILE *fd;
     
+    ManagePrivate *priv = MANAGE_GET_PRIVATE (manage);
     fd = fopen (PATH_GROUP, "r");
     if(fd == NULL) 
     {
@@ -137,44 +138,31 @@ static void LoadGroupEntries (GHashTable *groups,
         {    
         	break;
         }    
-		
-        group = group_new (manage,grent->gr_gid);
-        g_object_freeze_notify (G_OBJECT (group));
-        group_update_from_grent (group, grent);
-        g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
-    }
-}
-static void UnRegisterGroup (Manage *manage,Group *group)
-{
-    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (group));
-}    
-static void RegisterGroup (Manage *manage,Group *group)
-{
-    GError *error = NULL;
-    GDBusConnection *Connection = NULL;
-    Connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
-	
-    if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
-                                           Connection,
-                                           group_get_object_path (group),
-                                           &error)) 
-    {
-        if (error != NULL) 
+        group = g_hash_table_lookup (groups, grent->gr_name);
+        if(group == NULL)
         {
-            g_print ("error exporting group object: %s", error->message);
-            g_error_free (error);
-        }
-        return;
+            group = g_hash_table_lookup(priv->GroupsHashTable,grent->gr_name);
+            if(group == NULL)
+            {    
+                group = group_new (manage,grent->gr_gid);
+            }
+            else
+            {
+                g_object_ref (group);
+            }    
+            g_object_freeze_notify (G_OBJECT (group));
+            group_update_from_grent (group, grent);
+            g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
+        }    
     }
 }
-
 static void ReloadGroups (Manage *manage)
 {
-    GHashTable *GroupsHashTable;
+    GHashTable     *GroupsHashTable;
     GHashTableIter iter;
-    GHashTable *OldGroups;
-    gpointer name,value;
-    
+    GHashTable    *OldGroups;
+    gpointer       name,value;
+
     manage->priv = MANAGE_GET_PRIVATE (manage);
     GroupsHashTable = CreateGroupsHashTable ();
     LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
@@ -184,14 +172,22 @@ static void ReloadGroups (Manage *manage)
     g_hash_table_iter_init (&iter, OldGroups);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
     {
+        Group *group = value;
+        user_group_admin_emit_group_deleted (USER_GROUP_ADMIN(manage),
+                                             group_get_object_path (group));
     	UnRegisterGroup (manage,value);
     }
 
     g_hash_table_iter_init (&iter, GroupsHashTable);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
     {
+        Group *group = value;
+        user_group_admin_emit_group_added(USER_GROUP_ADMIN(manage),
+                                          group_get_object_path (group));
     	RegisterGroup (manage,value);
+        g_object_thaw_notify (G_OBJECT (group));
     }
+    g_hash_table_destroy (OldGroups);
 }
 static gboolean ReloadGroupsTimeout (Manage *manage)
 {
@@ -200,7 +196,7 @@ static gboolean ReloadGroupsTimeout (Manage *manage)
     return FALSE;
 }
 
-static void QueueReloadGroups (Manage *manage)
+static void QueueReloadGroupSoon (Manage *manage)
 {
     if (manage->priv->ReloadId > 0) 
     {
@@ -209,15 +205,6 @@ static void QueueReloadGroups (Manage *manage)
     manage->priv->ReloadId = g_timeout_add (500, 
 					                       (GSourceFunc)ReloadGroupsTimeout,
 								           manage);
-}
-static void QueueLoadGroups (Manage *manage)
-{
-    if (manage->priv->ReloadId > 0) 
-    {
-    	return;
-    }
-
-    manage->priv->ReloadId = g_idle_add ((GSourceFunc)ReloadGroupsTimeout,manage);
 }
 
 static void GroupsMonitorChanged (GFileMonitor      *monitor,
@@ -232,7 +219,7 @@ static void GroupsMonitorChanged (GFileMonitor      *monitor,
         return;
     }
 
-    QueueReloadGroups(manage);
+    QueueReloadGroupSoon(manage);
 }
 
 
@@ -281,7 +268,7 @@ static void manage_init (Manage *manage)
 					                            GroupsMonitorChanged,
 												manage);
 
-    QueueLoadGroups (manage);
+    ReloadGroupsTimeout (manage);
 }
 static void manage_finalize (GObject *object)
 {

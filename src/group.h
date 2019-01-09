@@ -34,11 +34,13 @@ typedef struct Group
     UserGroupListSkeleton parent;
     
     Manage       *manage;
-    gchar *object_path;
+    gchar        *object_path;
     gid_t         gid;
+    GDBusConnection *system_bus_connection;
     gchar        *group_name;
     gboolean      local_group;
 	GStrv         users;
+    guint         changed_timeout_id;
 }Group;
 typedef struct GroupClass
 {
@@ -50,6 +52,12 @@ Group *        group_new                     (Manage         *manage,
                                               gid_t           gid);
 void           group_update_from_grent       (Group          *group,
                                               struct group   *grent);
+
+void           RegisterGroup                 (Manage         *manage,
+                                              Group          *group);
+
+void           UnRegisterGroup               (Manage         *manage,
+                                              Group          *group);
 
 void           group_changed                 (Group          *group);
 
