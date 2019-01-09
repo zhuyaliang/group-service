@@ -156,6 +156,54 @@ static void LoadGroupEntries (GHashTable *groups,
         }    
     }
 }
+
+static struct passwd *GetPwent(FILE *fd)
+{
+    struct passwd *pwent;
+	
+    pwent = fgetpwent (fd);
+    if (pwent != NULL) 
+    {
+      	return pwent;
+    }
+    fclose (fd);
+    return NULL;
+
+}    
+static void LoadPrimaryGroup (GHashTable *groups)
+{
+    struct passwd *pwent;
+    struct group  *grent;
+    Group         *group = NULL;
+    FILE          *fd;
+    
+    fd = fopen (PATH_PASSWD, "r");
+    if(fd == NULL) 
+    {
+        return;
+	}
+    while(1) 
+    {
+    	pwent = GetPwent(fd);
+        if (pwent == NULL)
+        {    
+        	break;
+        }
+        grent = getgrgid (pwent->pw_gid);
+        if(grent == NULL)
+        {
+            continue;
+        }    
+        group = g_hash_table_lookup (groups, grent->gr_name);
+        if(group == NULL)
+        {
+            continue;
+        }    
+        g_object_freeze_notify (G_OBJECT (group));
+        user_group_list_set_primary_group(USER_GROUP_LIST(group), TRUE);
+        g_object_thaw_notify (G_OBJECT (group));
+    }    
+}    
 static void ReloadGroups (Manage *manage)
 {
     GHashTable     *GroupsHashTable;
@@ -168,7 +216,7 @@ static void ReloadGroups (Manage *manage)
     LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
     OldGroups = manage->priv->GroupsHashTable;
     manage->priv->GroupsHashTable = GroupsHashTable;
-    
+    LoadPrimaryGroup(GroupsHashTable);   
     g_hash_table_iter_init (&iter, OldGroups);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
     {

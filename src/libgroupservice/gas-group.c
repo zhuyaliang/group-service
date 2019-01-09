@@ -224,6 +224,18 @@ gboolean gas_group_is_local_group(GasGroup *group)
     return user_group_list_get_local_group(group->group_proxy);
 
 }		
+
+gboolean gas_group_is_primary_group(GasGroup *group)
+{
+    g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
+
+    if (group->group_proxy == NULL)
+    {			
+        return FALSE;
+    }
+    return user_group_list_get_primary_group(group->group_proxy);
+}
+
 const char * gas_group_get_group_name (GasGroup *group)
 {
     g_return_val_if_fail (GAS_IS_GROUP (group), NULL);

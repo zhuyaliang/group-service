@@ -38,6 +38,8 @@ const char    *gas_group_get_group_name            (GasGroup   *Group);
 
 gboolean       gas_group_is_local_group            (GasGroup   *Group);
 
+gboolean       gas_group_is_primary_group          (GasGroup   *Group);
+
 gboolean       gas_group_user_is_group             (GasGroup   *Group,
                                                     const char *user);
 

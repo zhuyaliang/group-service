@@ -26,6 +26,9 @@
     <property name="LocalGroup" type="b" access="read">
     </property>
 
+    <property name="PrimaryGroup" type="b" access="read">
+    </property>
+    
     <property name="Users" type="as" access="read">
     </property>
 
