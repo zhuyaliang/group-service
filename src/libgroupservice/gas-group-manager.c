@@ -971,6 +971,7 @@ static gboolean ensure_group_admin_proxy (GasGroupManager *manager)
                      "group-added",
                       G_CALLBACK (new_group_add_in_group_admin_service),
                       manager);
+
     g_signal_connect (priv->group_admin_proxy,
                      "group-deleted",
                       G_CALLBACK (old_group_removed_in_group_admin_service),
