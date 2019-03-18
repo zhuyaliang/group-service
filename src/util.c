@@ -227,10 +227,14 @@ static void
 setup_loginuid (gpointer data)
 {
     const char *id = data;
-    int fd;
+    int fd,len;
 
     fd = open ("/proc/self/loginuid", O_WRONLY);
-    write (fd, id, strlen (id));
+    len = write (fd, id, strlen (id));
+    if(len <= 0 )
+    {
+        g_warning("write /proc/self/loginuid error!!!\r\n");
+    }    
     close (fd);
 }
 
