@@ -1,13 +1,13 @@
 project('group-service', 'c',
   version : '1.1.0',
   license : 'GPLv3',
-  meson_version : '>=0.46.0',
+  meson_version : '>=0.50.0',
   default_options : [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11'],
   )
 
 gas_id = 'gas'
 gas_name = meson.project_name()
-gas_api_version = '1.0'
+gas_api_version = '1.1'
 gas_api_name = '@0@-@1@'.format(gas_name, gas_api_version)
 gas_prefix = get_option('prefix')
 gas_datadir = join_paths(gas_prefix, get_option('datadir'))
@@ -19,7 +19,7 @@ gas_includedir = join_paths(gas_prefix, get_option('includedir'))
 gas_pkgincludedir = join_paths(gas_includedir, gas_api_name)
 gas_sysconfdir = join_paths(gas_prefix, get_option('sysconfdir'))
 soversion = 1
-current = 0
+current = 1
 revision = 0
 libversion = '@0@.@1@.@2@'.format(soversion, current, revision)
 dbus_dep = dependency('dbus-1')
