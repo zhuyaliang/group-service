@@ -7,7 +7,7 @@ project('group-service', 'c',
 
 gas_id = 'gas'
 gas_name = meson.project_name()
-gas_api_version = '1.1'
+gas_api_version = '1.0'
 gas_api_name = '@0@-@1@'.format(gas_name, gas_api_version)
 gas_prefix = get_option('prefix')
 gas_datadir = join_paths(gas_prefix, get_option('datadir'))
