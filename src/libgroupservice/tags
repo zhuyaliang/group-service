@@ -1,0 +1,178 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/45968eff/
+CHANGED	gas-group.c	/^    CHANGED,$/;"	e	enum:__anon01e615eb0203	file:
+CreateHashNewTable	gas-group-manager.c	/^static GHashTable *CreateHashNewTable(void )$/;"	f	typeref:typename:GHashTable *	file:
+DescribeGroup	gas-group-manager.c	/^static const char * DescribeGroup (GasGroup *group)$/;"	f	typeref:typename:const char *	file:
+GAS_GROUP	gas-group.h	/^#define GAS_GROUP(/;"	d
+GAS_GROUP_CLASS	gas-group.c	/^#define GAS_GROUP_CLASS(/;"	d	file:
+GAS_GROUP_GET_CLASS	gas-group.c	/^#define GAS_GROUP_GET_CLASS(/;"	d	file:
+GAS_GROUP_MANAGER	gas-group-manager.h	/^#define GAS_GROUP_MANAGER(/;"	d
+GAS_GROUP_MANAGER_CLASS	gas-group-manager.h	/^#define GAS_GROUP_MANAGER_CLASS(/;"	d
+GAS_GROUP_MANAGER_FETCH_GROUP_FROM_GROUPNAME_REQUEST	gas-group-manager.c	/^    GAS_GROUP_MANAGER_FETCH_GROUP_FROM_GROUPNAME_REQUEST,$/;"	e	enum:__anonb675fc730203	file:
+GAS_GROUP_MANAGER_FETCH_GROUP_FROM_ID_REQUEST	gas-group-manager.c	/^    GAS_GROUP_MANAGER_FETCH_GROUP_FROM_ID_REQUEST,$/;"	e	enum:__anonb675fc730203	file:
+GAS_GROUP_MANAGER_GET_CLASS	gas-group-manager.h	/^#define GAS_GROUP_MANAGER_GET_CLASS(/;"	d
+GAS_GROUP_MANAGER_GET_GROUP_STATE_ASK_GROUP_SERVICE	gas-group-manager.c	/^    GAS_GROUP_MANAGER_GET_GROUP_STATE_ASK_GROUP_SERVICE,$/;"	e	enum:__anonb675fc730103	file:
+GAS_GROUP_MANAGER_GET_GROUP_STATE_FETCHED	gas-group-manager.c	/^    GAS_GROUP_MANAGER_GET_GROUP_STATE_FETCHED$/;"	e	enum:__anonb675fc730103	file:
+GAS_GROUP_MANAGER_GET_GROUP_STATE_UNFETCHED	gas-group-manager.c	/^    GAS_GROUP_MANAGER_GET_GROUP_STATE_UNFETCHED = 0,$/;"	e	enum:__anonb675fc730103	file:
+GAS_GROUP_MANAGER_GET_GROUP_STATE_WAIT_FOR_LOADED	gas-group-manager.c	/^    GAS_GROUP_MANAGER_GET_GROUP_STATE_WAIT_FOR_LOADED,$/;"	e	enum:__anonb675fc730103	file:
+GAS_IS_GROUP	gas-group.h	/^#define GAS_IS_GROUP(/;"	d
+GAS_IS_GROUP_CLASS	gas-group.c	/^#define GAS_IS_GROUP_CLASS(/;"	d	file:
+GAS_IS_GROUP_MANAGER	gas-group-manager.h	/^#define GAS_IS_GROUP_MANAGER(/;"	d
+GAS_IS_GROUP_MANAGER_CLASS	gas-group-manager.h	/^#define GAS_IS_GROUP_MANAGER_CLASS(/;"	d
+GAS_TYPE_GROUP	gas-group.h	/^#define GAS_TYPE_GROUP /;"	d
+GAS_TYPE_GROUP_MANAGER	gas-group-manager.h	/^#define GAS_TYPE_GROUP_MANAGER /;"	d
+GROUPADMIN_INTERFACE	gas-group-manager.c	/^#define GROUPADMIN_INTERFACE /;"	d	file:
+GROUPADMIN_NAME	gas-group-manager.c	/^#define GROUPADMIN_NAME /;"	d	file:
+GROUPADMIN_PATH	gas-group-manager.c	/^#define GROUPADMIN_PATH /;"	d	file:
+GROUP_ADDED	gas-group-manager.c	/^    GROUP_ADDED,$/;"	e	enum:__anonb675fc730703	file:
+GROUP_CHANGED	gas-group-manager.c	/^    GROUP_CHANGED,$/;"	e	enum:__anonb675fc730703	file:
+GROUP_IS_LOGGED_IN_CHANGED	gas-group-manager.c	/^    GROUP_IS_LOGGED_IN_CHANGED,$/;"	e	enum:__anonb675fc730703	file:
+GROUP_LSIT_INTERFACE	gas-group.c	/^#define GROUP_LSIT_INTERFACE /;"	d	file:
+GROUP_NAME	gas-group.c	/^#define GROUP_NAME /;"	d	file:
+GROUP_REMOVED	gas-group-manager.c	/^    GROUP_REMOVED,$/;"	e	enum:__anonb675fc730703	file:
+G_DEFINE_TYPE	gas-group.c	/^G_DEFINE_TYPE (GasGroup, gas_group, G_TYPE_OBJECT)$/;"	f	file:
+G_DEFINE_TYPE_WITH_PRIVATE	gas-group-manager.c	/^G_DEFINE_TYPE_WITH_PRIVATE (GasGroupManager, gas_group_manager, G_TYPE_OBJECT)$/;"	f	file:
+GasGroup	gas-group.h	/^typedef struct _GasGroup      GasGroup;$/;"	t	typeref:struct:_GasGroup
+GasGroupClass	gas-group.h	/^typedef struct _GasGroupClass GasGroupClass;$/;"	t	typeref:struct:_GasGroupClass
+GasGroupManager	gas-group-manager.h	/^typedef struct _GasGroupManager GasGroupManager;$/;"	t	typeref:struct:_GasGroupManager
+GasGroupManagerClass	gas-group-manager.h	/^typedef struct _GasGroupManagerClass GasGroupManagerClass;$/;"	t	typeref:struct:_GasGroupManagerClass
+GasGroupManagerFetchGroupRequest	gas-group-manager.c	/^} GasGroupManagerFetchGroupRequest;$/;"	t	typeref:struct:__anonb675fc730308	file:
+GasGroupManagerFetchGroupRequestType	gas-group-manager.c	/^} GasGroupManagerFetchGroupRequestType;$/;"	t	typeref:enum:__anonb675fc730203	file:
+GasGroupManagerGetGroupState	gas-group-manager.c	/^} GasGroupManagerGetGroupState;$/;"	t	typeref:enum:__anonb675fc730103	file:
+GasGroupManagerPrivate	gas-group-manager.c	/^} GasGroupManagerPrivate;$/;"	t	typeref:struct:__anonb675fc730508	file:
+LAST_SIGNAL	gas-group-manager.c	/^    LAST_SIGNAL$/;"	e	enum:__anonb675fc730703	file:
+LAST_SIGNAL	gas-group.c	/^    LAST_SIGNAL$/;"	e	enum:__anon01e615eb0203	file:
+PROP_0	gas-group-manager.c	/^    PROP_0,$/;"	e	enum:__anonb675fc730603	file:
+PROP_0	gas-group.c	/^    PROP_0,$/;"	e	enum:__anon01e615eb0103	file:
+PROP_EXCLUDE_GROUPNAMES_LIST	gas-group-manager.c	/^    PROP_EXCLUDE_GROUPNAMES_LIST,$/;"	e	enum:__anonb675fc730603	file:
+PROP_GID	gas-group.c	/^    PROP_GID,$/;"	e	enum:__anon01e615eb0103	file:
+PROP_GROUP_NAME	gas-group.c	/^    PROP_GROUP_NAME,$/;"	e	enum:__anon01e615eb0103	file:
+PROP_INCLUDE_GROUPNAMES_LIST	gas-group-manager.c	/^    PROP_INCLUDE_GROUPNAMES_LIST,$/;"	e	enum:__anonb675fc730603	file:
+PROP_IS_LOADED	gas-group-manager.c	/^    PROP_IS_LOADED,$/;"	e	enum:__anonb675fc730603	file:
+PROP_IS_LOADED	gas-group.c	/^    PROP_IS_LOADED$/;"	e	enum:__anon01e615eb0103	file:
+PROP_LOCAL_GROUP	gas-group.c	/^    PROP_LOCAL_GROUP,$/;"	e	enum:__anon01e615eb0103	file:
+_GasGroup	gas-group.c	/^struct _GasGroup $/;"	s	file:
+_GasGroupClass	gas-group.c	/^struct _GasGroupClass$/;"	s	file:
+_GasGroupManager	gas-group-manager.h	/^struct _GasGroupManager$/;"	s
+_GasGroupManagerClass	gas-group-manager.h	/^struct _GasGroupManagerClass$/;"	s
+__GAS_GROUP_H__	gas-group.h	/^#define __GAS_GROUP_H__$/;"	d
+__GAS_GROUP_MANAGER_H__	gas-group-manager.h	/^#define __GAS_GROUP_MANAGER_H__$/;"	d
+__GAS_GROUP_PRIVATE_H_	gas-group-private.h	/^#define __GAS_GROUP_PRIVATE_H_$/;"	d
+__GAS_H__	gas.h	/^#define __GAS_H__$/;"	d
+__anon01e615eb0103	gas-group.c	/^{$/;"	g	file:
+__anon01e615eb0203	gas-group.c	/^{$/;"	g	file:
+__anonb675fc730103	gas-group-manager.c	/^{$/;"	g	file:
+__anonb675fc730203	gas-group-manager.c	/^{$/;"	g	file:
+__anonb675fc730308	gas-group-manager.c	/^{$/;"	s	file:
+__anonb675fc73040a	gas-group-manager.c	/^    {$/;"	u	struct:__anonb675fc730308	file:
+__anonb675fc730508	gas-group-manager.c	/^{$/;"	s	file:
+__anonb675fc730603	gas-group-manager.c	/^{$/;"	g	file:
+__anonb675fc730703	gas-group-manager.c	/^{$/;"	g	file:
+_gas_group_update_from_object_path	gas-group.c	/^void _gas_group_update_from_object_path (GasGroup *group,$/;"	f	typeref:typename:void
+add_group	gas-group-manager.c	/^static void add_group (GasGroupManager *manager,$/;"	f	typeref:typename:void	file:
+add_new_group_for_object_path	gas-group-manager.c	/^static GasGroup *add_new_group_for_object_path (const char *object_path,$/;"	f	typeref:typename:GasGroup *	file:
+connection	gas-group-manager.c	/^    GDBusConnection       *connection;$/;"	m	struct:__anonb675fc730508	typeref:typename:GDBusConnection *	file:
+connection	gas-group.c	/^    GDBusConnection *connection;$/;"	m	struct:_GasGroup	typeref:typename:GDBusConnection *	file:
+create_new_group	gas-group-manager.c	/^static GasGroup *create_new_group (GasGroupManager *manager)$/;"	f	typeref:typename:GasGroup *	file:
+deprecated	gas-group-manager.h	/^    gpointer deprecated;$/;"	m	struct:_GasGroupManager	typeref:typename:gpointer
+description	gas-group-manager.c	/^    char                          *description;$/;"	m	struct:__anonb675fc730308	typeref:typename:char *	file:
+ensure_group_admin_proxy	gas-group-manager.c	/^static gboolean ensure_group_admin_proxy (GasGroupManager *manager)$/;"	f	typeref:typename:gboolean	file:
+exclude_groupnames	gas-group-manager.c	/^    GSList                *exclude_groupnames;$/;"	m	struct:__anonb675fc730508	typeref:typename:GSList *	file:
+fetch_group_incrementally	gas-group-manager.c	/^static void fetch_group_incrementally (GasGroupManagerFetchGroupRequest *request)$/;"	f	typeref:typename:void	file:
+fetch_group_requests	gas-group-manager.c	/^    GSList                *fetch_group_requests;$/;"	m	struct:__anonb675fc730508	typeref:typename:GSList *	file:
+fetch_group_with_groupname_from_group_admin_service	gas-group-manager.c	/^fetch_group_with_groupname_from_group_admin_service (GasGroupManager *manager,$/;"	f	typeref:typename:void	file:
+fetch_group_with_id_from_group_admin_service	gas-group-manager.c	/^static void fetch_group_with_id_from_group_admin_service (GasGroupManager *manager,$/;"	f	typeref:typename:void	file:
+find_group_in_group_admin_service	gas-group-manager.c	/^static void find_group_in_group_admin_service (GasGroupManager *manager,$/;"	f	typeref:typename:void	file:
+find_new_group_with_object_path	gas-group-manager.c	/^static GasGroup *find_new_group_with_object_path (GasGroupManager *manager,$/;"	f	typeref:typename:GasGroup *	file:
+free_fetch_group_request	gas-group-manager.c	/^free_fetch_group_request (GasGroupManagerFetchGroupRequest *request,gpointer userdata)$/;"	f	typeref:typename:void	file:
+gas_group_add_user_group	gas-group.c	/^void gas_group_add_user_group (GasGroup *group,const char *name)$/;"	f	typeref:typename:void
+gas_group_class_init	gas-group.c	/^static void gas_group_class_init (GasGroupClass *class)$/;"	f	typeref:typename:void	file:
+gas_group_collate	gas-group.c	/^int gas_group_collate (GasGroup *group1,GasGroup *group2)$/;"	f	typeref:typename:int
+gas_group_finalize	gas-group.c	/^static void gas_group_finalize (GObject *object)$/;"	f	typeref:typename:void	file:
+gas_group_get_gid	gas-group.c	/^gid_t gas_group_get_gid (GasGroup *group)$/;"	f	typeref:typename:gid_t
+gas_group_get_group_name	gas-group.c	/^const char * gas_group_get_group_name (GasGroup *group)$/;"	f	typeref:typename:const char *
+gas_group_get_group_users	gas-group.c	/^char const **gas_group_get_group_users (GasGroup *group)$/;"	f	typeref:typename:char const **
+gas_group_get_object_path	gas-group.c	/^const char * gas_group_get_object_path (GasGroup *group)$/;"	f	typeref:typename:const char *
+gas_group_init	gas-group.c	/^static void gas_group_init (GasGroup *group)$/;"	f	typeref:typename:void	file:
+gas_group_is_loaded	gas-group.c	/^gboolean gas_group_is_loaded (GasGroup *group)$/;"	f	typeref:typename:gboolean
+gas_group_is_local_group	gas-group.c	/^gboolean gas_group_is_local_group(GasGroup *group)$/;"	f	typeref:typename:gboolean
+gas_group_is_primary_group	gas-group.c	/^gboolean gas_group_is_primary_group(GasGroup *group)$/;"	f	typeref:typename:gboolean
+gas_group_manager_async_complete_handler	gas-group-manager.c	/^static void gas_group_manager_async_complete_handler (GObject      *source,$/;"	f	typeref:typename:void	file:
+gas_group_manager_class_init	gas-group-manager.c	/^static void gas_group_manager_class_init (GasGroupManagerClass *klass)$/;"	f	typeref:typename:void	file:
+gas_group_manager_create_group	gas-group-manager.c	/^GasGroup *gas_group_manager_create_group (GasGroupManager *manager,$/;"	f	typeref:typename:GasGroup *
+gas_group_manager_create_group_async	gas-group-manager.c	/^void gas_group_manager_create_group_async (GasGroupManager     *manager,$/;"	f	typeref:typename:void
+gas_group_manager_create_group_finish	gas-group-manager.c	/^GasGroup *gas_group_manager_create_group_finish (GasGroupManager  *manager,$/;"	f	typeref:typename:GasGroup *
+gas_group_manager_delete_group	gas-group-manager.c	/^gboolean gas_group_manager_delete_group (GasGroupManager  *manager,$/;"	f	typeref:typename:gboolean
+gas_group_manager_delete_group_async	gas-group-manager.c	/^void gas_group_manager_delete_group_async (GasGroupManager     *manager,$/;"	f	typeref:typename:void
+gas_group_manager_delete_group_finish	gas-group-manager.c	/^gboolean gas_group_manager_delete_group_finish (GasGroupManager  *manager,$/;"	f	typeref:typename:gboolean
+gas_group_manager_finalize	gas-group-manager.c	/^static void gas_group_manager_finalize (GObject *object)$/;"	f	typeref:typename:void	file:
+gas_group_manager_get_default	gas-group-manager.c	/^GasGroupManager *gas_group_manager_get_default (void)$/;"	f	typeref:typename:GasGroupManager *
+gas_group_manager_get_group	gas-group-manager.c	/^GasGroup *gas_group_manager_get_group (GasGroupManager *manager,$/;"	f	typeref:typename:GasGroup *
+gas_group_manager_get_group_by_id	gas-group-manager.c	/^GasGroup * gas_group_manager_get_group_by_id (GasGroupManager *manager,$/;"	f	typeref:typename:GasGroup *
+gas_group_manager_get_property	gas-group-manager.c	/^static void gas_group_manager_get_property (GObject        *object,$/;"	f	typeref:typename:void	file:
+gas_group_manager_init	gas-group-manager.c	/^static void gas_group_manager_init (GasGroupManager *manager)$/;"	f	typeref:typename:void	file:
+gas_group_manager_list_groups	gas-group-manager.c	/^GSList * gas_group_manager_list_groups (GasGroupManager *manager)$/;"	f	typeref:typename:GSList *
+gas_group_manager_no_service	gas-group-manager.c	/^gboolean gas_group_manager_no_service (GasGroupManager *manager)$/;"	f	typeref:typename:gboolean
+gas_group_manager_set_property	gas-group-manager.c	/^static void gas_group_manager_set_property (GObject        *object,$/;"	f	typeref:typename:void	file:
+gas_group_remove_user_group	gas-group.c	/^void gas_group_remove_user_group (GasGroup *group,const char *name)$/;"	f	typeref:typename:void
+gas_group_set_group_id	gas-group.c	/^void gas_group_set_group_id (GasGroup *group,uint gid)$/;"	f	typeref:typename:void
+gas_group_set_group_name	gas-group.c	/^void gas_group_set_group_name (GasGroup *group,const char *name)$/;"	f	typeref:typename:void
+gas_group_user_is_group	gas-group.c	/^gboolean gas_group_user_is_group (GasGroup *group,const char *user)$/;"	f	typeref:typename:gboolean
+gid	gas-group-manager.c	/^        gid_t   gid;$/;"	m	union:__anonb675fc730308::__anonb675fc73040a	typeref:typename:gid_t	file:
+give_up	gas-group-manager.c	/^static void give_up (GasGroupManager                 *manager,$/;"	f	typeref:typename:void	file:
+group	gas-group-manager.c	/^    GasGroup                      *group;$/;"	m	struct:__anonb675fc730308	typeref:typename:GasGroup *	file:
+group_added	gas-group-manager.h	/^    void          (* group_added)                (GasGroupManager *GroupManager,$/;"	m	struct:_GasGroupManagerClass	typeref:typename:void (*)(GasGroupManager * GroupManager,GasGroup * group)
+group_admin_proxy	gas-group-manager.c	/^    UserGroupAdmin        *group_admin_proxy;$/;"	m	struct:__anonb675fc730508	typeref:typename:UserGroupAdmin *	file:
+group_changed	gas-group-manager.h	/^    void          (* group_changed)              (GasGroupManager  *GropuManager,$/;"	m	struct:_GasGroupManagerClass	typeref:typename:void (*)(GasGroupManager * GropuManager,GasGroup * group)
+group_is_logged_in_changed	gas-group-manager.h	/^    void          (* group_is_logged_in_changed) (GasGroupManager *GroupManager,$/;"	m	struct:_GasGroupManagerClass	typeref:typename:void (*)(GasGroupManager * GroupManager,GasGroup * group)
+group_manager_object	gas-group-manager.c	/^static gpointer group_manager_object = NULL;$/;"	v	typeref:typename:gpointer	file:
+group_proxy	gas-group.c	/^    UserGroupList   *group_proxy;$/;"	m	struct:_GasGroup	typeref:typename:UserGroupList *	file:
+group_removed	gas-group-manager.h	/^    void          (* group_removed)              (GasGroupManager *GroupManager,$/;"	m	struct:_GasGroupManagerClass	typeref:typename:void (*)(GasGroupManager * GroupManager,GasGroup * group)
+groupname_in_exclude_list	gas-group-manager.c	/^static gboolean groupname_in_exclude_list (GasGroupManager *manager,$/;"	f	typeref:typename:gboolean	file:
+groups_by_object_path	gas-group-manager.c	/^    GHashTable            *groups_by_object_path;$/;"	m	struct:__anonb675fc730508	typeref:typename:GHashTable *	file:
+include_groupnames	gas-group-manager.c	/^    GSList                *include_groupnames;$/;"	m	struct:__anonb675fc730508	typeref:typename:GSList *	file:
+is_loaded	gas-group-manager.c	/^    gboolean               is_loaded;$/;"	m	struct:__anonb675fc730508	typeref:typename:gboolean	file:
+is_loaded	gas-group.c	/^    guint           is_loaded : 1;$/;"	m	struct:_GasGroup	typeref:typename:guint:1	file:
+list_cached_groups_done	gas-group-manager.c	/^    gboolean               list_cached_groups_done;$/;"	m	struct:__anonb675fc730508	typeref:typename:gboolean	file:
+listify_hash_values_hfunc	gas-group-manager.c	/^static void listify_hash_values_hfunc (gpointer key,$/;"	f	typeref:typename:void	file:
+load_group	gas-group-manager.c	/^static void load_group (GasGroupManager *manager,const char *name)$/;"	f	typeref:typename:void	file:
+load_groups	gas-group-manager.c	/^static void load_groups (GasGroupManager *manager)$/;"	f	typeref:typename:void	file:
+load_groups_paths	gas-group-manager.c	/^static void load_groups_paths (GasGroupManager       *manager,$/;"	f	typeref:typename:void	file:
+load_included_groupnames	gas-group-manager.c	/^static void load_included_groupnames (GasGroupManager *manager)$/;"	f	typeref:typename:void	file:
+lookup_group_by_name	gas-group-manager.c	/^static GasGroup *lookup_group_by_name (GasGroupManager *manager,$/;"	f	typeref:typename:GasGroup *	file:
+manager	gas-group-manager.c	/^    GasGroupManager               *manager;$/;"	m	struct:__anonb675fc730308	typeref:typename:GasGroupManager *	file:
+match_name_cmpfunc	gas-group-manager.c	/^static gint match_name_cmpfunc (gconstpointer a,$/;"	f	typeref:typename:gint	file:
+name	gas-group-manager.c	/^        char    *name;$/;"	m	union:__anonb675fc730308::__anonb675fc73040a	typeref:typename:char *	file:
+new_group_add_in_group_admin_service	gas-group-manager.c	/^static void new_group_add_in_group_admin_service (GDBusProxy *proxy,$/;"	f	typeref:typename:void	file:
+new_groups	gas-group-manager.c	/^    GSList                *new_groups;$/;"	m	struct:__anonb675fc730508	typeref:typename:GSList *	file:
+new_groups_inhibiting_load	gas-group-manager.c	/^    GSList                *new_groups_inhibiting_load;$/;"	m	struct:__anonb675fc730508	typeref:typename:GSList *	file:
+normal_groups_by_name	gas-group-manager.c	/^    GHashTable            *normal_groups_by_name;$/;"	m	struct:__anonb675fc730508	typeref:typename:GHashTable *	file:
+object_path	gas-group-manager.c	/^    char                          *object_path;$/;"	m	struct:__anonb675fc730308	typeref:typename:char *	file:
+old_group_removed_in_group_admin_service	gas-group-manager.c	/^static void old_group_removed_in_group_admin_service (GDBusProxy *proxy,$/;"	f	typeref:typename:void	file:
+on_find_group_by_id_finished	gas-group-manager.c	/^on_find_group_by_id_finished (GObject       *object,$/;"	f	typeref:typename:void	file:
+on_find_group_by_name_finished	gas-group-manager.c	/^on_find_group_by_name_finished (GObject       *object,$/;"	f	typeref:typename:void	file:
+on_group_changed	gas-group-manager.c	/^static void on_group_changed (GasGroup *group,GasGroupManager *manager)$/;"	f	typeref:typename:void	file:
+on_group_manager_maybe_ready_for_request	gas-group-manager.c	/^on_group_manager_maybe_ready_for_request (GasGroupManager                  *manager,$/;"	f	typeref:typename:void	file:
+on_group_proxy_changed	gas-group.c	/^static void on_group_proxy_changed (GasGroup *group)$/;"	f	typeref:typename:void	file:
+on_new_group_loaded	gas-group-manager.c	/^static void on_new_group_loaded (GasGroup        *group,$/;"	f	typeref:typename:void	file:
+parent	gas-group-manager.h	/^    GObject  parent;$/;"	m	struct:_GasGroupManager	typeref:typename:GObject
+parent	gas-group.c	/^    GObject         parent;$/;"	m	struct:_GasGroup	typeref:typename:GObject	file:
+parent_class	gas-group-manager.h	/^    GObjectClass   parent_class;$/;"	m	struct:_GasGroupManagerClass	typeref:typename:GObjectClass
+parent_class	gas-group.c	/^    GObjectClass parent_class;$/;"	m	struct:_GasGroupClass	typeref:typename:GObjectClass	file:
+reload_proxy	gas-group.c	/^static void reload_proxy(GasGroup *group)$/;"	f	typeref:typename:void	file:
+remove_group	gas-group-manager.c	/^static void remove_group (GasGroupManager *manager,GasGroup *group)$/;"	f	typeref:typename:void	file:
+set_exclude_groupnames	gas-group-manager.c	/^static void set_exclude_groupnames (GasGroupManager *manager,$/;"	f	typeref:typename:void	file:
+set_include_groupnames	gas-group-manager.c	/^static void set_include_groupnames (GasGroupManager *manager,$/;"	f	typeref:typename:void	file:
+set_is_loaded	gas-group-manager.c	/^static void set_is_loaded (GasGroupManager *manager,$/;"	f	typeref:typename:void	file:
+set_is_loaded	gas-group.c	/^static void set_is_loaded (GasGroup *group,gboolean is_loaded)$/;"	f	typeref:typename:void	file:
+signals	gas-group-manager.c	/^static guint signals [LAST_SIGNAL] = { 0, };$/;"	v	typeref:typename:guint[]	file:
+signals	gas-group.c	/^static guint signals[LAST_SIGNAL] = { 0 };$/;"	v	typeref:typename:guint[]	file:
+slist_deep_copy	gas-group-manager.c	/^static GSList * slist_deep_copy (const GSList *list)$/;"	f	typeref:typename:GSList *	file:
+state	gas-group-manager.c	/^    GasGroupManagerGetGroupState   state;$/;"	m	struct:__anonb675fc730308	typeref:typename:GasGroupManagerGetGroupState	file:
+type	gas-group-manager.c	/^    GasGroupManagerFetchGroupRequestType type;$/;"	m	struct:__anonb675fc730308	typeref:typename:GasGroupManagerFetchGroupRequestType	file:
+update_group	gas-group-manager.c	/^static void update_group (GasGroupManager *manager,GasGroup *group)$/;"	f	typeref:typename:void	file:
