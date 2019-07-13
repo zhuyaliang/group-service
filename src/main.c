@@ -36,6 +36,13 @@ static void AcquiredCallback (GDBusConnection *Connection,
     Manage *manage;
 
     manage = manage_new();
+    if (manage == NULL) 
+    {
+        g_printerr ("Failed to initialize daemon manage\n");
+        g_main_loop_quit (loop);
+        return;
+    }
+
     if(RegisterGroupManage (manage) < 0)
     {
         printf("error !!!\r\n");;
@@ -59,7 +66,7 @@ int main (int argc, char *argv[])
 #if !GLIB_CHECK_VERSION (2, 35, 3)
     g_type_init ();
 #endif
- 
+	
     OwnID = g_bus_own_name (G_BUS_TYPE_SYSTEM,
                             NAME_TO_CLAIM,
                             G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT,

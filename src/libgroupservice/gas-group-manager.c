@@ -288,7 +288,7 @@ static void on_new_group_loaded (GasGroup        *group,
 
     if (!gas_group_is_loaded (group)) 
     {
-        g_debug ("GasGroupManager: %s loaded function called when not loaded",
+        g_warning ("GasGroupManager: %s loaded function called when not loaded",
                 DescribeGroup (group));
         return;
     }
@@ -346,6 +346,8 @@ static GasGroup *find_new_group_with_object_path (GasGroupManager *manager,
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     GSList *node;
+	
+    g_assert (object_path != NULL);
 
     for (node = priv->new_groups; node != NULL; node = node->next) 
     {
@@ -380,10 +382,12 @@ static GasGroup *add_new_group_for_object_path (const char *object_path,
                   DescribeGroup (group), object_path);
         return group;
     }
-
+	
     group = create_new_group (manager);
     _gas_group_update_from_object_path (group, object_path);
-
+    g_hash_table_replace (priv->groups_by_object_path,
+                         (gpointer) object_path,
+                          g_object_ref (group));
     return group;
 }
 
@@ -400,7 +404,7 @@ static void new_group_add_in_group_admin_service (GDBusProxy *proxy,
                  object_path);
         return;
     }
-
+	
     add_new_group_for_object_path (object_path, manager);
 }
 
@@ -515,7 +519,7 @@ static void load_groups_paths (GasGroupManager       *manager,
     int i;
     GasGroup *group;
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
-    
+   
     if (g_strv_length ((char **) group_paths) > 0) 
     {
         for (i = 0; group_paths[i] != NULL; i++) 
@@ -589,7 +593,7 @@ static void fetch_group_incrementally (GasGroupManagerFetchGroupRequest *request
 {
     GasGroupManager *manager = request->manager;
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
-
+	
     switch (request->state) 
     {
         case GAS_GROUP_MANAGER_GET_GROUP_STATE_WAIT_FOR_LOADED:
@@ -1099,7 +1103,6 @@ GasGroup *gas_group_manager_create_group (GasGroupManager *manager,
     {
         return NULL;
     }
-
     group = add_new_group_for_object_path (path, manager);
 
     return group;

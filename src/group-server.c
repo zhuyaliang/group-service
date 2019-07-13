@@ -201,13 +201,12 @@ static void LoadPrimaryGroup (GHashTable *groups)
             continue;
         }    
         g_object_freeze_notify (G_OBJECT (group));
-        g_warning("name = %s\r\n", grent->gr_name);
         if(grent->gr_mem[0] == NULL)
         {
             users[0] = g_strdup(pwent->pw_gecos);
             users[1] = NULL;
             user_group_list_set_users(USER_GROUP_LIST(group),users);
-            g_free(users[0]);
+            g_free((gpointer)users[0]);
         }    
         user_group_list_set_primary_group(USER_GROUP_LIST(group), TRUE);
         g_object_thaw_notify (G_OBJECT (group));

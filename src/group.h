@@ -68,6 +68,7 @@ gboolean       group_get_local_group         (Group          *group);
 GStrv          group_get_users               (Group          *group);
 gboolean       is_user_in_group              (Group          *group,
                                               const char      *user);
+gchar       *  compute_object_path           (Group          *group);
 G_END_DECLS
 
 #endif

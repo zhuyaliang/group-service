@@ -331,7 +331,7 @@ void _gas_group_update_from_object_path (GasGroup *group,
         g_warning ("Couldn't create group-admin proxy: %s", error->message);
         return;
     }
-
+	
     group->group_proxy = group_proxy;
     g_signal_connect_object (group->group_proxy,
                             "changed",
@@ -406,9 +406,9 @@ void gas_group_add_user_group (GasGroup *group,const char *name)
     g_return_if_fail (group->group_proxy != NULL);
     g_return_if_fail (getpwnam (name) != NULL);
     while (!user_group_list_call_add_user_to_group_sync (group->group_proxy,
-                                                      name,
-                                                      NULL,
-                                                      &error)) 
+                                                         name,
+                                                         NULL,
+                                                        &error)) 
     {
         usleep(20000);
         reload_proxy(group);

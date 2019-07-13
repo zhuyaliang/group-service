@@ -93,6 +93,8 @@ void RegisterGroup (Manage *manage,Group *group)
 {
     GError *error = NULL;
     GDBusConnection *Connection = NULL;
+    g_autofree gchar *object_path = NULL;
+
     Connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
     if (Connection == NULL) 
     {
@@ -103,10 +105,17 @@ void RegisterGroup (Manage *manage,Group *group)
         }
         return;
     }
+
+    object_path = compute_object_path (group);
+    if(g_strcmp0(object_path,group_get_object_path(group)) != 0)
+    {
+        g_error("object_path = %s Non-existent",object_path);
+        return;
+    }
     group->system_bus_connection = Connection;	
     if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
                                            Connection,
-                                           group_get_object_path (group),
+                                           object_path,
                                            &error)) 
     {
         if (error != NULL) 
@@ -154,8 +163,7 @@ group_update_from_grent (Group        *group,
                              (const gchar *const *)grent->gr_mem);
     g_object_thaw_notify (G_OBJECT (group));
 }
-static gchar *
-compute_object_path (Group *group)
+gchar * compute_object_path (Group *group)
 {
     gchar *object_path;
     group->gid = (gulong) user_group_list_get_gid (USER_GROUP_LIST(group));
@@ -340,7 +348,7 @@ static void ChangeIdAuthorized_cb   (Manage                *manage,
             DbusPrintf(Invocation,ERROR_FAILED,
                        "running '%s' failed: %s", argv[0], error->message);
             g_error_free (error);
-            g_free(Strid);
+            g_free((gpointer)Strid);
             return;
         }
         user_group_list_set_gid(USER_GROUP_LIST(g),id);       
