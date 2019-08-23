@@ -65,13 +65,23 @@ gboolean is_user_in_group(Group *group,const char *user)
 {
     char const **users;
     int i = 0;
+    struct group * grent;
+
     users = user_group_list_get_users(USER_GROUP_LIST(group));
     while(users[i] != NULL)
     {
         if(g_strcmp0(users[i],user) == 0)
             return TRUE;
         i++;
-    }    
+    }   
+    i = 0;
+    grent = getgrnam(group_get_group_name(group));
+    while (grent->gr_mem[i] != NULL)
+    {
+        if(g_strcmp0(grent->gr_mem[i],user) == 0)
+            return TRUE;
+        i++;
+    }
     return FALSE;
 }   
 static gboolean on_group_changed_timeout (Group *group)

@@ -224,23 +224,37 @@ static void ReloadGroups (Manage *manage)
     LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
     OldGroups = manage->priv->GroupsHashTable;
     manage->priv->GroupsHashTable = GroupsHashTable;
-    LoadPrimaryGroup(GroupsHashTable);   
+    LoadPrimaryGroup(GroupsHashTable);  
+
     g_hash_table_iter_init (&iter, OldGroups);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
     {
         Group *group = value;
-        user_group_admin_emit_group_deleted (USER_GROUP_ADMIN(manage),
+        Group *refreshed_group;
+        
+        refreshed_group = g_hash_table_lookup (GroupsHashTable,name);
+        if(!refreshed_group)
+        {    
+            user_group_admin_emit_group_deleted (USER_GROUP_ADMIN(manage),
                                              group_get_object_path (group));
-    	UnRegisterGroup (manage,value);
+    	    UnRegisterGroup (manage,value);
+        }
     }
 
     g_hash_table_iter_init (&iter, GroupsHashTable);
     while (g_hash_table_iter_next (&iter, &name,&value)) 
     {
         Group *group = value;
-        user_group_admin_emit_group_added(USER_GROUP_ADMIN(manage),
-                                          group_get_object_path (group));
-    	RegisterGroup (manage,value);
+        Group *stale_group;
+
+        stale_group = g_hash_table_lookup (OldGroups, name);
+
+        if (!stale_group)
+        {    
+            user_group_admin_emit_group_added(USER_GROUP_ADMIN(manage),
+                                              group_get_object_path (group));
+    	    RegisterGroup (manage,value);
+        }    
         g_object_thaw_notify (G_OBJECT (group));
     }
     g_hash_table_destroy (OldGroups);

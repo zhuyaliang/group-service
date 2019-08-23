@@ -141,7 +141,7 @@ static void gas_group_class_init (GasGroupClass *class)
 
 static void gas_group_init (GasGroup *group)
 {
-    GError *error = NULL;
+    g_autoptr(GError) error = NULL;
 
     group->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
     if (group->connection == NULL) 
@@ -178,7 +178,7 @@ static void set_is_loaded (GasGroup *group,gboolean is_loaded)
 static void reload_proxy(GasGroup *group)
 {
     const char *object_path;
-    GError *error = NULL;
+    g_autoptr(GError) error = NULL;
     UserGroupList *group_proxy;
 
     object_path = gas_group_get_object_path(group);
@@ -314,7 +314,7 @@ void _gas_group_update_from_object_path (GasGroup *group,
                                          const char *object_path)
 {
     UserGroupList *group_proxy;
-    GError *error = NULL;
+    g_autoptr(GError) error = NULL;
 
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (object_path != NULL);
@@ -350,7 +350,7 @@ gboolean gas_group_is_loaded (GasGroup *group)
 
 void gas_group_set_group_name (GasGroup *group,const char *name)
 {
-    GError *error = NULL;
+    g_autoptr(GError) error = NULL;
     guint   i = 0;
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (name != NULL);
@@ -374,7 +374,7 @@ void gas_group_set_group_name (GasGroup *group,const char *name)
 }
 void gas_group_set_group_id (GasGroup *group,uint gid)
 {
-    GError *error = NULL;
+    g_autoptr(GError) error = NULL;
     guint   i = 0;
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (USER_GROUP_IS_LIST (group->group_proxy));
@@ -398,31 +398,24 @@ void gas_group_set_group_id (GasGroup *group,uint gid)
 
 void gas_group_add_user_group (GasGroup *group,const char *name)
 {
-    GError  *error = NULL;
-    guint    i = 0; 
+    g_autoptr(GError) error = NULL;
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (name != NULL);
     g_return_if_fail (USER_GROUP_IS_LIST (group->group_proxy));
     g_return_if_fail (group->group_proxy != NULL);
     g_return_if_fail (getpwnam (name) != NULL);
-    while (!user_group_list_call_add_user_to_group_sync (group->group_proxy,
+    if (!user_group_list_call_add_user_to_group_sync (group->group_proxy,
                                                          name,
                                                          NULL,
                                                         &error)) 
     {
-        usleep(20000);
-        reload_proxy(group);
-        error = NULL;
-        if(i++ >= 5)
-        {    
-            g_warning ("add user to group call failed: %s", error->message);
-            return;
-        }    
+        g_warning ("add user to group call failed: %s", error->message);
+        return;
     }
 }
 void gas_group_remove_user_group (GasGroup *group,const char *name)
 {
-    GError  *error = NULL;
+    g_autoptr(GError) error = NULL;
     guint    i = 0; 
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (name != NULL);
