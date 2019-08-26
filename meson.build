@@ -1,5 +1,5 @@
 project('group-service', 'c',
-  version : '1.1.0',
+  version : '1.2.0',
   license : 'GPLv3',
   meson_version : '>=0.50.0',
   default_options : [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11'],
