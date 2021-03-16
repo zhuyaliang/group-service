@@ -62,6 +62,8 @@ void           gas_group_remove_user_group         (GasGroup   *group,
 void           gas_group_add_user_group            (GasGroup   *group,
                                                     const char *user);
 
+void          _gas_group_load_from_group           (GasGroup   *group,
+                                                    GasGroup   *group_to_copy);
 #if GLIB_CHECK_VERSION(2, 44, 0)
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (GasGroup, g_object_unref)
 #endif

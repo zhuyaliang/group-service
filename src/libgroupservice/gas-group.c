@@ -310,6 +310,25 @@ static void on_group_proxy_changed (GasGroup *group)
     g_signal_emit (group, signals[CHANGED], 0);
 }
 
+void
+_gas_group_load_from_group (GasGroup   *group,
+                            GasGroup   *group_to_copy)
+{
+        if (!group_to_copy->is_loaded) {
+                return;
+        }
+
+        group->group_proxy = g_object_ref (group_to_copy->group_proxy);
+
+        g_signal_connect_object (group->group_proxy,
+                                 "changed",
+                                 G_CALLBACK (on_group_proxy_changed),
+                                 group,
+                                 G_CONNECT_SWAPPED);
+
+        set_is_loaded (group, TRUE);
+}
+
 void _gas_group_update_from_object_path (GasGroup *group,
                                          const char *object_path)
 {

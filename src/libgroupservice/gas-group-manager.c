@@ -267,7 +267,6 @@ static void update_group (GasGroupManager *manager,GasGroup *group)
     g_hash_table_insert (priv->normal_groups_by_name,
                          g_strdup (gas_group_get_group_name (group)),
                          g_object_ref (group));
-
     g_signal_emit (manager, signals[GROUP_ADDED], 0, group);
 }
 
@@ -285,6 +284,7 @@ static void on_new_group_loaded (GasGroup        *group,
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
     const char *name;
+    GasGroup   *old_group;
 
     if (!gas_group_is_loaded (group)) 
     {
@@ -325,8 +325,17 @@ static void on_new_group_loaded (GasGroup        *group,
         g_object_unref (group);
         goto out;
     }
+    old_group = lookup_group_by_name (manager, name);
+    if (old_group == NULL)
+    {
+        g_debug ("GasGroupManager: %s was not yet known, adding it", gas_group_get_group_name (group));
+        add_group (manager, group);
+    }
+    else
+    {
+        _gas_group_load_from_group (old_group, group);
+    }
 
-    add_group (manager, group);
     g_object_unref (group);
 
 out:
