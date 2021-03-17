@@ -220,7 +220,7 @@ static void add_group (GasGroupManager *manager,
     if (object_path != NULL) 
     {
         g_hash_table_replace (priv->groups_by_object_path,
-                             (gpointer) object_path,
+                              g_strdup (object_path),
                               g_object_ref (group));
     }
 
@@ -264,10 +264,17 @@ static void remove_group (GasGroupManager *manager,GasGroup *group)
 static void update_group (GasGroupManager *manager,GasGroup *group)
 {
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
-    g_hash_table_insert (priv->normal_groups_by_name,
-                         g_strdup (gas_group_get_group_name (group)),
-                         g_object_ref (group));
-    g_signal_emit (manager, signals[GROUP_ADDED], 0, group);
+    const char *name;
+
+    name = gas_group_get_group_name (group);
+
+    if (g_hash_table_lookup (priv->normal_groups_by_name, name) == 0)
+    {
+        g_hash_table_insert (priv->normal_groups_by_name,
+                            g_strdup (name),
+                            g_object_ref (group));
+        g_signal_emit (manager, signals[GROUP_ADDED], 0, group);
+    }
 }
 
 static GasGroup *lookup_group_by_name (GasGroupManager *manager,
@@ -369,7 +376,6 @@ static GasGroup *find_new_group_with_object_path (GasGroupManager *manager,
     }
     return NULL;
 }
-
 static GasGroup *add_new_group_for_object_path (const char *object_path,
                                                 GasGroupManager *manager)
 {
@@ -395,7 +401,7 @@ static GasGroup *add_new_group_for_object_path (const char *object_path,
     group = create_new_group (manager);
     _gas_group_update_from_object_path (group, object_path);
     g_hash_table_replace (priv->groups_by_object_path,
-                         (gpointer) object_path,
+                          g_strdup (object_path),
                           g_object_ref (group));
     return group;
 }
@@ -413,7 +419,7 @@ static void new_group_add_in_group_admin_service (GDBusProxy *proxy,
                  object_path);
         return;
     }
-	
+
     add_new_group_for_object_path (object_path, manager);
 }
 
@@ -431,7 +437,7 @@ static void old_group_removed_in_group_admin_service (GDBusProxy *proxy,
     {
         g_debug ("GasGroupManager: ignoring untracked group %s", object_path);
         return;
-    } 
+    }
     node = g_slist_find (priv->new_groups, group);
     if (node != NULL) 
     {
@@ -441,7 +447,6 @@ static void old_group_removed_in_group_admin_service (GDBusProxy *proxy,
     }
     remove_group (manager,group);
 }
-
 
 static void
 on_find_group_by_name_finished (GObject       *object,
@@ -485,12 +490,12 @@ on_find_group_by_id_finished (GObject       *object,
 }
 static void find_group_in_group_admin_service (GasGroupManager *manager,
                                GasGroupManagerFetchGroupRequest *request)
-{	
+{
     GasGroupManagerPrivate *priv = gas_group_manager_get_instance_private (manager);
 
     switch (request->type) 
-	{
-    	case GAS_GROUP_MANAGER_FETCH_GROUP_FROM_GROUPNAME_REQUEST:
+    {
+        case GAS_GROUP_MANAGER_FETCH_GROUP_FROM_GROUPNAME_REQUEST:
         	user_group_admin_call_find_group_by_name (priv->group_admin_proxy,
                                                       request->name,
                                                       NULL,
@@ -1008,9 +1013,9 @@ static void gas_group_manager_init (GasGroupManager *manager)
     priv->normal_groups_by_name = CreateHashNewTable();
 
     priv->groups_by_object_path = g_hash_table_new_full (g_str_hash,
-                                                        g_str_equal,
-                                                        NULL,
-                                                        g_object_unref);
+                                                         g_str_equal,
+                                                         g_free,
+                                                         g_object_unref);
 
     priv->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
     if (priv->connection == NULL) 
@@ -1072,7 +1077,6 @@ static void gas_group_manager_finalize (GObject *object)
 
     g_hash_table_destroy (priv->normal_groups_by_name);
     g_hash_table_destroy (priv->groups_by_object_path);
-
 }
 
 GasGroupManager *gas_group_manager_get_default (void)
@@ -1244,7 +1248,7 @@ gboolean gas_group_manager_delete_group_finish (GasGroupManager  *manager,
                                                          inner_result, &remote_error);
     if (remote_error) 
     {
-    	g_dbus_error_strip_remote_error (remote_error);
+        g_dbus_error_strip_remote_error (remote_error);
         g_propagate_error (error, remote_error);
     }
 
