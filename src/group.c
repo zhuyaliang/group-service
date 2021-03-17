@@ -31,15 +31,6 @@
 #include "group.h"
 #include "group-server.h"
 
-enum
-{
-    PROP_0,
-    PROP_GID,
-    PROP_GROUP_NAME,
-    PROP_LOCAL_GROUP,
-    PROP_USERS,
-};
-
 static void user_group_list_iface_init (UserGroupListIface *iface);
  
 G_DEFINE_TYPE_WITH_CODE (Group, group, USER_GROUP_TYPE_LIST_SKELETON, 
@@ -84,21 +75,7 @@ gboolean is_user_in_group(Group *group,const char *user)
     }
     return FALSE;
 }   
-static gboolean on_group_changed_timeout (Group *group)
-{
-    group->changed_timeout_id = 0;
 
-    user_group_list_emit_changed(USER_GROUP_LIST (group));
-    
-    return G_SOURCE_REMOVE;
-}
-
-static void on_group_property_notify (Group *group)
-{
-    if (group->changed_timeout_id != 0)
-        return;
-    group->changed_timeout_id = g_timeout_add (250, (GSourceFunc) on_group_changed_timeout, group);
-}
 void RegisterGroup (Manage *manage,Group *group)
 {
     GError *error = NULL;
@@ -135,19 +112,13 @@ void RegisterGroup (Manage *manage,Group *group)
         }
         return;
     }
-    g_signal_connect (G_OBJECT (group), 
-                     "notify", 
-                      G_CALLBACK (on_group_property_notify), 
-                      NULL);
 }
 
 void UnRegisterGroup (Manage *manage,Group *group)
 {
-    g_signal_handlers_disconnect_by_func (G_OBJECT (group), 
-                                          G_CALLBACK (on_group_property_notify), 
-                                          NULL);
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (group));
 }
+
 void
 group_update_from_grent (Group        *group,
                          struct group *grent)
