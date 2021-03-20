@@ -124,7 +124,7 @@ static void LoadGroupEntries (GHashTable *groups,
     Group *group = NULL;
     FILE *fd;
     
-    ManagePrivate *priv = MANAGE_GET_PRIVATE (manage);
+    ManagePrivate *priv = manage_get_instance_private (manage);
     fd = fopen (PATH_GROUP, "r");
     if(fd == NULL) 
     {
@@ -219,7 +219,6 @@ static void ReloadGroups (Manage *manage)
     GHashTable    *OldGroups;
     gpointer       name,value;
 
-    manage->priv = MANAGE_GET_PRIVATE (manage);
     GroupsHashTable = CreateGroupsHashTable ();
     LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
     OldGroups = manage->priv->GroupsHashTable;
@@ -325,7 +324,7 @@ static GFileMonitor *SetupMonitor (const gchar *FileName,
 
 static void manage_init (Manage *manage)
 {
-    manage->priv = MANAGE_GET_PRIVATE (manage);
+    manage->priv = manage_get_instance_private (manage);
     manage->priv->ReloadId = 0;
     manage->priv->GroupsHashTable = CreateGroupsHashTable();
     manage->priv->PasswdMonitor = SetupMonitor (PATH_PASSWD,
@@ -346,7 +345,7 @@ static void manage_finalize (GObject *object)
     Manage *manage;
 
     manage = MANAGE (object);
-    priv = MANAGE_GET_PRIVATE (manage);;
+    priv = manage_get_instance_private (manage);;
 
     if (priv->BusConnection != NULL)
         g_object_unref (priv->BusConnection);
@@ -416,7 +415,6 @@ int	RegisterGroupManage (Manage *manage)
 {
     GError *error = NULL;
 
-    manage->priv = MANAGE_GET_PRIVATE (manage);
     manage->priv->Authority = polkit_authority_get_sync (NULL, &error);
     if (manage->priv->Authority == NULL) 
     {
@@ -532,7 +530,7 @@ void LocalCheckAuthorization(Manage                *manage,
                              gpointer               Authorized_cb_data,
                              GDestroyNotify         DestroyNotify)
 {
-    ManagePrivate *priv = MANAGE_GET_PRIVATE (manage);
+    ManagePrivate *priv = manage_get_instance_private (manage);
     CheckAuthData *data;
     PolkitSubject *subject;
     PolkitCheckAuthorizationFlags flags;
@@ -584,7 +582,7 @@ static Group * AddNewGroupForDus (Manage *manage,struct group *grent)
 static Group *ManageLocalFindGroupByid(Manage *manage,
                                        gid_t gid)
 {
-    ManagePrivate *priv = MANAGE_GET_PRIVATE (manage);
+    ManagePrivate *priv = manage_get_instance_private (manage);
     Group *group;
     struct group *grent;
 
@@ -625,7 +623,7 @@ static gboolean ManageFindGRoupByid (UserGroupAdmin *object,
 static Group *ManageLocalFindGroupByname (Manage *manage,
                                    const gchar *name)
 {
-    ManagePrivate *priv = MANAGE_GET_PRIVATE (manage);
+    ManagePrivate *priv = manage_get_instance_private (manage);
     Group *group;
     struct group *grent;
 
