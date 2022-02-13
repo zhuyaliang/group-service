@@ -28,7 +28,6 @@ configure_file(
 policy = gas_namespace.to_lower() + '.policy'
 
 i18n.merge_file(
-  policy,
   input: policy + '.in',
   output: policy,
   po_dir: po_dir,
