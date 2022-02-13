@@ -200,7 +200,7 @@ compat_check_exit_status (int      estatus,
                           GError **error)
 {
 #if GLIB_CHECK_VERSION(2, 33, 12)
-    return g_spawn_check_exit_status (estatus, error);
+    return g_spawn_check_wait_status (estatus, error);
 #else
     if (!WIFEXITED (estatus)) 
     {
