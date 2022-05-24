@@ -1,0 +1,26 @@
+Source: group-service
+Section: utils
+Priority: optional
+Maintainer: N0rbert <nrbrtx@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               meson (>= 0.53.0),
+               cmake,
+               pkg-config,
+               libdbus-1-dev,
+               systemd,
+               libglib2.0-dev,
+               libpolkit-gobject-1-dev,
+               polkitd
+Standards-Version: 4.6.0
+Homepage: https://github.com/zhuyaliang/group-service
+Rules-Requires-Root: no
+
+Package: group-service
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Borrowing DBUS services to manage user groups
+ Using Dbus to manage user groups, you can complete the addition 
+ and deletion of user groups, add \ remove users to groups, and 
+ change the name of user groups.The `test` directory is some 
+ testing process.
+ 

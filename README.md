@@ -26,6 +26,14 @@ void             gas_group_set_group_name(GasGroup   *group,
 meson build -Dprefix=/usr
 ninja -C build
 sudo ninja -C build install
+```
 
+## Create deb package on Ubuntu MATE 22.04 LTS
 
+```
+sudo apt-get update
+sudo apt-get install dpkg-dev debhelper-compat meson cmake pkg-config libdbus-1-dev systemd libglib2.0-dev libpolkit-gobject-1-dev polkitd
 
+dpkg-buildpackage -uc -us
+sudo apt-get install ../group-service*.deb
+```
