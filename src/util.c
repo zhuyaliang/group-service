@@ -199,8 +199,10 @@ static gboolean
 compat_check_exit_status (int      estatus,
                           GError **error)
 {
-#if GLIB_CHECK_VERSION(2, 33, 12)
+#if GLIB_CHECK_VERSION(2, 69, 0)
     return g_spawn_check_wait_status (estatus, error);
+#elif GLIB_CHECK_VERSION(2, 33, 4)
+    return g_spawn_check_exit_status (estatus, error);
 #else
     if (!WIFEXITED (estatus)) 
     {
