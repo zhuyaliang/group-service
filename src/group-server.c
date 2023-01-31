@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@
 #define PATH_SHADOW "/etc/shadow"
 #define PATH_GROUP  "/etc/group"
 
-enum 
+enum
 {
     PROP_0,
     PROP_MANAGE_VERSION
@@ -59,11 +59,12 @@ typedef void  ( FileChangeCallback )(GFileMonitor *,
                                      Manage       *);
 static void manage_user_group_admin_iface_init (UserGroupAdminIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (Manage,manage, USER_GROUP_TYPE_ADMIN_SKELETON, 
+G_DEFINE_TYPE_WITH_CODE (Manage,manage, USER_GROUP_TYPE_ADMIN_SKELETON,
                          G_ADD_PRIVATE (Manage) G_IMPLEMENT_INTERFACE (
                          USER_GROUP_TYPE_ADMIN, manage_user_group_admin_iface_init));
 
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (Manage, g_object_unref)
+
 static const GDBusErrorEntry group_error_entries[] =
 {
     { ERROR_FAILED, "org.group.admin.Error.Failed" },
@@ -72,10 +73,11 @@ static const GDBusErrorEntry group_error_entries[] =
     { ERROR_PERMISSION_DENIED, "org.group.admin.Error.PermissionDenied" },
     { ERROR_NOT_SUPPORTED, "org.group.admin.Error.NotSupported" }
 };
+
 GQuark error_quark (void)
 {
     static volatile gsize quark_volatile = 0;
-    
+
     g_dbus_error_register_error_domain ("group_error",
                                         &quark_volatile,
                                         group_error_entries,
@@ -83,6 +85,7 @@ GQuark error_quark (void)
 
     return (GQuark) quark_volatile;
 }
+
 void DbusPrintf (GDBusMethodInvocation *Invocation,
                  gint                   ErrorCode,
                  const gchar           *format,
@@ -96,6 +99,7 @@ void DbusPrintf (GDBusMethodInvocation *Invocation,
     va_end (args);
     g_dbus_method_invocation_return_error (Invocation, ERROR, ErrorCode, "%s", Message);
 }
+
 static GHashTable * CreateGroupsHashTable (void)
 {
     return g_hash_table_new_full (g_str_hash,
@@ -103,73 +107,74 @@ static GHashTable * CreateGroupsHashTable (void)
                                   g_free,
                                   g_object_unref);
 }
-static struct group *
-entry_generator_fgetgrent (FILE *fd)
+
+static struct group * entry_generator_fgetgrent (FILE *fd)
 {
     struct group *grent;
-	
+
     grent = fgetgrent (fd);
-    if (grent != NULL) 
+    if (grent != NULL)
     {
-      	return grent;
+        return grent;
     }
     fclose (fd);
     return NULL;
 }
+
 static void LoadGroupEntries (GHashTable *groups,
-				              GroupEntryGeneratorFunc EntryGenerator,
-							  Manage *manage)
+                              GroupEntryGeneratorFunc EntryGenerator,
+                              Manage *manage)
 {
     struct group *grent;
     Group *group = NULL;
     FILE *fd;
-    
+
     ManagePrivate *priv = manage_get_instance_private (manage);
     fd = fopen (PATH_GROUP, "r");
-    if(fd == NULL) 
+    if(fd == NULL)
     {
         return;
-	}
-	
-    while(1) 
+    }
+
+    while(1)
     {
-    	grent = EntryGenerator (fd);
+        grent = EntryGenerator (fd);
         if (grent == NULL)
-        {    
-        	break;
-        }    
+        {
+            break;
+        }
         group = g_hash_table_lookup (groups, grent->gr_name);
         if(group == NULL)
         {
             group = g_hash_table_lookup(priv->GroupsHashTable,grent->gr_name);
             if(group == NULL)
-            {    
+            {
                 group = group_new (manage,grent->gr_gid);
             }
             else
             {
                 g_object_ref (group);
-            }    
+            }
             g_object_freeze_notify (G_OBJECT (group));
             group_update_from_grent (group, grent);
             g_hash_table_insert (groups, g_strdup (group_get_group_name (group)), group);
-        }    
+        }
     }
 }
 
 static struct passwd *GetPwent(FILE *fd)
 {
     struct passwd *pwent;
-	
+
     pwent = fgetpwent (fd);
-    if (pwent != NULL) 
+    if (pwent != NULL)
     {
-      	return pwent;
+        return pwent;
     }
     fclose (fd);
     return NULL;
 
-}    
+}
 static void LoadPrimaryGroup (GHashTable *groups)
 {
     struct passwd *pwent;
@@ -177,29 +182,29 @@ static void LoadPrimaryGroup (GHashTable *groups)
     Group         *group = NULL;
     FILE          *fd;
     const gchar   *users[2];
-    
+
     fd = fopen (PATH_PASSWD, "r");
-    if(fd == NULL) 
+    if(fd == NULL)
     {
         return;
-	}
-    while(1) 
+    }
+    while(1)
     {
-    	pwent = GetPwent(fd);
+        pwent = GetPwent(fd);
         if (pwent == NULL)
-        {    
-        	break;
+        {
+            break;
         }
         grent = getgrgid (pwent->pw_gid);
         if(grent == NULL)
         {
             continue;
-        }    
+        }
         group = g_hash_table_lookup (groups, grent->gr_name);
         if(group == NULL)
         {
             continue;
-        }    
+        }
         g_object_freeze_notify (G_OBJECT (group));
         if(grent->gr_mem[0] == NULL)
         {
@@ -207,11 +212,12 @@ static void LoadPrimaryGroup (GHashTable *groups)
             users[1] = NULL;
             user_group_list_set_users(USER_GROUP_LIST(group),users);
             g_free((gpointer)users[0]);
-        }    
+        }
         user_group_list_set_primary_group(USER_GROUP_LIST(group), TRUE);
         g_object_thaw_notify (G_OBJECT (group));
-    }    
-}    
+    }
+}
+
 static void ReloadGroups (Manage *manage)
 {
     GHashTable     *GroupsHashTable;
@@ -223,25 +229,25 @@ static void ReloadGroups (Manage *manage)
     LoadGroupEntries(GroupsHashTable, entry_generator_fgetgrent,manage);
     OldGroups = manage->priv->GroupsHashTable;
     manage->priv->GroupsHashTable = GroupsHashTable;
-    LoadPrimaryGroup(GroupsHashTable);  
+    LoadPrimaryGroup(GroupsHashTable);
 
     g_hash_table_iter_init (&iter, OldGroups);
-    while (g_hash_table_iter_next (&iter, &name,&value)) 
+    while (g_hash_table_iter_next (&iter, &name,&value))
     {
         Group *group = value;
         Group *refreshed_group;
-        
+
         refreshed_group = g_hash_table_lookup (GroupsHashTable,name);
         if(!refreshed_group)
-        {    
+        {
             user_group_admin_emit_group_deleted (USER_GROUP_ADMIN(manage),
                                              group_get_object_path (group));
-    	    UnRegisterGroup (manage,value);
+            UnRegisterGroup (manage,value);
         }
     }
 
     g_hash_table_iter_init (&iter, GroupsHashTable);
-    while (g_hash_table_iter_next (&iter, &name,&value)) 
+    while (g_hash_table_iter_next (&iter, &name,&value))
     {
         Group *group = value;
         Group *stale_group;
@@ -249,15 +255,16 @@ static void ReloadGroups (Manage *manage)
         stale_group = g_hash_table_lookup (OldGroups, name);
 
         if (!stale_group)
-        {    
+        {
             user_group_admin_emit_group_added(USER_GROUP_ADMIN(manage),
                                               group_get_object_path (group));
-    	    RegisterGroup (manage,value);
-        }    
+            RegisterGroup (manage,value);
+        }
         g_object_thaw_notify (G_OBJECT (group));
     }
     g_hash_table_destroy (OldGroups);
 }
+
 static gboolean ReloadGroupsTimeout (Manage *manage)
 {
     ReloadGroups (manage);
@@ -267,23 +274,23 @@ static gboolean ReloadGroupsTimeout (Manage *manage)
 
 static void QueueReloadGroupSoon (Manage *manage)
 {
-    if (manage->priv->ReloadId > 0) 
+    if (manage->priv->ReloadId > 0)
     {
         return;
     }
-    manage->priv->ReloadId = g_timeout_add (500, 
-					                       (GSourceFunc)ReloadGroupsTimeout,
-								           manage);
+    manage->priv->ReloadId = g_timeout_add (500,
+                                            (GSourceFunc)ReloadGroupsTimeout,
+                                            manage);
 }
 
 static void GroupsMonitorChanged (GFileMonitor      *monitor,
                                   GFile             *file,
                                   GFile             *other_file,
                                   GFileMonitorEvent  event_type,
-								  Manage            *manage)
+                                  Manage            *manage)
 {
     if (event_type != G_FILE_MONITOR_EVENT_CHANGED &&
-        event_type != G_FILE_MONITOR_EVENT_CREATED) 
+        event_type != G_FILE_MONITOR_EVENT_CREATED)
     {
         return;
     }
@@ -294,7 +301,7 @@ static void GroupsMonitorChanged (GFileMonitor      *monitor,
 
 static GFileMonitor *SetupMonitor (const gchar *FileName,
                                    FileChangeCallback *Callback,
-								   Manage *manage)
+                                   Manage *manage)
 {
     GError *error = NULL;
     GFile *file;
@@ -305,14 +312,14 @@ static GFileMonitor *SetupMonitor (const gchar *FileName,
                                    G_FILE_MONITOR_NONE,
                                    NULL,
                                    &error);
-    if (Monitor != NULL) 
+    if (Monitor != NULL)
     {
         g_signal_connect (Monitor,
                          "changed",
                           G_CALLBACK (Callback),
                           manage);
-    } 
-    else 
+    }
+    else
     {
         g_warning ("Unable to monitor %s: %s", FileName, error->message);
         g_error_free (error);
@@ -328,17 +335,18 @@ static void manage_init (Manage *manage)
     manage->priv->ReloadId = 0;
     manage->priv->GroupsHashTable = CreateGroupsHashTable();
     manage->priv->PasswdMonitor = SetupMonitor (PATH_PASSWD,
-					                            GroupsMonitorChanged,
-											    manage);
+                                                GroupsMonitorChanged,
+                                                manage);
     manage->priv->ShadowMonitor = SetupMonitor (PATH_SHADOW,
-					                            GroupsMonitorChanged,
-												manage);
-    manage->priv->GroupMonitor =  SetupMonitor (PATH_GROUP ,
-					                            GroupsMonitorChanged,
-												manage);
+                                                GroupsMonitorChanged,
+                                                manage);
+    manage->priv->GroupMonitor =  SetupMonitor (PATH_GROUP,
+                                                GroupsMonitorChanged,
+                                                manage);
 
     ReloadGroupsTimeout (manage);
 }
+
 static void manage_finalize (GObject *object)
 {
     ManagePrivate *priv;
@@ -352,12 +360,13 @@ static void manage_finalize (GObject *object)
     g_hash_table_destroy (priv->GroupsHashTable);
 
 }
+
 static void get_property (GObject    *object,
                           guint       prop_id,
                           GValue     *value,
                           GParamSpec *pspec)
 {
-    switch (prop_id) 
+    switch (prop_id)
     {
         case PROP_MANAGE_VERSION:
             g_value_set_string (value, VERSION);
@@ -374,7 +383,7 @@ static void set_property (GObject      *object,
                           const GValue *value,
                           GParamSpec   *pspec)
 {
-    switch (prop_id) 
+    switch (prop_id)
     {
         case PROP_MANAGE_VERSION:
             g_assert_not_reached ();
@@ -396,13 +405,15 @@ static void manage_class_init (ManageClass *klass)
 
     g_object_class_override_property (object_class,
                                       PROP_MANAGE_VERSION,
-									  "daemon-version");
-										  
+                                      "daemon-version");
+
 }
+
 void ManageLoadGroup (Manage *manage)
 {
     ReloadGroups(manage);
-}    
+}
+
 Manage *manage_new(void)
 {
     Manage *manage = NULL;
@@ -411,28 +422,29 @@ Manage *manage_new(void)
 
     return manage;
 }
-int	RegisterGroupManage (Manage *manage)
+
+int RegisterGroupManage (Manage *manage)
 {
     GError *error = NULL;
 
     manage->priv->Authority = polkit_authority_get_sync (NULL, &error);
-    if (manage->priv->Authority == NULL) 
+    if (manage->priv->Authority == NULL)
     {
         if (error != NULL)
-        {    
+        {
             g_print ("error getting polkit authority: %s", error->message);
-        	g_error_free(error);
-        }    
+            g_error_free(error);
+        }
         return -1;
     }
 
     manage->priv->BusConnection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
     if (manage->priv->BusConnection == NULL)
     {
-    	if (error != NULL)
-        {			
-        	g_print ("error getting system bus: %s\r\n", error->message);
-        	g_error_free(error);
+        if (error != NULL)
+        {
+            g_print ("error getting system bus: %s\r\n", error->message);
+            g_error_free(error);
         }
         printf ("error getting system bus\r\n");
         return -1;
@@ -441,21 +453,22 @@ int	RegisterGroupManage (Manage *manage)
     if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (manage),
                                            manage->priv->BusConnection,
                                           "/org/group/admin",
-                                           &error)) 
+                                           &error))
     {
-    	if (error != NULL)
-        {			
-        	g_print ("error export system bus: %s\r\n", error->message);
-        	g_print ("error exporting interface: %s\r\n", error->message);
-        	g_error_free(error);
+        if (error != NULL)
+        {
+            g_print ("error export system bus: %s\r\n", error->message);
+            g_print ("error exporting interface: %s\r\n", error->message);
+            g_error_free(error);
         }
         printf ("error exporting interface: \r\n");
         return -1;
-	}
-	
+    }
+
     return 0;
 }
-typedef struct 
+
+typedef struct
 {
     Manage *manage;
     Group  *group;
@@ -477,6 +490,7 @@ static void CheckAuthDataFree (CheckAuthData *data)
 
     g_free (data);
 }
+
 static void CheckAuth_cb (PolkitAuthority *Authority,
                           GAsyncResult    *res,
                           gpointer         data)
@@ -487,22 +501,22 @@ static void CheckAuth_cb (PolkitAuthority *Authority,
     gboolean is_authorized = FALSE;
 
     result = polkit_authority_check_authorization_finish (Authority, res, &error);
-    if (error) 
+    if (error)
     {
         DbusPrintf (cad->Invocation, ERROR_PERMISSION_DENIED, "Not authorized: %s", error->message);
         g_error_free(error);
     }
-    else 
+    else
     {
-        if (polkit_authorization_result_get_is_authorized (result)) 
+        if (polkit_authorization_result_get_is_authorized (result))
         {
             is_authorized = TRUE;
         }
-        else if (polkit_authorization_result_get_is_challenge (result)) 
+        else if (polkit_authorization_result_get_is_challenge (result))
         {
             DbusPrintf (cad->Invocation, ERROR_PERMISSION_DENIED, "Authentication is required");
         }
-        else 
+        else
         {
             DbusPrintf (cad->Invocation, ERROR_PERMISSION_DENIED, "Not authorized");
         }
@@ -510,7 +524,7 @@ static void CheckAuth_cb (PolkitAuthority *Authority,
         g_object_unref (result);
     }
 
-    if (is_authorized) 
+    if (is_authorized)
     {
         (* cad->Authorized_cb) (cad->manage,
                                 cad->group,
@@ -538,9 +552,9 @@ void LocalCheckAuthorization(Manage                *manage,
     data = g_new0 (CheckAuthData, 1);
     data->manage = g_object_ref (manage);
     if (group)
-    {    
+    {
         data->group = g_object_ref (group);
-    }    
+    }
     data->Invocation = Invocation;
     data->Authorized_cb = Authorized_cb;
     data->data = Authorized_cb_data;
@@ -550,7 +564,7 @@ void LocalCheckAuthorization(Manage                *manage,
 
     flags = POLKIT_CHECK_AUTHORIZATION_FLAGS_NONE;
     if (AllowInteraction)
-    {    
+    {
         flags |= POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION;
     }
     polkit_authority_check_authorization (priv->Authority,
@@ -564,7 +578,8 @@ void LocalCheckAuthorization(Manage                *manage,
 
     g_object_unref (subject);
 }
-static Group * AddNewGroupForDus (Manage *manage,struct group *grent) 
+
+static Group * AddNewGroupForDus (Manage *manage,struct group *grent)
 {
     Group *group;
     group = group_new (manage,grent->gr_gid);
@@ -578,7 +593,8 @@ static Group * AddNewGroupForDus (Manage *manage,struct group *grent)
     user_group_admin_emit_group_added (USER_GROUP_ADMIN(manage), group_get_object_path (group));
 
     return group;
-}    
+}
+
 static Group *ManageLocalFindGroupByid(Manage *manage,
                                        gid_t gid)
 {
@@ -587,7 +603,7 @@ static Group *ManageLocalFindGroupByid(Manage *manage,
     struct group *grent;
 
     grent = getgrgid(gid);
-    if (grent == NULL) 
+    if (grent == NULL)
     {
         g_print ("unable to lookup gid %d",(int)gid);
         return NULL;
@@ -596,29 +612,30 @@ static Group *ManageLocalFindGroupByid(Manage *manage,
     if(group == NULL)
     {
         AddNewGroupForDus(manage,grent);
-    } 
-   
+    }
+
     return group;
 }
+
 static gboolean ManageFindGRoupByid (UserGroupAdmin *object,
                                      GDBusMethodInvocation *invocation,
                                      gint64 gid)
-{    
+{
     Manage *manage = (Manage *)object;
     Group  *group;
 
     group = ManageLocalFindGroupByid (manage, gid);
-    if (group) 
+    if (group)
     {
         user_group_admin_complete_find_group_by_id(NULL,invocation,group_get_object_path (group));
     }
-    else 
+    else
     {
         DbusPrintf (invocation, ERROR_FAILED, "Failed to look up group with name %d.", gid);
     }
 
     return TRUE;
-}    
+}
 
 static Group *ManageLocalFindGroupByname (Manage *manage,
                                    const gchar *name)
@@ -628,7 +645,7 @@ static Group *ManageLocalFindGroupByname (Manage *manage,
     struct group *grent;
 
     grent = getgrnam (name);
-    if (grent == NULL) 
+    if (grent == NULL)
     {
         g_print ("unable to lookup name %s: %s", name, g_strerror (errno));
         return NULL;
@@ -636,9 +653,9 @@ static Group *ManageLocalFindGroupByname (Manage *manage,
 
     group = g_hash_table_lookup (priv->GroupsHashTable, grent->gr_name);
     if(group == NULL)
-    {  
+    {
         group = AddNewGroupForDus (manage, grent);
-    }    
+    }
     return group;
 }
 
@@ -650,24 +667,24 @@ static gboolean ManageFindGroupByname(UserGroupAdmin *object,
     Group  *group;
 
     group = ManageLocalFindGroupByname (manage, name);
-    if (group) 
+    if (group)
     {
         user_group_admin_complete_find_group_by_name(NULL,invocation,group_get_object_path (group));
     }
-    else 
+    else
     {
         DbusPrintf (invocation, ERROR_FAILED, "Failed to look up group with name %s.", name);
     }
 
     return TRUE;
-}    
- 
+}
+
 static const gchar * ManageGetDammonVersion (UserGroupAdmin *object)
 {
     return VERSION;
-}    
+}
 
-typedef struct 
+typedef struct
 {
     gchar *NewGroupName;
 } CreateGroupData;
@@ -678,6 +695,7 @@ static void CreateGroupDataFree (gpointer data)
     g_free (cd->NewGroupName);
     g_free (cd);
 }
+
 static void CreateNewGroup_cb (Manage                *manage,
                                Group                 *g,
                                GDBusMethodInvocation *Invocation,
@@ -689,9 +707,9 @@ static void CreateNewGroup_cb (Manage                *manage,
     Group *group;
     const gchar *argv[4];
 
-    if (getgrnam (cd->NewGroupName) != NULL) 
+    if (getgrnam (cd->NewGroupName) != NULL)
     {
-        DbusPrintf (Invocation, ERROR_GROUP_EXISTS, 
+        DbusPrintf (Invocation, ERROR_GROUP_EXISTS,
                     "A gtoup with name '%s' already exists", cd->NewGroupName);
         return;
     }
@@ -702,7 +720,7 @@ static void CreateNewGroup_cb (Manage                *manage,
     argv[2] = cd->NewGroupName;
     argv[3] = NULL;
 
-    if (!spawn_with_login_uid (Invocation, argv, &error)) 
+    if (!spawn_with_login_uid (Invocation, argv, &error))
     {
         DbusPrintf(Invocation, ERROR_FAILED,
                    "running '%s' failed: %s", argv[0], error->message);
@@ -712,13 +730,14 @@ static void CreateNewGroup_cb (Manage                *manage,
     group = ManageLocalFindGroupByname (manage, cd->NewGroupName);
     user_group_admin_complete_create_group (USER_GROUP_ADMIN(manage), Invocation, group_get_object_path (group));
 }
+
 static gboolean ManageCreateGroup (UserGroupAdmin *object,
                                    GDBusMethodInvocation *Invocation,
                                    const gchar *name)
 {
     Manage *manage = (Manage *)object;
     CreateGroupData *data;
-    
+
     data = g_new0 (CreateGroupData, 1);
     data->NewGroupName = g_strdup (name);
     LocalCheckAuthorization(manage,
@@ -732,15 +751,16 @@ static gboolean ManageCreateGroup (UserGroupAdmin *object,
 
     return TRUE;
 }
-typedef struct 
+
+typedef struct
 {
     gint64 gid;
 } DeleteGroupData;
+
 static void DeleteOldGroup_cb (Manage                *manage,
                                Group                 *g,
                                GDBusMethodInvocation *Invocation,
                                gpointer               data)
-
 {
     GError *error = NULL;
     DeleteGroupData *gd = data;
@@ -748,7 +768,7 @@ static void DeleteOldGroup_cb (Manage                *manage,
     const gchar *argv[4];
 
     grent = getgrgid (gd->gid);
-    if (grent == NULL) 
+    if (grent == NULL)
     {
         DbusPrintf(Invocation, ERROR_GROUP_DOES_NOT_EXIST,
                   "No group with gid %ld found", gd->gid);
@@ -761,32 +781,33 @@ static void DeleteOldGroup_cb (Manage                *manage,
     argv[2] = grent->gr_name;
     argv[3] = NULL;
 
-    if (!spawn_with_login_uid (Invocation, argv, &error)) 
+    if (!spawn_with_login_uid (Invocation, argv, &error))
     {
         DbusPrintf (Invocation, ERROR_FAILED,
                     "running '%s' failed: %s", argv[0], error->message);
         g_error_free (error);
         return;
     }
-	user_group_admin_emit_group_deleted(USER_GROUP_ADMIN(manage),group_get_object_path(g));
+    user_group_admin_emit_group_deleted(USER_GROUP_ADMIN(manage),group_get_object_path(g));
     user_group_admin_complete_delete_group(USER_GROUP_ADMIN(manage),Invocation);
-}    
+}
+
 static gboolean ManageDeleteGroup (UserGroupAdmin        *object,
                                    GDBusMethodInvocation *Invocation,
                                    gint64                 gid)
 {
     Manage *manage = (Manage*)object;
     DeleteGroupData *data;
-	Group *group;
-    
-    if ((gid_t)gid == 0) 
+    Group *group;
+
+    if ((gid_t)gid == 0)
     {
         DbusPrintf (Invocation, ERROR_FAILED, "Refuse to delete root group");
         return FALSE;
     }
     data = g_new0 (DeleteGroupData, 1);
     data->gid = gid;
-	group = ManageLocalFindGroupByid(manage,gid);
+    group = ManageLocalFindGroupByid(manage,gid);
     LocalCheckAuthorization(manage,
                             group,
                            "org.group.admin.group-administration",
@@ -811,19 +832,20 @@ static gboolean ManageListGroup (UserGroupAdmin *object,
 
     GroupPaths  = g_ptr_array_new ();
     g_hash_table_iter_init (&iter, manage->priv->GroupsHashTable);
-    while (g_hash_table_iter_next (&iter, (gpointer *)&name, (gpointer *)&group)) 
+    while (g_hash_table_iter_next (&iter, (gpointer *)&name, (gpointer *)&group))
     {
         g_ptr_array_add (GroupPaths, (gpointer) group_get_object_path (group));
     }
     g_ptr_array_add (GroupPaths, NULL);
 
-    user_group_admin_complete_list_cached_groups (object, Invocation, 
+    user_group_admin_complete_list_cached_groups (object, Invocation,
                                                  (const gchar * const *)GroupPaths->pdata);
 
     g_ptr_array_free (GroupPaths, TRUE);
 
-    return TRUE; 
-}    
+    return TRUE;
+}
+
 static void manage_user_group_admin_iface_init (UserGroupAdminIface *iface)
 {
     iface->handle_list_cached_groups = ManageListGroup;

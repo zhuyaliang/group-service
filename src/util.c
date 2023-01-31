@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ get_cmdline_of_pid (GPid pid)
     if (!g_file_get_contents (filename,
                               &contents,
                               &contents_len,
-                              &error)) 
+                              &error))
     {
         g_warning ("Error opening `%s': %s",
                     filename,
@@ -50,7 +50,7 @@ get_cmdline_of_pid (GPid pid)
             return NULL;
     }
     /* The kernel uses '\0' to separate arguments - replace those with a space. */
-    for (n = 0; n < contents_len - 1; n++) 
+    for (n = 0; n < contents_len - 1; n++)
     {
         if (contents[n] == '\0')
             contents[n] = ' ';
@@ -82,7 +82,7 @@ get_caller_pid (GDBusMethodInvocation *context,
                                          NULL,
                                          &error);
 
-    if (reply == NULL) 
+    if (reply == NULL)
     {
         g_warning ("Could not talk to message bus to find uid of sender %s: %s",
                     g_dbus_method_invocation_get_sender (context),
@@ -100,12 +100,12 @@ void sys_log (GDBusMethodInvocation *context,
 {
     va_list args;
     g_autofree gchar *msg = NULL;
-    
+
     va_start (args, format);
     msg = g_strdup_vprintf (format, args);
     va_end (args);
 
-    if (context) 
+    if (context)
     {
         PolkitSubject *subject;
         g_autofree gchar *cmdline = NULL;
@@ -117,38 +117,38 @@ void sys_log (GDBusMethodInvocation *context,
         subject = polkit_system_bus_name_new (g_dbus_method_invocation_get_sender (context));
         id = polkit_subject_to_string (subject);
 
-        if (get_caller_pid (context, &pid)) 
+        if (get_caller_pid (context, &pid))
         {
             cmdline = get_cmdline_of_pid (pid);
         }
-        else 
+        else
         {
             pid = 0;
             cmdline = NULL;
         }
 
-        if (cmdline != NULL) 
+        if (cmdline != NULL)
         {
-            if (get_caller_uid (context, &uid)) 
+            if (get_caller_uid (context, &uid))
             {
                 tmp = g_strdup_printf ("request by %s [%s pid:%d uid:%d]: %s", id, cmdline, (int) pid, uid, msg);
-            } 
-            else 
+            }
+            else
             {
                 tmp = g_strdup_printf ("request by %s [%s pid:%d]: %s", id, cmdline, (int) pid, msg);
             }
         }
-        else 
+        else
         {
-            if (get_caller_uid (context, &uid) && pid != 0) 
+            if (get_caller_uid (context, &uid) && pid != 0)
             {
                 tmp = g_strdup_printf ("request by %s [pid:%d uid:%d]: %s", id, (int) pid, uid, msg);
-            } 
-            else if (pid != 0) 
+            }
+            else if (pid != 0)
             {
                 tmp = g_strdup_printf ("request by %s [pid:%d]: %s", id, (int) pid, msg);
-            } 
-            else 
+            }
+            else
             {
                 tmp = g_strdup_printf ("request by %s: %s", id, msg);
             }
@@ -171,25 +171,25 @@ get_caller_loginuid (GDBusMethodInvocation *context, gchar *loginuid, gint size)
     g_autofree gchar *path = NULL;
     g_autofree gchar *buf = NULL;
 
-    if (!get_caller_uid (context, &uid)) 
+    if (!get_caller_uid (context, &uid))
     {
         uid = getuid ();
     }
 
-    if (get_caller_pid (context, &pid)) 
+    if (get_caller_pid (context, &pid))
     {
         path = g_strdup_printf ("/proc/%d/loginuid", (int) pid);
-    } 
-    else 
+    }
+    else
     {
         path = NULL;
     }
 
-    if (path != NULL && g_file_get_contents (path, &buf, NULL, NULL)) 
+    if (path != NULL && g_file_get_contents (path, &buf, NULL, NULL))
     {
         strncpy (loginuid, buf, size);
     }
-    else 
+    else
     {
         g_snprintf (loginuid, size, "%d", uid);
     }
@@ -204,7 +204,7 @@ compat_check_exit_status (int      estatus,
 #elif GLIB_CHECK_VERSION(2, 33, 4)
     return g_spawn_check_exit_status (estatus, error);
 #else
-    if (!WIFEXITED (estatus)) 
+    if (!WIFEXITED (estatus))
     {
         g_set_error (error,
                      G_SPAWN_ERROR,
@@ -212,7 +212,7 @@ compat_check_exit_status (int      estatus,
                     "Exited abnormally");
             return FALSE;
     }
-    if (WEXITSTATUS (estatus) != 0) 
+    if (WEXITSTATUS (estatus) != 0)
     {
         g_set_error (error,
                      G_SPAWN_ERROR,
@@ -236,7 +236,7 @@ setup_loginuid (gpointer data)
     if(len <= 0 )
     {
         g_warning("write /proc/self/loginuid error!!!\r\n");
-    }    
+    }
     close (fd);
 }
 
@@ -248,7 +248,7 @@ spawn_with_login_uid (GDBusMethodInvocation  *context,
     gboolean ret = FALSE;
     gchar loginuid[20];
     gint status;
-    g_usleep(2000);    
+    g_usleep(2000);
     get_caller_loginuid (context, loginuid, G_N_ELEMENTS (loginuid)-1);
 
     if (!g_spawn_sync (NULL, (gchar**)argv, NULL, 0, setup_loginuid, loginuid, NULL, NULL, &status, error))
