@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -45,14 +45,14 @@ struct _GasGroupManagerClass
     GObjectClass   parent_class;
 
     void          (* group_added)                (GasGroupManager *GroupManager,
-                                                      GasGroup        *group);
+                                                  GasGroup        *group);
 
     void          (* group_removed)              (GasGroupManager *GroupManager,
-                                                      GasGroup        *group);
+                                                  GasGroup        *group);
     void          (* group_is_logged_in_changed) (GasGroupManager *GroupManager,
-                                                      GasGroup        *group);
-    void          (* group_changed)              (GasGroupManager  *GropuManager,
-                                                      GasGroup        *group);
+                                                  GasGroup        *group);
+    void          (* group_changed)              (GasGroupManager *GropuManager,
+                                                  GasGroup        *group);
 };
 
 GType                gas_group_manager_get_type              (void);

@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -29,26 +29,27 @@ G_BEGIN_DECLS
 #define GROUP(object)    (G_TYPE_CHECK_INSTANCE_CAST ((object), TYPE_GROUP, Group))
 #define IS_GROUP(object) (G_TYPE_CHECK_INSTANCE_TYPE ((object), TYPE_GROUP))
 
-typedef struct Group 
+typedef struct Group
 {
     UserGroupListSkeleton parent;
-    
+
     Manage       *manage;
     gchar        *object_path;
     gid_t         gid;
     GDBusConnection *system_bus_connection;
     gchar        *group_name;
     gboolean      local_group;
-	GStrv         users;
+    GStrv         users;
     guint         changed_timeout_id;
-}Group;
+} Group;
+
 typedef struct GroupClass
 {
     UserGroupListSkeletonClass  parent_class;
 } GroupClass;
 
 GType          group_get_type                (void) G_GNUC_CONST;
-Group *        group_new                     (Manage         *manage,  
+Group *        group_new                     (Manage         *manage,
                                               gid_t           gid);
 void           group_update_from_grent       (Group          *group,
                                               struct group   *grent);

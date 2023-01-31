@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -32,26 +32,30 @@
 #include "group-server.h"
 
 static void user_group_list_iface_init (UserGroupListIface *iface);
- 
-G_DEFINE_TYPE_WITH_CODE (Group, group, USER_GROUP_TYPE_LIST_SKELETON, 
+
+G_DEFINE_TYPE_WITH_CODE (Group, group, USER_GROUP_TYPE_LIST_SKELETON,
                          G_IMPLEMENT_INTERFACE (USER_GROUP_TYPE_LIST, user_group_list_iface_init));
 
 const gchar *group_get_group_name (Group *group)
 {
-    return user_group_list_get_group_name(USER_GROUP_LIST(group)); 
-}		
+    return user_group_list_get_group_name(USER_GROUP_LIST(group));
+}
+
 const gchar *group_get_object_path (Group *group)
 {
     return group->object_path;
 }
+
 gid_t group_get_gid (Group *group)
 {
     return user_group_list_get_gid(USER_GROUP_LIST(group));
-}    
+}
+
 gboolean group_get_local_group(Group *group)
 {
     return user_group_list_get_local_group(USER_GROUP_LIST(group));
 }
+
 gboolean is_user_in_group(Group *group,const char *user)
 {
     char const **users;
@@ -64,7 +68,7 @@ gboolean is_user_in_group(Group *group,const char *user)
         if(g_strcmp0(users[i],user) == 0)
             return TRUE;
         i++;
-    }   
+    }
     i = 0;
     grent = getgrnam(group_get_group_name(group));
     while (grent->gr_mem[i] != NULL)
@@ -74,7 +78,7 @@ gboolean is_user_in_group(Group *group,const char *user)
         i++;
     }
     return FALSE;
-}   
+}
 
 void RegisterGroup (Manage *manage,Group *group)
 {
@@ -83,10 +87,10 @@ void RegisterGroup (Manage *manage,Group *group)
     g_autofree gchar *object_path = NULL;
 
     Connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
-    if (Connection == NULL) 
+    if (Connection == NULL)
     {
         if (error != NULL)
-        {    
+        {
             g_error ("error getting system bus: %s", error->message);
             g_error_free(error);
         }
@@ -99,13 +103,13 @@ void RegisterGroup (Manage *manage,Group *group)
         g_error("object_path = %s Non-existent",object_path);
         return;
     }
-    group->system_bus_connection = Connection;	
+    group->system_bus_connection = Connection;
     if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (group),
                                            Connection,
                                            object_path,
-                                           &error)) 
+                                           &error))
     {
-        if (error != NULL) 
+        if (error != NULL)
         {
             g_error ("error exporting group object: %s", error->message);
             g_error_free (error);
@@ -119,18 +123,17 @@ void UnRegisterGroup (Manage *manage,Group *group)
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (group));
 }
 
-void
-group_update_from_grent (Group        *group,
-                         struct group *grent)
+void group_update_from_grent (Group        *group,
+                              struct group *grent)
 {
     g_object_freeze_notify (G_OBJECT (group));
-    if (grent->gr_gid != group->gid) 
+    if (grent->gr_gid != group->gid)
     {
         group->gid = grent->gr_gid;
         g_object_notify (G_OBJECT (group), "gid");
     }
 
-    if (g_strcmp0 (group->group_name, grent->gr_name) != 0) 
+    if (g_strcmp0 (group->group_name, grent->gr_name) != 0)
     {
         g_free (group->group_name);
         group->group_name = g_strdup (grent->gr_name);
@@ -144,6 +147,7 @@ group_update_from_grent (Group        *group,
                              (const gchar *const *)grent->gr_mem);
     g_object_thaw_notify (G_OBJECT (group));
 }
+
 gchar * compute_object_path (Group *group)
 {
     gchar *object_path;
@@ -152,6 +156,7 @@ gchar * compute_object_path (Group *group)
                                     (long) group->gid);
     return object_path;
 }
+
 static void group_finalize (GObject *object)
 {
     Group *group;
@@ -168,15 +173,15 @@ static void group_class_init (GroupClass *class)
 
     gobject_class = G_OBJECT_CLASS (class);
     gobject_class->finalize = group_finalize;
-
 }
+
 static void group_init (Group *group)
 {
     group->object_path = NULL;
     group->group_name = NULL;
     group->gid = -1;
-
 }
+
 Group * group_new (Manage *manage,gid_t gid)
 {
     Group *group;
@@ -185,16 +190,16 @@ Group * group_new (Manage *manage,gid_t gid)
     group->manage = manage;
     user_group_list_set_gid(USER_GROUP_LIST(group),gid);
     group->object_path = compute_object_path (group);
-    
+
     return group;
 }
+
 static void AddUserAuthorized_cb (Manage                *manage,
                                   Group                 *g,
                                   GDBusMethodInvocation *Invocation,
                                   gpointer               udata)
-
 {
-    gchar *name = udata;    
+    gchar *name = udata;
     GError *error = NULL;
     const gchar *argv[6];
     struct group * grent;
@@ -206,8 +211,7 @@ static void AddUserAuthorized_cb (Manage                *manage,
         return;
     }
     if(!is_user_in_group(g,name))
-    {    
-    
+    {
         sys_log (Invocation, "%s user '%s' %s group '%s'","add",
                 name,"to",group_get_group_name (g));
 
@@ -218,7 +222,7 @@ static void AddUserAuthorized_cb (Manage                *manage,
         argv[4] = name;
         argv[5] = NULL;
 
-        if (!spawn_with_login_uid (Invocation, argv, &error)) 
+        if (!spawn_with_login_uid (Invocation, argv, &error))
         {
             DbusPrintf(Invocation,ERROR_FAILED,
                        "running '%s' failed: %s", argv[0], error->message);
@@ -229,14 +233,15 @@ static void AddUserAuthorized_cb (Manage                *manage,
         grent = getgrnam(group_get_group_name(g));
         user_group_list_set_users(USER_GROUP_LIST(g),
                                  (const gchar *const *)grent->gr_mem);
-        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
+        user_group_list_emit_changed (USER_GROUP_LIST(g));
     }
     user_group_list_complete_add_user_to_group(USER_GROUP_LIST(g),Invocation);
-}    
+}
+
 static gboolean AddUserToGroup (UserGroupList *object,
                                 GDBusMethodInvocation *Invocation,
                                 const gchar *name)
-{    
+{
     Group *group = (Group*) object;
 
     LocalCheckAuthorization (group->manage,
@@ -249,19 +254,19 @@ static gboolean AddUserToGroup (UserGroupList *object,
                              (GDestroyNotify)g_free);
 
     return TRUE;
-}    
+}
+
 static void ChangeNameAuthorized_cb (Manage                *manage,
                                      Group                 *g,
                                      GDBusMethodInvocation *Invocation,
                                      gpointer               udata)
-
 {
-    gchar *name = udata;    
+    gchar *name = udata;
     GError *error = NULL;
     const gchar *argv[6];
 
     if (g_strcmp0 (group_get_group_name (g), name) != 0)
-    {    
+    {
         sys_log (Invocation, "changing name of group '%s' to '%s'",
                  group_get_group_name (g),name);
 
@@ -272,19 +277,19 @@ static void ChangeNameAuthorized_cb (Manage                *manage,
         argv[4] = group_get_group_name (g);
         argv[5] = NULL;
 
-        if (!spawn_with_login_uid (Invocation, argv, &error)) 
+        if (!spawn_with_login_uid (Invocation, argv, &error))
         {
             DbusPrintf(Invocation,ERROR_FAILED,
                        "running '%s' failed: %s", argv[0], error->message);
             g_error_free (error);
             return;
         }
-        user_group_list_set_group_name(USER_GROUP_LIST(g),name);       
-        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
+        user_group_list_set_group_name(USER_GROUP_LIST(g),name);
+        user_group_list_emit_changed (USER_GROUP_LIST(g));
     }
     user_group_list_complete_change_group_name(USER_GROUP_LIST(g),Invocation);
-        
 }
+
 static gboolean ChangeGroupName (UserGroupList *object,
                                  GDBusMethodInvocation *Invocation,
                                  const gchar *name)
@@ -301,20 +306,20 @@ static gboolean ChangeGroupName (UserGroupList *object,
                              (GDestroyNotify)g_free);
 
     return TRUE;
-}    
+}
+
 static void ChangeIdAuthorized_cb   (Manage                *manage,
                                      Group                 *g,
                                      GDBusMethodInvocation *Invocation,
                                      gpointer               udata)
-
 {
-    uint id = GPOINTER_TO_UINT (udata);    
+    uint id = GPOINTER_TO_UINT (udata);
     GError *error = NULL;
     const gchar *Strid = g_strdup_printf("%u",id);
     const gchar *argv[6];
 
     if (group_get_gid (g) != id)
-    {    
+    {
         sys_log (Invocation, "changing id of group '%u' to '%u'",
                  group_get_gid (g),id);
 
@@ -324,7 +329,7 @@ static void ChangeIdAuthorized_cb   (Manage                *manage,
         argv[3] = "--";
         argv[4] = group_get_group_name (g);
         argv[5] = NULL;
-        if (!spawn_with_login_uid (Invocation, argv, &error)) 
+        if (!spawn_with_login_uid (Invocation, argv, &error))
         {
             DbusPrintf(Invocation,ERROR_FAILED,
                        "running '%s' failed: %s", argv[0], error->message);
@@ -332,11 +337,12 @@ static void ChangeIdAuthorized_cb   (Manage                *manage,
             g_free((gpointer)Strid);
             return;
         }
-        user_group_list_set_gid(USER_GROUP_LIST(g),id);       
-        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
+        user_group_list_set_gid(USER_GROUP_LIST(g),id);
+        user_group_list_emit_changed (USER_GROUP_LIST(g));
     }
     user_group_list_complete_change_group_id(USER_GROUP_LIST(g),Invocation);
 }
+
 static gboolean ChangeGroupId (UserGroupList *object,
                                GDBusMethodInvocation *Invocation,
                                guint64 id)
@@ -353,27 +359,26 @@ static gboolean ChangeGroupId (UserGroupList *object,
                              NULL);
 
     return TRUE;
-}    
+}
+
 static void RemoveUserAuthorized_cb (Manage                *manage,
                                      Group                 *g,
                                      GDBusMethodInvocation *Invocation,
                                      gpointer               udata)
-
 {
-    gchar *name = udata;    
+    gchar *name = udata;
     GError *error = NULL;
     const gchar *argv[6];
     struct group * grent;
-    
+
     if(getpwnam (name) == NULL)
     {
         DbusPrintf(Invocation,ERROR_GROUP_DOES_NOT_EXIST,
                    "%s user does not exist",name);
         return;
-    } 
+    }
     if(is_user_in_group(g,name))
-    {    
-    
+    {
         sys_log (Invocation, "%s user '%s' %s group '%s'","remove",
                 name,"from",group_get_group_name (g));
 
@@ -384,7 +389,7 @@ static void RemoveUserAuthorized_cb (Manage                *manage,
         argv[4] = name;
         argv[5] = NULL;
 
-        if (!spawn_with_login_uid (Invocation, argv, &error)) 
+        if (!spawn_with_login_uid (Invocation, argv, &error))
         {
             DbusPrintf(Invocation,ERROR_FAILED,
                        "running '%s' failed: %s", argv[0], error->message);
@@ -395,16 +400,17 @@ static void RemoveUserAuthorized_cb (Manage                *manage,
         grent = getgrnam(group_get_group_name(g));
         user_group_list_set_users(USER_GROUP_LIST(g),
                                  (const gchar *const *)grent->gr_mem);
-        user_group_list_emit_changed (USER_GROUP_LIST(g)); 
-        
+        user_group_list_emit_changed (USER_GROUP_LIST(g));
+
     }
     user_group_list_complete_remove_user_from_group (USER_GROUP_LIST(g),Invocation);
-}    
+}
+
 static gboolean RemoveUserFromGroup (UserGroupList *object,
                                      GDBusMethodInvocation *Invocation,
                                      const gchar *name)
 {
-    
+
     Group *group = (Group*) object;
 
     LocalCheckAuthorization (group->manage,
@@ -415,9 +421,10 @@ static gboolean RemoveUserFromGroup (UserGroupList *object,
                              Invocation,
                              g_strdup (name),
                              (GDestroyNotify)g_free);
-                             
+
     return TRUE;
-}    
+}
+
 static void user_group_list_iface_init (UserGroupListIface *iface)
 {
     iface->handle_add_user_to_group =      AddUserToGroup;

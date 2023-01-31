@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -20,8 +20,8 @@
 #include "group-server.h"
 
 #define NAME_TO_CLAIM    "org.group.admin"
-#define PACKAGE          "group-service"   
-#define LOCALEDIR        "/usr/share/locale/" 
+#define PACKAGE          "group-service"
+#define LOCALEDIR        "/usr/share/locale/"
 
 static GMainLoop *loop = NULL;
 static gboolean SignalQuit (gpointer data)
@@ -29,6 +29,7 @@ static gboolean SignalQuit (gpointer data)
     g_main_loop_quit (data);
     return FALSE;
 }
+
 static void AcquiredCallback (GDBusConnection *Connection,
                               const gchar *name,
                               gpointer UserData)
@@ -36,7 +37,7 @@ static void AcquiredCallback (GDBusConnection *Connection,
     Manage *manage;
 
     manage = manage_new();
-    if (manage == NULL) 
+    if (manage == NULL)
     {
         g_printerr ("Failed to initialize daemon manage\n");
         g_main_loop_quit (loop);
@@ -58,7 +59,7 @@ static void NameLostCallback (GDBusConnection *connection,
 }
 
 int main (int argc, char *argv[])
-{    
+{
     guint OwnID;
 
     bind_textdomain_codeset (PACKAGE, "UTF-8");
@@ -66,7 +67,7 @@ int main (int argc, char *argv[])
 #if !GLIB_CHECK_VERSION (2, 35, 3)
     g_type_init ();
 #endif
-	
+
     OwnID = g_bus_own_name (G_BUS_TYPE_SYSTEM,
                             NAME_TO_CLAIM,
                             G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT,
@@ -75,7 +76,7 @@ int main (int argc, char *argv[])
                             NameLostCallback,
                             NULL,
                             NULL);
-    
+
     loop = g_main_loop_new (NULL, FALSE);
 
     g_unix_signal_add (SIGINT,  SignalQuit, loop);
@@ -87,4 +88,3 @@ int main (int argc, char *argv[])
 
     return 0;
 }
-

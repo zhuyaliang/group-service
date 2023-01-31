@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ gint           gas_group_collate                   (GasGroup   *Group1,
 gboolean       gas_group_is_loaded                 (GasGroup   *group);
 
 void           gas_group_set_group_name            (GasGroup   *group,
-													const char *name);
+                                                    const char *name);
 
 void           gas_group_set_group_id              (GasGroup   *group,
                                                     uint        gid);
@@ -70,4 +70,4 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC (GasGroup, g_object_unref)
 
 G_END_DECLS
 
-#endif 
+#endif

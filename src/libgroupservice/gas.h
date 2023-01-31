@@ -1,5 +1,5 @@
-/*  group-service 
-* 	Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
+/*  group-service
+*   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
 *   it under the terms of the GNU General Public License as published by
@@ -18,4 +18,4 @@
 #include <gas/gas-group.h>
 #include <gas/gas-group-manager.h>
 
-#endif 
+#endif

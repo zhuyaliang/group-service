@@ -1,4 +1,4 @@
-/*  group-service 
+/*  group-service
 *   Copyright (C) 2018  zhuyaliang https://github.com/zhuyaliang/
 *
 *   This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@
 #define GROUP_NAME           "org.group.admin"
 #define GROUP_LSIT_INTERFACE "org.group.admin.list"
 
-enum 
+enum
 {
     PROP_0,
     PROP_GID,
@@ -42,13 +42,13 @@ enum
     PROP_IS_LOADED
 };
 
-enum 
+enum
 {
     CHANGED,
     LAST_SIGNAL
 };
 
-struct _GasGroup 
+struct _GasGroup
 {
     GObject         parent;
     GDBusConnection *connection;
@@ -76,13 +76,13 @@ static void gas_group_get_property (GObject    *object,
     const char *property_name;
     group = GAS_GROUP (object);
 
-    switch (param_id) 
+    switch (param_id)
     {
         case PROP_IS_LOADED:
             g_value_set_boolean (value, group->is_loaded);
             break;
         default:
-            if (group->group_proxy != NULL) 
+            if (group->group_proxy != NULL)
             {
                 property_name = g_param_spec_get_name (pspec);
                 g_object_get_property (G_OBJECT (group->group_proxy), property_name, value);
@@ -136,7 +136,7 @@ static void gas_group_class_init (GasGroupClass *class)
                           0,
                           NULL, NULL,
                           g_cclosure_marshal_VOID__VOID,
-						  G_TYPE_NONE, 0);
+                          G_TYPE_NONE, 0);
 }
 
 static void gas_group_init (GasGroup *group)
@@ -144,9 +144,9 @@ static void gas_group_init (GasGroup *group)
     g_autoptr(GError) error = NULL;
 
     group->connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &error);
-    if (group->connection == NULL) 
+    if (group->connection == NULL)
     {
-    	g_warning ("Couldn't connect to system bus: %s", error->message);
+        g_warning ("Couldn't connect to system bus: %s", error->message);
     }
 }
 
@@ -155,26 +155,26 @@ static void gas_group_finalize (GObject *object)
     GasGroup *group;
     group = GAS_GROUP (object);
 
-    if (group->group_proxy != NULL) 
+    if (group->group_proxy != NULL)
     {
-    	g_object_unref (group->group_proxy);
+        g_object_unref (group->group_proxy);
     }
 
-    if (group->connection != NULL) 
+    if (group->connection != NULL)
     {
         g_object_unref (group->connection);
     }
-
 }
 
-static void set_is_loaded (GasGroup *group,gboolean is_loaded)
+static void set_is_loaded (GasGroup *group, gboolean is_loaded)
 {
-    if (group->is_loaded != is_loaded) 
+    if (group->is_loaded != is_loaded)
     {
         group->is_loaded = is_loaded;
         g_object_notify (G_OBJECT (group), "is-loaded");
     }
 }
+
 static void reload_proxy(GasGroup *group)
 {
     const char *object_path;
@@ -182,23 +182,23 @@ static void reload_proxy(GasGroup *group)
     UserGroupList *group_proxy;
 
     object_path = gas_group_get_object_path(group);
-    
+
     group_proxy = user_group_list_proxy_new_sync (group->connection,
                                                   G_DBUS_PROXY_FLAGS_NONE,
                                                   GROUP_NAME,
                                                   object_path,
                                                   NULL,
                                                   &error);
-    if (!group_proxy) 
+    if (!group_proxy)
     {
         g_warning ("Couldn't create group-admin proxy: %s", error->message);
         return;
     }
 
     group->group_proxy = group_proxy;
+}
 
-}    
-int gas_group_collate (GasGroup *group1,GasGroup *group2)
+int gas_group_collate (GasGroup *group1, GasGroup *group2)
 {
     const char *str1;
     const char *str2;
@@ -209,17 +209,17 @@ int gas_group_collate (GasGroup *group1,GasGroup *group2)
     str1 = gas_group_get_group_name (group1);
     str2 = gas_group_get_group_name (group2);
 
-    if (str1 == NULL && str2 != NULL) 
+    if (str1 == NULL && str2 != NULL)
     {
         return -1;
     }
 
-    if (str1 != NULL && str2 == NULL) 
+    if (str1 != NULL && str2 == NULL)
     {
         return 1;
     }
 
-    if (str1 == NULL && str2 == NULL) 
+    if (str1 == NULL && str2 == NULL)
     {
         return 0;
     }
@@ -234,25 +234,25 @@ char const **gas_group_get_group_users (GasGroup *group)
     if (group->group_proxy == NULL)
         return NULL;
     return user_group_list_get_users(group->group_proxy);
-}    
+}
+
 gboolean gas_group_is_local_group(GasGroup *group)
 {
     g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
 
     if (group->group_proxy == NULL)
-    {			
+    {
         return FALSE;
     }
     return user_group_list_get_local_group(group->group_proxy);
-
-}		
+}
 
 gboolean gas_group_is_primary_group(GasGroup *group)
 {
     g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
 
     if (group->group_proxy == NULL)
-    {			
+    {
         return FALSE;
     }
     return user_group_list_get_primary_group(group->group_proxy);
@@ -267,23 +267,24 @@ const char * gas_group_get_group_name (GasGroup *group)
 
     return user_group_list_get_group_name(group->group_proxy);
 }
-gboolean gas_group_user_is_group (GasGroup *group,const char *user)
+
+gboolean gas_group_user_is_group (GasGroup *group, const char *user)
 {
     char const **users;
     int i = 0;
     g_return_val_if_fail (GAS_IS_GROUP (group), FALSE);
-    g_return_val_if_fail (user != NULL,FALSE);
-    g_return_val_if_fail (getpwnam(user) != NULL,FALSE);
-    g_return_val_if_fail (USER_GROUP_IS_LIST (group->group_proxy),FALSE);
-	users = gas_group_get_group_users(group);
+    g_return_val_if_fail (user != NULL, FALSE);
+    g_return_val_if_fail (getpwnam(user) != NULL, FALSE);
+    g_return_val_if_fail (USER_GROUP_IS_LIST (group->group_proxy), FALSE);
+    users = gas_group_get_group_users(group);
     while(users[i] != NULL)
     {
-        if(g_strcmp0(users[i],user) == 0)
+        if(g_strcmp0(users[i], user) == 0)
             return TRUE;
         i++;
-    }    
+    }
     return FALSE;
-}    
+}
 
 const char * gas_group_get_object_path (GasGroup *group)
 {
@@ -298,7 +299,7 @@ const char * gas_group_get_object_path (GasGroup *group)
 gid_t gas_group_get_gid (GasGroup *group)
 {
     g_return_val_if_fail (GAS_IS_GROUP (group), -1);
-    
+
     if (group->group_proxy == NULL)
         return -1;
 
@@ -345,15 +346,15 @@ void _gas_group_update_from_object_path (GasGroup *group,
                                                   object_path,
                                                   NULL,
                                                   &error);
-    if (!group_proxy) 
+    if (!group_proxy)
     {
         g_warning ("Couldn't create group-admin proxy: %s", error->message);
         return;
     }
-	
+
     group->group_proxy = group_proxy;
     g_signal_connect_object (group->group_proxy,
-                            "changed",
+                             "changed",
                              G_CALLBACK (on_group_proxy_changed),
                              group,
                              G_CONNECT_SWAPPED);
@@ -377,21 +378,22 @@ void gas_group_set_group_name (GasGroup *group,const char *name)
     g_return_if_fail (group->group_proxy != NULL);
 
     while (!user_group_list_call_change_group_name_sync (group->group_proxy,
-                                                      name,
-                                                      NULL,
-                                                      &error)) 
+                                                         name,
+                                                         NULL,
+                                                         &error))
     {
         usleep(20000);
         reload_proxy(group);
         error = NULL;
         if(i++ >= 5)
-        {    
+        {
             g_warning ("set_group_name call failed: %s", error->message);
             return;
-        }    
+        }
     }
 }
-void gas_group_set_group_id (GasGroup *group,uint gid)
+
+void gas_group_set_group_id (GasGroup *group, uint gid)
 {
     g_autoptr(GError) error = NULL;
     guint   i = 0;
@@ -401,21 +403,20 @@ void gas_group_set_group_id (GasGroup *group,uint gid)
     while (!user_group_list_call_change_group_id_sync (group->group_proxy,
                                                        gid,
                                                        NULL,
-                                                       &error)) 
+                                                       &error))
     {
         usleep(20000);
         reload_proxy(group);
         error = NULL;
         if(i++ >= 5)
-        {    
+        {
             g_warning ("set_group_id call failed: %s", error->message);
             return;
-        }    
+        }
     }
 }
 
-
-void gas_group_add_user_group (GasGroup *group,const char *name)
+void gas_group_add_user_group (GasGroup *group, const char *name)
 {
     g_autoptr(GError) error = NULL;
     g_return_if_fail (GAS_IS_GROUP (group));
@@ -424,35 +425,36 @@ void gas_group_add_user_group (GasGroup *group,const char *name)
     g_return_if_fail (group->group_proxy != NULL);
     g_return_if_fail (getpwnam (name) != NULL);
     if (!user_group_list_call_add_user_to_group_sync (group->group_proxy,
-                                                         name,
-                                                         NULL,
-                                                        &error)) 
+                                                      name,
+                                                      NULL,
+                                                      &error))
     {
         g_warning ("add user to group call failed: %s", error->message);
         return;
     }
 }
-void gas_group_remove_user_group (GasGroup *group,const char *name)
+
+void gas_group_remove_user_group (GasGroup *group, const char *name)
 {
     g_autoptr(GError) error = NULL;
-    guint    i = 0; 
+    guint    i = 0;
     g_return_if_fail (GAS_IS_GROUP (group));
     g_return_if_fail (name != NULL);
     g_return_if_fail (USER_GROUP_IS_LIST (group->group_proxy));
     g_return_if_fail (getpwnam (name) != NULL);
 
     while (!user_group_list_call_remove_user_from_group_sync(group->group_proxy,
-                                                          name,
-                                                          NULL,
-                                                          &error)) 
+                                                             name,
+                                                             NULL,
+                                                             &error))
     {
         usleep(20000);
         reload_proxy(group);
         error = NULL;
         if(i++ >= 5)
-        {    
+        {
             g_warning ("remove user from group call failed: %s", error->message);
             return;
-        }    
+        }
     }
 }
